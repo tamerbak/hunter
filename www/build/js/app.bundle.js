@@ -1657,8 +1657,27 @@ var OpportunityContactPage = (function () {
         };
         this.service.loadOpportunitiesById(oid).then(function (opportunity) {
             _this.opportunity = opportunity;
+            _this.loadMap();
         });
     }
+    OpportunityContactPage.prototype.loadMap = function () {
+        var latLng = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+        var mapOptions = {
+            center: latLng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var mapElement = document.getElementById("map");
+        this.map = new google.maps.Map(mapElement, mapOptions);
+        var address = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+        var bounds = new google.maps.LatLngBounds();
+        var marker = new google.maps.Marker({
+            map: this.map,
+            animation: google.maps.Animation.DROP,
+            position: address
+        });
+        bounds.extend(marker.position);
+    };
     OpportunityContactPage.prototype.contactOpportunity = function () {
     };
     OpportunityContactPage = __decorate([
@@ -1689,30 +1708,34 @@ var candidates_1 = require("../candidates/candidates");
 var util_1 = require("ionic-angular/util");
 var OpportunityDetailsPage = (function () {
     function OpportunityDetailsPage(nav, navParams, service) {
+        var _this = this;
         this.nav = nav;
         this.navParams = navParams;
         this.save = true;
         this.contact = false;
         this.service = service;
         this.opportunity = navParams.data.opportunity;
+        this.service.loadOpportunitiesById(this.opportunity.id).then(function (opp) {
+            _this.loadMap();
+        });
     }
-    OpportunityDetailsPage.prototype.onPageLoaded = function () {
-        console.log('page loaded');
-        this.loadMap();
-    };
     OpportunityDetailsPage.prototype.loadMap = function () {
-        debugger;
         var latLng = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
         var mapOptions = {
             center: latLng,
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var mapElement = document.getElementById("map");
+        this.map = new google.maps.Map(mapElement, mapOptions);
         var address = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
-        var addresses = [address];
         var bounds = new google.maps.LatLngBounds();
-        this.addMarkers(addresses, bounds);
+        var marker = new google.maps.Marker({
+            map: this.map,
+            animation: google.maps.Animation.DROP,
+            position: address
+        });
+        bounds.extend(marker.position);
     };
     OpportunityDetailsPage.prototype.saveOpportunityChanges = function () {
         if (!this.opportunity.activeOpportunity && (this.opportunity.closureDate == '' || util_1.isUndefined(this.opportunity.closureDate))) {
@@ -3049,7 +3072,7 @@ var OpportunitiesService = (function () {
     };
     OpportunitiesService.prototype.loadOpportunitiesById = function (oid) {
         var _this = this;
-        var sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, ' +
+        var sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, ' +
             'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
             'count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures ' +
             'FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite ' +
@@ -3085,7 +3108,7 @@ var OpportunitiesService = (function () {
     };
     OpportunitiesService.prototype.loadOpportunitiesByAccountId = function (idAccount) {
         var _this = this;
-        var sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, ' +
+        var sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, ' +
             'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
             'count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures ' +
             'FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite ' +

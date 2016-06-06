@@ -72,7 +72,7 @@ export class OpportunitiesService {
     }
 
     loadOpportunitiesById(oid){
-        let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, ' +
+        let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, ' +
             'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
             'count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures ' +
             'FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite ' +
@@ -108,7 +108,7 @@ export class OpportunitiesService {
     }
 
     loadOpportunitiesByAccountId(idAccount){
-        let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, ' +
+        let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, ' +
             'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
             'count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures ' +
             'FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite ' +

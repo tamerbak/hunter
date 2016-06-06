@@ -1,27 +1,37 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
-import {CandidatesPage} from "../candidates/candidates";
-import {isUndefined} from "ionic-angular/util";
-import {OnInit} from "@angular/core";
 
 @Page({
-    templateUrl: 'build/pages/opportunity-details/opportunity-details.html',
-    providers: [OpportunitiesService]
+    templateUrl: 'build/pages/opportunity-contact/opportunity-contact.html',
+    providers:[OpportunitiesService]
 })
-export class OpportunityDetailsPage {
+export class OpportunityContactPage {
     opportunity : any;
     service : OpportunitiesService;
-    map: any;
-    save : boolean = true;
-    contact : boolean = false;
-
+    map : any;
 
     constructor(public nav: NavController,
-                public navParams: NavParams,
+                public navParams : NavParams,
                 service : OpportunitiesService) {
         this.service = service;
-        this.opportunity = navParams.data.opportunity;
-        this.service.loadOpportunitiesById(this.opportunity.id).then(opp=>{
+        let opp = this.navParams.data.opp;
+        let oid = opp.id;
+
+        this.opportunity = {
+            id : oid,
+            title : opp.title,
+            description : opp.description,
+            candidatesCount : 0,
+            activeOpportunity : true,
+            lat : 0,
+            lng : 0,
+            creationDate : '',
+            closureDate : '',
+            picture : ''
+        };
+
+        this.service.loadOpportunitiesById(oid).then(opportunity =>{
+            this.opportunity = opportunity;
             this.loadMap();
         });
     }
@@ -48,18 +58,8 @@ export class OpportunityDetailsPage {
         bounds.extend(marker.position);
     }
 
-    saveOpportunityChanges(){
 
-        if(!this.opportunity.activeOpportunity && (this.opportunity.closureDate == '' || isUndefined(this.opportunity.closureDate))){
-            let date = new Date();
-            this.opportunity.closureDate = (date.getDate()+1)+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
-        }
+    contactOpportunity(){
 
-        this.service.updateOpportunity(this.opportunity);
-
-    }
-
-    getOpportunityContacts(){
-        this.nav.push(CandidatesPage,{opportunity : this.opportunity});
     }
 }

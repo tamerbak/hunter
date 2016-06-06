@@ -1,0 +1,28 @@
+<ion-navbar *navbar>
+  <ion-title>{{opportunity.title}}</ion-title>
+</ion-navbar>
+
+<ion-content padding class="opportunity-contact">
+  <ion-list>
+    <ion-item>
+        Titre : {{opportunity.title}}
+    </ion-item>
+    <ion-item>
+        Description : {{opportunity.description}}
+    </ion-item>
+    <ion-item>
+      Date de création {{opportunity.creationDate}}
+    </ion-item>
+    <ion-item>
+      <img src="{{opportunity.picture}}" />
+    </ion-item>
+    <ion-item>
+      <div id="map" style="width:100%px;height:300px;"></div>
+    </ion-item>
+
+
+  </ion-list>
+  <button block primary (click)="contactOpportunity()">
+    <ion-icon name="people" ></ion-icon>&nbsp;Contacter
+  </button>
+</ion-content>
