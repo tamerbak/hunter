@@ -1,5 +1,5 @@
 <ion-navbar *navbar>
-    <ion-title>{{opportunity.title}}q</ion-title>
+    <ion-title>{{opportunity.title}}</ion-title>
     <ion-buttons end>
         <button (click)="getOpportunityContacts()">
             <ion-icon name="contact"></ion-icon>
@@ -28,13 +28,18 @@
             <ion-toggle [(ngModel)]="opportunity.activeOpportunity" ></ion-toggle>
         </ion-item>
         <ion-item>
-            {{opportunity.creationDate}}
+            Date de crétation {{opportunity.creationDate}}
         </ion-item>
         <ion-item>
             <img src="{{opportunity.picture}}" />
         </ion-item>
-        <button ion-item primary (click)="saveOpportunityChanges()">
-            <ion-icon name="checkmark" ></ion-icon>&nbsp;Enregistrer
-        </button>
+        <ion-item>
+            <div id="map" style="width:200px;height:100px;"></div>
+        </ion-item>
+
+
     </ion-list>
+    <button block primary (click)="saveOpportunityChanges()">
+        <ion-icon name="checkmark" ></ion-icon>&nbsp;Enregistrer
+    </button>
 </ion-content>

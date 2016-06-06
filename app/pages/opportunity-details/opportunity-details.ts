@@ -10,11 +10,36 @@ import {isUndefined} from "ionic-angular/util";
 export class OpportunityDetailsPage {
     opportunity : any;
     service : OpportunitiesService;
+    map: any;
+
     constructor(public nav: NavController,
                 public navParams: NavParams,
                 service : OpportunitiesService) {
         this.service = service;
         this.opportunity = navParams.data.opportunity;
+    }
+
+    onPageLoaded() {
+        console.log('page loaded');
+        this.loadMap();
+    }
+
+    loadMap() {
+        debugger;
+        let latLng = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+
+        let mapOptions = {
+            center: latLng,
+            zoom:15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        let address1 = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+        let addresses = [address1];
+        let bounds = new google.maps.LatLngBounds();
+        this.addMarkers(addresses, bounds);
+
     }
 
     saveOpportunityChanges(){

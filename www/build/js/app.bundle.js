@@ -1642,6 +1642,24 @@ var OpportunityDetailsPage = (function () {
         this.service = service;
         this.opportunity = navParams.data.opportunity;
     }
+    OpportunityDetailsPage.prototype.onPageLoaded = function () {
+        console.log('page loaded');
+        this.loadMap();
+    };
+    OpportunityDetailsPage.prototype.loadMap = function () {
+        debugger;
+        var latLng = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+        var mapOptions = {
+            center: latLng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var address1 = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+        var addresses = [address1];
+        var bounds = new google.maps.LatLngBounds();
+        this.addMarkers(addresses, bounds);
+    };
     OpportunityDetailsPage.prototype.saveOpportunityChanges = function () {
         if (!this.opportunity.activeOpportunity && (this.opportunity.closureDate == '' || util_1.isUndefined(this.opportunity.closureDate))) {
             var date = new Date();
