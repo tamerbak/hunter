@@ -148,39 +148,52 @@ export class OpportunitiesService {
         });
     }
 
-    saveOpportunity(o){
-        let idAccount=0;
+    saveOpportunity(o, idAccount){
+        if(o.closureDate && o.closureDate.length>0){
+            let sql = "insert into user_opportunite (titre, description, date_de_creation, fin_de_candidature, est_active, scan_encode, latitude, longitude, fk_user_account) " +
+                " values ('"+o.title+"', '"+o.description+"', '"+this.sqlfyDate(o.creationDate)+"', '"+this.sqlfyDate(o.closureDate)+"', 'OUI', '"+o.picture+"', '"+o.lat+"', '"+o.lng+"', '"+idAccount+"')" +
+                " returning pk_user_opportunite";
+            console.log('insert opp sql : '+sql);
+            return new Promise(resolve => {
+                let headers = new Headers();
+                headers.append("Content-Type", 'text/plain');
+                this.http.post(Configs.sqlURL, sql, {headers:headers})
+                    .map(res => res.json())
+                    .subscribe(data => {
 
-        this.storage.get('currentUser').then((value)=>{
-            let user = JSON.parse(value);
-            idAccount = user.id;
-            if(o.closureDate && o.closureDate.length>0)
-                return this.doSaveOpportunity(o, idAccount);
-            else
-                return this.doSaveOpportunityWithoutClosure(o, idAccount);
-        });
+                        if(data.data){
+                            o.id = data.data[0].pk_user_opportunite;
+                        }
+                        this.opportunity = o;
+                        console.log("Opportunity inserted : " + JSON.stringify(this.opportunity));
+                        resolve(this.opportunity);
+                    });
+            });
+        } else {
+            let sql = "insert into user_opportunite (titre, description, date_de_creation, est_active, scan_encode, latitude, longitude, fk_user_account) " +
+                " values ('"+o.title+"', '"+o.description+"', '"+this.sqlfyDate(o.creationDate)+"', 'OUI', '"+o.picture+"', '"+o.lat+"', '"+o.lng+"', '"+idAccount+"')" +
+                " returning pk_user_opportunite";
+            console.log('insert opp sql : '+sql);
+            return new Promise(resolve => {
+                let headers = new Headers();
+                headers.append("Content-Type", 'text/plain');
+                this.http.post(Configs.sqlURL, sql, {headers:headers})
+                    .map(res => res.json())
+                    .subscribe(data => {
+                        if(data.data){
+                            o.id = data.data[0].pk_user_opportunite;
+                        }
+                        this.opportunity = o;
+                        console.log("Opportunity inserted : " + JSON.stringify(this.opportunity));
+                        resolve(this.opportunity);
+                    });
+            });
+        }
+
+        
     }
 
-    doSaveOpportunity(o, idAccount){
-        let sql = "insert into user_opportunite (titre, description, date_de_creation, fin_de_candidature, est_active, scan_encode, latitude, longitude, fk_user_account) " +
-            " values ('"+o.title+"', '"+o.description+"', '"+this.sqlfyDate(o.creationDate)+"', '"+this.sqlfyDate(o.closureDate)+"', 'OUI', '"+o.picture+"', '"+o.lat+"', '"+o.lng+"', '"+idAccount+"')" +
-            " returning pk_user_opportunite";
 
-        return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
-            this.http.post(Configs.sqlURL, sql, {headers:headers})
-                .map(res => res.json())
-                .subscribe(data => {
-                    this.opportunity = o;
-                    if(data.data){
-                        o.id = data.data.pk_user_opportunite;
-                    }
-                    console.log("Opportunity inserted : " + this.opportunity);
-                    resolve(this.opportunity);
-                });
-        });
-    }
 
     updateOpportunity(o){
         let sql = "";
@@ -198,27 +211,6 @@ export class OpportunitiesService {
                 .subscribe(data => {
                     this.opportunity = o;
                     console.log("Opportunity updated : " + this.opportunity);
-                    resolve(this.opportunity);
-                });
-        });
-    }
-
-    doSaveOpportunityWithoutClosure(o, idAccount){
-        let sql = "insert into user_opportunite (titre, description, date_de_creation, est_active, scan_encode, latitude, longitude, fk_user_account) " +
-            " values ('"+o.title+"', '"+o.description+"', '"+this.sqlfyDate(o.creationDate)+"', 'OUI', '"+o.picture+"', '"+o.lat+"', '"+o.lng+"', '"+idAccount+"')" +
-            " returning pk_user_opportunite";
-
-        return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
-            this.http.post(Configs.sqlURL, sql, {headers:headers})
-                .map(res => res.json())
-                .subscribe(data => {
-                    this.opportunity = o;
-                    if(data.data){
-                        o.id = data.data.pk_user_opportunite;
-                    }
-                    console.log("Opportunity inserted : " + this.opportunity);
                     resolve(this.opportunity);
                 });
         });

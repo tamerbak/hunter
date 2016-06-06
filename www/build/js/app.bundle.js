@@ -1463,6 +1463,7 @@ var NewOpportunityPage = (function () {
         this.navParams = navParams;
         this.zone = zone;
         this.opportunityService = opportunityService;
+        this.storage = new ionic_angular_1.Storage(ionic_angular_1.SqlStorage);
         this.opportunity = {
             id: 0,
             title: '',
@@ -1501,37 +1502,47 @@ var NewOpportunityPage = (function () {
         });
     };
     NewOpportunityPage.prototype.saveOpp = function () {
-        debugger;
-        var posOptions = { maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
-        var onSuccess = function (position) {
-            this.opportunity.lat = position.coords.latitude;
-            this.opportunity.lng = position.coords.longitude;
-            this.saveOpportunity();
-        };
-        var onError = function (err) {
-            this.opportunity.lat = 0;
-            this.opportunity.lng = 0;
-            console.log('Error while getting location');
-            console.log(err.code);
-            console.log(err.message);
-            console.log(JSON.stringify(err));
-            this.saveOpportunity();
-        };
-        navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);
+        /*debugger;
+         let posOptions = {maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
+         let onSuccess = function(position){
+         this.opportunity.lat = position.coords.latitude;
+         this.opportunity.lng = position.coords.longitude;
+         this.saveOpportunity();
+         };
+
+         let onError = function(err){
+         this.opportunity.lat = 0;
+         this.opportunity.lng = 0;
+         console.log('Error while getting location');
+         console.log(err.code);
+         console.log(err.message);
+         console.log(JSON.stringify(err));
+         this.saveOpportunity();
+         };
+
+         navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);*/
+        this.opportunity.lat = 0;
+        this.opportunity.lng = 0;
+        this.saveOpportunity();
     };
     NewOpportunityPage.prototype.saveOpportunity = function () {
         var _this = this;
         var date = new Date();
         this.opportunity.creationDate = (date.getDay() + 1) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         this.opportunity.candidatesCount = 0;
-        this.opportunityService.saveOpportunity(this.opportunity).then(function (o) {
-            _this.opportunity = o;
-            if (o.id > 0) {
-                _this.successfulSave();
-            }
-            else {
-                _this.unsuccessfulSave();
-            }
+        this.storage.get('currentUser').then(function (value) {
+            var user = JSON.parse(value);
+            var idAccount = user.id;
+            _this.opportunityService.saveOpportunity(_this.opportunity, idAccount).then(function (o) {
+                debugger;
+                _this.opportunity = o;
+                if (o.id > 0) {
+                    _this.successfulSave();
+                }
+                else {
+                    _this.unsuccessfulSave();
+                }
+            });
         });
     };
     NewOpportunityPage.prototype.successfulSave = function () {
@@ -1544,8 +1555,10 @@ var NewOpportunityPage = (function () {
                     handler: function () {
                         _this.nav.push(candidates_1.CandidatesPage, { opportunity: _this.opportunity });
                         return true;
-                    },
+                    }
+                }, {
                     text: 'Non',
+                    role: 'cancel',
                     handler: function () {
                         _this.nav.setRoot(opportunities_list_1.OpportunitiesListPage);
                         return true;
@@ -1561,7 +1574,7 @@ var NewOpportunityPage = (function () {
             buttons: [{
                     text: 'OK',
                     handler: function () {
-                        return false;
+                        return true;
                     }
                 }]
         });
@@ -3145,37 +3158,48 @@ var OpportunitiesService = (function () {
             });
         });
     };
-    OpportunitiesService.prototype.saveOpportunity = function (o) {
+    OpportunitiesService.prototype.saveOpportunity = function (o, idAccount) {
         var _this = this;
-        var idAccount = 0;
-        this.storage.get('currentUser').then(function (value) {
-            var user = JSON.parse(value);
-            idAccount = user.id;
-            if (o.closureDate && o.closureDate.length > 0)
-                return _this.doSaveOpportunity(o, idAccount);
-            else
-                return _this.doSaveOpportunityWithoutClosure(o, idAccount);
-        });
-    };
-    OpportunitiesService.prototype.doSaveOpportunity = function (o, idAccount) {
-        var _this = this;
-        var sql = "insert into user_opportunite (titre, description, date_de_creation, fin_de_candidature, est_active, scan_encode, latitude, longitude, fk_user_account) " +
-            " values ('" + o.title + "', '" + o.description + "', '" + this.sqlfyDate(o.creationDate) + "', '" + this.sqlfyDate(o.closureDate) + "', 'OUI', '" + o.picture + "', '" + o.lat + "', '" + o.lng + "', '" + idAccount + "')" +
-            " returning pk_user_opportunite";
-        return new Promise(function (resolve) {
-            var headers = new http_1.Headers();
-            headers.append("Content-Type", 'text/plain');
-            _this.http.post(configs_1.Configs.sqlURL, sql, { headers: headers })
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                _this.opportunity = o;
-                if (data.data) {
-                    o.id = data.data.pk_user_opportunite;
-                }
-                console.log("Opportunity inserted : " + _this.opportunity);
-                resolve(_this.opportunity);
+        if (o.closureDate && o.closureDate.length > 0) {
+            var sql_1 = "insert into user_opportunite (titre, description, date_de_creation, fin_de_candidature, est_active, scan_encode, latitude, longitude, fk_user_account) " +
+                " values ('" + o.title + "', '" + o.description + "', '" + this.sqlfyDate(o.creationDate) + "', '" + this.sqlfyDate(o.closureDate) + "', 'OUI', '" + o.picture + "', '" + o.lat + "', '" + o.lng + "', '" + idAccount + "')" +
+                " returning pk_user_opportunite";
+            console.log('insert opp sql : ' + sql_1);
+            return new Promise(function (resolve) {
+                var headers = new http_1.Headers();
+                headers.append("Content-Type", 'text/plain');
+                _this.http.post(configs_1.Configs.sqlURL, sql_1, { headers: headers })
+                    .map(function (res) { return res.json(); })
+                    .subscribe(function (data) {
+                    if (data.data) {
+                        o.id = data.data[0].pk_user_opportunite;
+                    }
+                    _this.opportunity = o;
+                    console.log("Opportunity inserted : " + JSON.stringify(_this.opportunity));
+                    resolve(_this.opportunity);
+                });
             });
-        });
+        }
+        else {
+            var sql_2 = "insert into user_opportunite (titre, description, date_de_creation, est_active, scan_encode, latitude, longitude, fk_user_account) " +
+                " values ('" + o.title + "', '" + o.description + "', '" + this.sqlfyDate(o.creationDate) + "', 'OUI', '" + o.picture + "', '" + o.lat + "', '" + o.lng + "', '" + idAccount + "')" +
+                " returning pk_user_opportunite";
+            console.log('insert opp sql : ' + sql_2);
+            return new Promise(function (resolve) {
+                var headers = new http_1.Headers();
+                headers.append("Content-Type", 'text/plain');
+                _this.http.post(configs_1.Configs.sqlURL, sql_2, { headers: headers })
+                    .map(function (res) { return res.json(); })
+                    .subscribe(function (data) {
+                    if (data.data) {
+                        o.id = data.data[0].pk_user_opportunite;
+                    }
+                    _this.opportunity = o;
+                    console.log("Opportunity inserted : " + JSON.stringify(_this.opportunity));
+                    resolve(_this.opportunity);
+                });
+            });
+        }
     };
     OpportunitiesService.prototype.updateOpportunity = function (o) {
         var _this = this;
@@ -3194,26 +3218,6 @@ var OpportunitiesService = (function () {
                 .subscribe(function (data) {
                 _this.opportunity = o;
                 console.log("Opportunity updated : " + _this.opportunity);
-                resolve(_this.opportunity);
-            });
-        });
-    };
-    OpportunitiesService.prototype.doSaveOpportunityWithoutClosure = function (o, idAccount) {
-        var _this = this;
-        var sql = "insert into user_opportunite (titre, description, date_de_creation, est_active, scan_encode, latitude, longitude, fk_user_account) " +
-            " values ('" + o.title + "', '" + o.description + "', '" + this.sqlfyDate(o.creationDate) + "', 'OUI', '" + o.picture + "', '" + o.lat + "', '" + o.lng + "', '" + idAccount + "')" +
-            " returning pk_user_opportunite";
-        return new Promise(function (resolve) {
-            var headers = new http_1.Headers();
-            headers.append("Content-Type", 'text/plain');
-            _this.http.post(configs_1.Configs.sqlURL, sql, { headers: headers })
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                _this.opportunity = o;
-                if (data.data) {
-                    o.id = data.data.pk_user_opportunite;
-                }
-                console.log("Opportunity inserted : " + _this.opportunity);
                 resolve(_this.opportunity);
             });
         });
