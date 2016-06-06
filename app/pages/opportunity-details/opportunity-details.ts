@@ -11,6 +11,9 @@ export class OpportunityDetailsPage {
     opportunity : any;
     service : OpportunitiesService;
     map: any;
+    save : boolean = true;
+    contact : boolean = false;
+    
 
     constructor(public nav: NavController,
                 public navParams: NavParams,
@@ -35,8 +38,8 @@ export class OpportunityDetailsPage {
         };
 
         this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        let address1 = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
-        let addresses = [address1];
+        let address = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
+        let addresses = [address];
         let bounds = new google.maps.LatLngBounds();
         this.addMarkers(addresses, bounds);
 

@@ -9,11 +9,102 @@ export class OpportunitiesService {
     opportunities:any = null;
     storage:any;
     opportunity:any;
+    invitations:any;
     candidates:any = [];
     contact:any;
+    invitation:any;
 
     constructor(public http: Http) {
         this.storage = new Storage(SqlStorage);
+    }
+
+    loadInvitationsByAccountId(idAccount){
+        let sql = "SELECT " +
+            "user_opportunite.pk_user_opportunite AS id, " +
+            "user_opportunite.titre AS title, " +
+            "user_opportunite.date_de_creation AS date_de_creation, " +
+            "user_opportunite.description AS description, " +
+            "user_candidature_opportunite.fk_user_account AS my_account, " +
+            "user_candidature_opportunite.vue AS seen, " +
+            "user_candidature_opportunite.pk_user_candidature_opportunite AS id_candidature, " +
+            "user_opportunite.est_active AS active_opp, " +
+            "user_account.role AS contact_role, " +
+            "user_account.pk_user_account AS contact_origin " +
+            "FROM public.user_candidature_opportunite, public.user_opportunite, public.user_account " +
+            "WHERE user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite " +
+            "AND user_account.pk_user_account = user_opportunite.fk_user_account " +
+            "AND est_active='OUI'" +
+            "AND user_candidature_opportunite.fk_user_account = "+idAccount;
+
+        console.log('LOADING INVTIATIONS SQL : '+sql);
+
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    this.invitations = [];
+                    for(let i = 0 ; i < data.data.length ; i++){
+                        let row = data.data[i];
+                        let o = {
+                            opportunity : {
+                                id : row.id,
+                                title : row.title,
+                                description : row.description,
+                                creationDate : this.parseDate(row.date_de_creation),
+                            },
+                            sender :{
+                                id : row.contact_origin,
+                                role : row.contact_role,
+                                fullName : ''
+                            },
+                            seen : row.seen == 'OUI',
+                            id : row.id_candidature
+                        };
+                        this.invitations.push(o);
+                    }
+
+                    console.log("Loaded invitations : " + JSON.stringify(this.invitations));
+                    resolve(this.invitations);
+                });
+        });
+    }
+
+    loadOpportunitiesById(oid){
+        let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, ' +
+            'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
+            'count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures ' +
+            'FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite ' +
+            'WHERE user_opportunite.pk_user_opportunite='+oid+' ' +
+            'group by user_opportunite.fk_user_account, user_opportunite.fk_user_entreprise, user_opportunite.fk_user_offre_entreprise, ' +
+            'user_opportunite.longitude, user_opportunite.latitude, user_opportunite.scan_encode, user_opportunite.est_active, ' +
+            'user_opportunite.fin_de_candidature, user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, ' +
+            'user_opportunite.pk_user_opportunite';
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    if(data.data){
+                        let row = data.data[0];
+                        this.opportunity = {
+                            id : row.pk_user_opportunite,
+                            title : row.titre,
+                            description : row.description,
+                            candidatesCount : row.count_candidatures,
+                            activeOpportunity : row.est_active=='OUI',
+                            lat : row.latitude,
+                            lng : row.longitude,
+                            creationDate : this.parseDate(row.date_de_creation),
+                            closureDate : this.parseDate(row.fin_de_candidature),
+                            picture : row.scan_encode
+                        };
+                    }
+                    resolve(this.opportunity);
+                });
+        });
     }
 
     loadOpportunitiesByAccountId(idAccount){
@@ -203,6 +294,25 @@ export class OpportunitiesService {
                     // and save the data for later reference
                     this.contact = data;
                     resolve(this.contact);
+                });
+        });
+    }
+
+    seeInvitation(invitation){
+        let date = new Date();
+        let sdate = (date.getDay()+1)+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
+        let sql = "update user_candidature_opportunite set vue = 'OUI', updated='"+this.sqlfyDate(sdate)+"' where pk_user_candidature_opportunite="+invitation.id;
+
+        console.log('UPDATE OPPORTUNITY SQL : '+sql);
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    this.invitation = invitation;
+                    console.log("Invitation updated : " + this.invitation);
+                    resolve(this.invitation);
                 });
         });
     }

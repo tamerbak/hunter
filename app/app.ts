@@ -3,6 +3,7 @@ import {StatusBar} from 'ionic-native';
 import {HomePage} from './pages/home/home';
 import {ViewChild} from "@angular/core";
 import {OpportunitiesListPage} from "./pages/opportunities-list/opportunities-list";
+import {PropositionsPage} from "./pages/propositions/propositions";
 
 
 @App({
@@ -37,7 +38,8 @@ export class MyApp {
 
         this.loggedInPages = [
             {title : "Accueil", component : HomePage, icon:"home", isBadged:false},
-            {title : "Opportunités", component : OpportunitiesListPage, icon:"list", isBadged:false}
+            {title : "Opportunités", component : OpportunitiesListPage, icon:"list", isBadged:false},
+            {title : "Invitations", component : PropositionsPage, icon:"contacts", isBadged:false}
         ];
 
 
