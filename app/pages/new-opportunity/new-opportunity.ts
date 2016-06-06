@@ -126,7 +126,7 @@ export class NewOpportunityPage {
     unsuccessfulSave(){
         let alert = Alert.create({
             title : 'Vitonjob Hunter',
-            message : "La sauvegarde des données a échoué veuillez réssayer ultériérement",
+            message : "La sauvegarde des données a échoué veuillez réssayer ultérieurement",
             buttons :[{
                 text : 'OK',
                 handler:()=>{
