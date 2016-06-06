@@ -1,0 +1,16 @@
+<ion-navbar primary="" *navbar>
+    <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Liste des opportunités</ion-title>
+</ion-navbar>
+
+<ion-content padding class="opportunities-list">
+    <ion-list>
+        <button ion-item *ngFor="let o of opportunities" (click)="expandOpportunity(o)">
+            <ion-icon name="play"></ion-icon>&nbsp;
+            {{o.title}}
+            <ion-badge item-right>{{o.candidatesCount}}</ion-badge>
+        </button>
+    </ion-list>
+</ion-content>

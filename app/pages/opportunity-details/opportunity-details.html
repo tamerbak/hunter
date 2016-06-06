@@ -1,0 +1,40 @@
+<ion-navbar *navbar>
+    <ion-title>{{opportunity.title}}q</ion-title>
+    <ion-buttons end>
+        <button (click)="getOpportunityContacts()">
+            <ion-icon name="contact"></ion-icon>
+        </button>
+    </ion-buttons>
+</ion-navbar>
+
+<ion-content padding class="opportunity-details">
+    <ion-list>
+        <ion-item>
+            <ion-label floating>
+                Titre
+            </ion-label>
+            <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>
+                Description
+            </ion-label>
+            <ion-textarea [(ngModel)]="opportunity.description"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                Active
+            </ion-label>
+            <ion-toggle [(ngModel)]="opportunity.activeOpportunity" ></ion-toggle>
+        </ion-item>
+        <ion-item>
+            {{opportunity.creationDate}}
+        </ion-item>
+        <ion-item>
+            <img src="{{opportunity.picture}}" />
+        </ion-item>
+        <button ion-item primary (click)="saveOpportunityChanges()">
+            <ion-icon name="checkmark" ></ion-icon>&nbsp;Enregistrer
+        </button>
+    </ion-list>
+</ion-content>

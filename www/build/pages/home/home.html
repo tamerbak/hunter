@@ -1,0 +1,49 @@
+<ion-navbar primary="" *navbar>
+    <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+        Vitonjob Hunter
+    </ion-title>
+</ion-navbar>
+
+<ion-content class="home">
+
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>
+        <ion-col width-20></ion-col>
+        <ion-col text-center><img src="img/hunter_logo.png"/></ion-col>
+        <ion-col width-20></ion-col>
+    </ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>
+        <ion-col width-10></ion-col>
+        <ion-col text-center> <h6 primary>  </h6></ion-col>
+        <ion-col width-10></ion-col>
+    </ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>
+        <ion-col width-10></ion-col>
+        <ion-col text-center>
+            <button secondary [attr.disabled]="userIsConnected?null:''" (click)="newOffer()">
+                <ion-icon name="camera"  ></ion-icon>
+                Envoyer une offre
+            </button>
+        </ion-col>
+        <ion-col width-10></ion-col>
+    </ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>
+        <ion-col width-10></ion-col>
+        <ion-col text-center>
+            <button secondary (click)="openLoginsPage()">
+                <ion-icon name="log-in" ></ion-icon>
+                {{cnxBtnName}}
+            </button>
+        </ion-col>
+        <ion-col width-10></ion-col>
+    </ion-row>
+
+</ion-content>

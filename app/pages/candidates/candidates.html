@@ -1,0 +1,28 @@
+<ion-navbar *navbar>
+    <ion-title>Candidats</ion-title>
+</ion-navbar>
+
+<ion-content padding class="candidates">
+    <ion-card *ngIf="voidCandidates">
+        <ion-card-content>
+            Vous n'avez encore invité aucun contact
+        </ion-card-content>
+    </ion-card>
+    <ion-list>
+        <ion-item-sliding>
+            <ion-item *ngFor="let c of candidates">
+                <ion-icon name="{{c.seen?'eye':'eye-off'}}"></ion-icon>{{c.title}} {{c.firstName}} {{c.lastName}}
+                <p>{{c.tel}} - {{c.email}}</p>
+            </ion-item>
+            <ion-item-options>
+                <button primary>
+                    <ion-icon name="trash"></ion-icon>
+                    Supprimer
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <button fab fab-bottom fab-center (click)="addNewCandidates()">
+        <ion-icon name="add"></ion-icon>
+    </button>
+</ion-content>
