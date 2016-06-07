@@ -14,6 +14,7 @@ var EntreprisePage = (function () {
         this.nav = nav;
         this.accounts = [];
         this.noCompany = false;
+        debugger;
         this.opportunity = {
             account: {
                 fullName: '',
@@ -24,6 +25,7 @@ var EntreprisePage = (function () {
         this.service = service;
         this.storage = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
         this.storage.get('OPPORTUNITY').then(function (opp) {
+            debugger;
             _this.opportunity = JSON.parse(opp);
             if (!_this.opportunity.account) {
                 _this.opportunity.account = {
