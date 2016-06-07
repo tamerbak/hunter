@@ -1,13 +1,15 @@
-<ion-navbar *navbar>
-    <ion-title>{{opportunity.title}}</ion-title>
+<ion-navbar *navbar primary>
+    <ion-title>Détails</ion-title>
     <ion-buttons end>
         <button (click)="moreData()">
-            <ion-icon name="more"></ion-icon>
+            <ion-icon name="people"></ion-icon>
         </button>
     </ion-buttons>
 </ion-navbar>
 
+
 <ion-content padding class="opportunity-details">
+    <h4 style="text-align: center" [style.color]="themeColor">{{opportunity.title}}</h4>
     <ion-list>
         <ion-item>
             <ion-label floating>

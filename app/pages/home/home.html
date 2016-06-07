@@ -3,12 +3,12 @@
         <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-        Vitonjob Hunter
+        VitOnJob Hunter
     </ion-title>
 </ion-navbar>
 
-<ion-content class="home">
-
+<ion-content class="home" style="background: url('img/bgPicture.png'); background-size: cover">
+    <ion-row>&nbsp;</ion-row>
     <ion-row>&nbsp;</ion-row>
     <ion-row>
         <ion-col width-20></ion-col>
@@ -16,30 +16,24 @@
         <ion-col width-20></ion-col>
     </ion-row>
     <ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row><ion-row>&nbsp;</ion-row>
     <ion-row>
-        <ion-col width-10></ion-col>
-        <ion-col text-center> <h6 primary>  </h6></ion-col>
-        <ion-col width-10></ion-col>
-    </ion-row>
-    <ion-row>&nbsp;</ion-row>
-    <ion-row>&nbsp;</ion-row>
-    <ion-row>
-        <ion-col width-10></ion-col>
         <ion-col text-center>
-            <button secondary [attr.disabled]="userIsConnected?null:''" (click)="newOffer()">
-                <ion-icon name="camera"  ></ion-icon>
-                Envoyer une offre
+
+            <button fab primary [disabled]="!userIsConnected" (click)="newOffer()" style="position: inherit;width: 100px;height: 100px;">
+                <ion-icon name="camera" style="font-size: -webkit-xxx-large"></ion-icon>
             </button>
         </ion-col>
-        <ion-col width-10></ion-col>
     </ion-row>
-    <ion-row>&nbsp;</ion-row>
+    <ion-row>
+        <ion-col text-center><ion-label primary><h3>Publier une offre</h3></ion-label></ion-col>
+    </ion-row>
     <ion-row>&nbsp;</ion-row>
     <ion-row>
         <ion-col width-10></ion-col>
         <ion-col text-center>
-            <button secondary (click)="openLoginsPage()">
-                <ion-icon name="log-in" ></ion-icon>
+            <button outline (click)="openLoginsPage()" style="color: white; padding-right: .5em;" [hidden]="userIsConnected">
+                <ion-icon name="log-in"></ion-icon>
                 {{cnxBtnName}}
             </button>
         </ion-col>

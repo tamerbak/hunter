@@ -4,6 +4,7 @@ import {HomePage} from './pages/home/home';
 import {ViewChild, Component} from "@angular/core";
 import {OpportunitiesListPage} from "./pages/opportunities-list/opportunities-list";
 import {PropositionsPage} from "./pages/propositions/propositions";
+import {LoginsPage} from "./pages/logins/logins";
 
 
 @Component({
@@ -32,13 +33,15 @@ export class Hunter {
         this.storage = new Storage(SqlStorage);
 
         this.loggedOutPages = [
-            {title : "Accueil", component : HomePage, icon:"home", isBadged:false}
+            {title : "Publier une Offre", component : HomePage, icon:"md-share", isBadged:false},
+            {title : "Se connecter / S'inscrire", component : LoginsPage, icon:"log-in", isBadged:false}
         ];
 
         this.loggedInPages = [
-            {title : "Accueil", component : HomePage, icon:"home", isBadged:false},
-            {title : "Opportunités", component : OpportunitiesListPage, icon:"list", isBadged:false},
-            {title : "Invitations", component : PropositionsPage, icon:"contacts", isBadged:false}
+            {title : "Publier une Offre", component : HomePage, icon:"md-share", isBadged:false},
+            {title : "Mes offres publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
+            {title : "Mes offres reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
+            {title : "Se déconnecter", component : HomePage, icon:"log-out", isBadged:false}
         ];
 
 
@@ -86,7 +89,7 @@ export class Hunter {
     openPage(page) {
         this.menu.close();
 
-        if(page.title == 'Déconnexion' ){
+        if(page.title == 'Se déconnecter' ){
             this.storage.set("currentUser", null);
             this.events.publish('user:logout');
         }

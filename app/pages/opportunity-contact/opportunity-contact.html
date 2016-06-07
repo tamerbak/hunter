@@ -1,5 +1,5 @@
-<ion-navbar *navbar>
-  <ion-title>{{opportunity.title}}</ion-title>
+<ion-navbar *navbar primary>
+  <ion-title>Détails</ion-title>
 </ion-navbar>
 
 <ion-content padding class="opportunity-contact">
@@ -13,7 +13,7 @@
     <ion-item>
       Date de création {{opportunity.creationDate}}
     </ion-item>
-    <ion-item>
+    <ion-item [hidden]="!(opportunity.picture)">
       <img src="{{opportunity.picture}}" />
     </ion-item>
     <ion-item>

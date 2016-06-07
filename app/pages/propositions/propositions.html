@@ -1,4 +1,4 @@
-<ion-navbar primary="" *navbar>
+<ion-navbar primary *navbar>
     <button menuToggle>
         <ion-icon name="menu"></ion-icon>
     </button>
@@ -6,6 +6,7 @@
 </ion-navbar>
 
 <ion-content padding class="propositions">
+    <h4 style="text-align: center" [style.color]="themeColor">Mes offres reçues</h4>
     <ion-list>
         <ion-list>
             <button ion-item *ngFor="let i of invitations" (click)="expandOpportunity(i)">

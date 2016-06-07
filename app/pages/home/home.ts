@@ -15,7 +15,7 @@ export class HomePage {
               private nav: NavController,
               private navParams: NavParams,
               public events: Events) {
-    this.cnxBtnName = "Connexion";
+    this.cnxBtnName = "Se connecter / S'inscrire";
     this.storage = new Storage(SqlStorage);
 
     this.storage.get("currentUser").then((value) => {

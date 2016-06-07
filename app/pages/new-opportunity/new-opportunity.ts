@@ -101,7 +101,7 @@ export class NewOpportunityPage {
 
     successfulSave(){
         let alert = Alert.create({
-            title : 'Vitonjob Hunter',
+            title : 'VitOnJob Hunter',
             message : "La sauvegarde des données a réussie, désirez vous fournir plus d'information et suggérer cette offre à vos contacts ?",
             buttons :[{
                 text: 'Oui',
@@ -130,7 +130,7 @@ export class NewOpportunityPage {
 
     unsuccessfulSave(){
         let alert = Alert.create({
-            title : 'Vitonjob Hunter',
+            title : 'VitOnJob Hunter',
             message : "La sauvegarde des données a échoué veuillez réssayer ultérieurement",
             buttons :[{
                 text : 'OK',
