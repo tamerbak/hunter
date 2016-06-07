@@ -1,13 +1,13 @@
 import {Page, NavController, Alert, NavParams, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
 import {DatePicker, Camera} from "ionic-native/dist/index";
-import {NgZone} from "@angular/core";
+import {NgZone, Component} from "@angular/core";
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {CandidatesPage} from "../candidates/candidates";
 import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
 import {AdditionalDetailsPage} from "../additional-details/additional-details";
 
 
-@Page({
+@Component({
     templateUrl: 'build/pages/new-opportunity/new-opportunity.html',
     providers : [OpportunitiesService]
 })

@@ -1,8 +1,9 @@
-import {Page, IonicApp, IonicApp, NavParams, NavController, Loading, Modal, Events, Storage, SqlStorage} from 'ionic-angular';
+import {App, NavParams, NavController, Events, Storage, SqlStorage} from 'ionic-angular';
 import {LoginsPage} from "../logins/logins";
 import {NewOpportunityPage} from "../new-opportunity/new-opportunity";
+import {Component} from "@angular/core";
 
-@Page({
+@Component({
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
@@ -10,7 +11,7 @@ export class HomePage {
   userIsConnected : boolean;
   storage : any;
 
-  constructor(private app: IonicApp,
+  constructor(private app: App,
               private nav: NavController,
               private navParams: NavParams,
               public events: Events) {

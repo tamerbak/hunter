@@ -1,9 +1,10 @@
 import {Page, NavController, Storage, SqlStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {OpportunityContactPage} from "../opportunity-contact/opportunity-contact";
+import {Component} from "@angular/core";
 
 
-@Page({
+@Component({
     templateUrl: 'build/pages/propositions/propositions.html',
     providers: [OpportunitiesService]
 })

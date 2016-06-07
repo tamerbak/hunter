@@ -1,7 +1,8 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
+import {Component} from "@angular/core";
 
-@Page({
+@Component({
     templateUrl: 'build/pages/opportunity-contact/opportunity-contact.html',
     providers:[OpportunitiesService]
 })

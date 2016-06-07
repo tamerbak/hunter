@@ -3,8 +3,9 @@ import {OpportunitiesService} from "../../providers/opportunities-service/opport
 import {CandidatesPage} from "../candidates/candidates";
 import {isUndefined} from "ionic-angular/util";
 import {AdditionalDetailsPage} from "../additional-details/additional-details";
+import {Component} from "@angular/core";
 
-@Page({
+@Component({
     templateUrl: 'build/pages/opportunity-details/opportunity-details.html',
     providers: [OpportunitiesService]
 })

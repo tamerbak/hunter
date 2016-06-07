@@ -2,9 +2,10 @@ import {Page, NavController, ViewController, NavParams} from 'ionic-angular';
 import {Storage, LocalStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {Contacts} from "ionic-native/dist/index";
+import {Component} from "@angular/core";
 
 
-@Page({
+@Component({
     templateUrl: 'build/pages/modal-new-candidate/modal-new-candidate.html',
     providers:[OpportunitiesService]
 })

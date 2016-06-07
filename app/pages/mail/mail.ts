@@ -8,13 +8,14 @@ import {GlobalService} from "../../providers/global.service";
 import {ValidationDataService} from "../../providers/validation-data.service";
 import {HomePage} from "../home/home";
 import {InfoUserPage} from "../info-user/info-user";
+import {Component} from "@angular/core";
 
 /**
 	* @author Amal ROCHD
 	* @description authentication by mail view
 	* @module Authentication
 */
-@Page({
+@Component({
 	templateUrl: 'build/pages/mail/mail.html',
 	providers: [GlobalConfigs, AuthenticationService, LoadListService, DataProviderService, GlobalService, ValidationDataService]
 })

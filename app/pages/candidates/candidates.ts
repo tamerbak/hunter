@@ -1,11 +1,12 @@
-import {Page, NavController, NavParams, Modal, Alert} from 'ionic-angular';
+import {NavController, NavParams, Modal, Alert} from 'ionic-angular';
 import {Storage, LocalStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {ModalNewCandidatePage} from "../modal-new-candidate/modal-new-candidate";
 import {SMS} from "ionic-native/dist/index";
+import {Component} from "@angular/core";
 
 
-@Page({
+@Component({
     templateUrl: 'build/pages/candidates/candidates.html',
     providers:[OpportunitiesService]
 })
