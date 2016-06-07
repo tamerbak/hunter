@@ -1,21 +1,20 @@
-import {Page, Alert, NavController, NavParams, Tabs, Loading} from 'ionic-angular';
+import {NavController, NavParams, Tabs, Loading} from 'ionic-angular';
 import {LoadListService} from "../../providers/load-list.service";
 import {Configs} from '../../configurations/configs';
 import {GlobalConfigs} from '../../configurations/globalConfigs';
 import {SqlStorageService} from "../../providers/sql-storage.service";
-import {PersonalAddressPage} from "../personal-address/personal-address";
 import {AuthenticationService} from "../../providers/authentication.service";
 import {Storage, SqlStorage} from 'ionic-angular';
 import {GlobalService} from "../../providers/global.service";
 import {Camera} from 'ionic-native';
-import {NgZone} from '@angular/core';
+import {NgZone, Component} from '@angular/core';
 
 /**
 	* @author Amal ROCHD
 	* @description update civility information
 	* @module Authentication
 */
-@Page({
+@Component({
 	templateUrl: 'build/pages/civility/civility.html',
 	providers: [GlobalConfigs, LoadListService, SqlStorageService, AuthenticationService, GlobalService]
 })

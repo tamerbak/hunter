@@ -2,9 +2,10 @@ import {NavController, Page, NavParams} from 'ionic-angular';
 import {GlobalConfigs} from '../../configurations/globalConfigs';
 import {PhonePage} from '../phone/phone';
 import {MailPage} from '../mail/mail';
+import {Component} from "@angular/core";
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/logins/logins.html',
   providers: [GlobalConfigs]
 })

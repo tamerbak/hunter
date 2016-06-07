@@ -1,16 +1,15 @@
-import {App, Platform, IonicApp, MenuController, Storage, SqlStorage, Events, Nav} from 'ionic-angular';
+import {App, Platform, MenuController, Storage, SqlStorage, Events, Nav, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {HomePage} from './pages/home/home';
-import {ViewChild} from "@angular/core";
+import {ViewChild, Component} from "@angular/core";
 import {OpportunitiesListPage} from "./pages/opportunities-list/opportunities-list";
 import {PropositionsPage} from "./pages/propositions/propositions";
 
 
-@App({
+@Component({
     templateUrl: 'build/menu.html',
-    config: {backButtonText : "Retour"} // http://ionicframework.com/docs/v2/api/config/Config/
 })
-export class MyApp {
+export class Hunter {
     @ViewChild(Nav) nav: Nav;
     rootPage: any = HomePage;
     pages : Array<{title : string, component : any, icon : string, isBadged: boolean}>;
@@ -24,7 +23,7 @@ export class MyApp {
 
 
     constructor(platform: Platform,
-                private app: IonicApp,
+                private app: App,
                 private menu: MenuController,
                 public events: Events) {
         platform.ready().then(() => {
@@ -94,3 +93,7 @@ export class MyApp {
         this.nav.setRoot(page.component);
     }
 }
+
+ionicBootstrap(Hunter, [], {
+    backButtonText: "Retour"
+});

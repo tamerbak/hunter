@@ -2,8 +2,9 @@ import {Page, NavController, NavParams, LocalStorage, Storage, Modal} from 'ioni
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {ModalNewCandidatePage} from "../modal-new-candidate/modal-new-candidate";
 import {SMS} from "ionic-native/dist/index";
+import {Component} from "@angular/core";
 
-@Page({
+@Component({
     templateUrl: 'build/pages/contacts/contacts.html',
     providers:[OpportunitiesService]
 })
