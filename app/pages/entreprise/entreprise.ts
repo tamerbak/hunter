@@ -1,4 +1,4 @@
-import {Page, NavController, Storage, LocalStorage} from 'ionic-angular';
+import {NavController, Storage, LocalStorage} from 'ionic-angular';
 import {EmployersService} from "../../providers/employers-service/employers-service";
 import {Component} from "@angular/core";
 

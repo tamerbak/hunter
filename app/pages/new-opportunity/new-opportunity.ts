@@ -1,4 +1,4 @@
-import {Page, NavController, Alert, NavParams, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
+import {NavController, Alert, NavParams, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
 import {DatePicker, Camera} from "ionic-native/dist/index";
 import {NgZone, Component} from "@angular/core";
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
