@@ -12,6 +12,7 @@ import {Configs} from "../../configurations/configs";
 @Injectable()
 export class EmployersService {
     accounts: any = null;
+    opportunity: any;
 
     constructor(public http: Http) {}
 
@@ -45,5 +46,20 @@ export class EmployersService {
         });
     }
 
+    saveEnterprise(opportunity){
+        let sql = "update user_opportunite set fk_user_entreprise="+opportunity.account.idEntreprise+" where pk_user_opportunite="+opportunity.id;
+        
+        console.log('UPDATE OPPORTUNITY SQL : '+sql);
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    this.opportunity = opportunity;
+                    resolve(this.opportunity);
+                });
+        });
+    }
 }
 

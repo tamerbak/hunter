@@ -1,4 +1,4 @@
-import {Page, NavController, NavParams, Modal} from 'ionic-angular';
+import {Page, NavController, NavParams, Modal, Alert} from 'ionic-angular';
 import {Storage, LocalStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {ModalNewCandidatePage} from "../modal-new-candidate/modal-new-candidate";
@@ -45,6 +45,12 @@ export class CandidatesPage {
                     console.log(message);
                     SMS.send(candidate.tel, message, options);
                 }
+                let alert = Alert.create({
+                    title: 'Invitation envoyée',
+                    subTitle: 'Une invitation a été adressé à votre contact pour considérer cette offre',
+                    buttons: ['OK']
+                });
+                this.nav.present(alert);
             }
         });
         this.storage.set('OPP',JSON.stringify(this.opportunity)).then(()=>{

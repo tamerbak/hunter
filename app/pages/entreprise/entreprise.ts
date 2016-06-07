@@ -9,10 +9,16 @@ import {EmployersService} from "../../providers/employers-service/employers-serv
 export class EntreprisePage {
     searchText : string;
     accounts : any = [];
+    opportunity : any;
     service : EmployersService;
+    storage : any;
+
     constructor(public nav: NavController,
                 service:EmployersService) {
         this.service = service;
+        this.storage.get('OPPORTUNITY').then(opp => {
+            this.opportunity = JSON.parse(opp);
+        });
     }
 
     popScreen(){
@@ -26,6 +32,9 @@ export class EntreprisePage {
     }
 
     selectAccount(account){
-
+        this.opportunity.account = account;
+        this.service.saveEnterprise(this.opportunity).then(data => {
+            this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity));
+        });
     }
 }
