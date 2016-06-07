@@ -32,7 +32,11 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-datepicker",
+    "cordova-plugin-network-information",
+    "cordova-plugin-geolocation",
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": [
     "ios",
@@ -42,6 +46,6 @@
       "locator": "ios"
     }
   ],
-  "name": "blankhanter",
-  "description": "blankHanter: An Ionic project"
+  "name": "Hunter",
+  "description": "La version Hunter de VitOnJob"
 }
