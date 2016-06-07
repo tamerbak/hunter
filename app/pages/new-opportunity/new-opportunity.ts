@@ -1,9 +1,10 @@
-import {Page, NavController, Alert, NavParams, Storage, SqlStorage} from 'ionic-angular';
+import {Page, NavController, Alert, NavParams, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
 import {DatePicker, Camera} from "ionic-native/dist/index";
 import {NgZone, Component} from "@angular/core";
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {CandidatesPage} from "../candidates/candidates";
 import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
+import {AdditionalDetailsPage} from "../additional-details/additional-details";
 
 
 @Component({
@@ -13,11 +14,13 @@ import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
 export class NewOpportunityPage {
     opportunity : any;
     storage : any;
+    lstore : any;
     constructor(public nav: NavController,
                 public navParams : NavParams,
                 private zone: NgZone,
                 private opportunityService : OpportunitiesService) {
         this.storage = new Storage(SqlStorage);
+        this.lstore = new Storage(LocalStorage);
         this.opportunity = {
             id : 0,
             title : '',
@@ -57,24 +60,24 @@ export class NewOpportunityPage {
     }
 
     saveOpp(){
-         let posOptions = {maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
-         let onSuccess = function(position){
-         this.opportunity.lat = position.coords.latitude;
-         this.opportunity.lng = position.coords.longitude;
-         this.saveOpportunity();
-         };
+        let posOptions = {maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
+        let onSuccess = function(position){
+            this.opportunity.lat = position.coords.latitude;
+            this.opportunity.lng = position.coords.longitude;
+            this.saveOpportunity();
+        };
 
-         let onError = function(err){
-         this.opportunity.lat = 0;
-         this.opportunity.lng = 0;
-         console.log('Error while getting location');
-         console.log(err.code);
-         console.log(err.message);
-         console.log(JSON.stringify(err));
-         this.saveOpportunity();
-         };
+        let onError = function(err){
+            this.opportunity.lat = 0;
+            this.opportunity.lng = 0;
+            console.log('Error while getting location');
+            console.log(err.code);
+            console.log(err.message);
+            console.log(JSON.stringify(err));
+            this.saveOpportunity();
+        };
 
-         navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);
+        navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);
     }
 
     saveOpportunity(){
@@ -104,7 +107,10 @@ export class NewOpportunityPage {
             buttons :[{
                 text: 'Oui',
                 handler: ()=> {
-                    this.nav.push(CandidatesPage, {opportunity: this.opportunity});
+                    this.lstore.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(data => {
+                        this.nav.push(AdditionalDetailsPage);
+                    });
+
                     return true;
                 }
             },{
