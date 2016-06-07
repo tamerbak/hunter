@@ -28,16 +28,18 @@ export class EntreprisePage {
         this.service = service;
         this.storage = new Storage(LocalStorage);
         this.storage.get('OPPORTUNITY').then(opp => {
-            debugger;
-            this.opportunity = JSON.parse(opp);
-            if(!this.opportunity.account){
-                this.opportunity.account = {
-                    fullName : '',
-                    tel:'',
-                    email:''
-                };
-                this.noCompany = true;
-            }
+            let obj = JSON.parse(opp);
+            this.service.loadEmployer(obj).then(o => {
+                this.opportunity.account = o;
+                if(!this.opportunity.account || this.opportunity.account.idAccount == 0){
+                    this.opportunity.account = {
+                        fullName : '',
+                        tel:'',
+                        email:''
+                    };
+                    this.noCompany = true;
+                }
+            });
         });
     }
 

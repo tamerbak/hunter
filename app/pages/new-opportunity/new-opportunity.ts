@@ -88,7 +88,6 @@ export class NewOpportunityPage {
             let user = JSON.parse(value);
             let idAccount = user.id;
             this.opportunityService.saveOpportunity(this.opportunity, idAccount).then((o)=>{
-                debugger;
                 this.opportunity = o;
                 if(o.id >0){
                     this.successfulSave();
@@ -107,11 +106,15 @@ export class NewOpportunityPage {
             buttons :[{
                 text: 'Oui',
                 handler: ()=> {
+                    let navTransition = alert.dismiss();
                     this.lstore.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(data => {
                         this.nav.push(AdditionalDetailsPage);
+                        navTransition.then(() => {
+                            this.nav.pop();
+                        });
                     });
 
-                    return true;
+                    return false;
                 }
             },{
                 text: 'Non',

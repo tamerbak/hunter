@@ -13,6 +13,7 @@ import {Configs} from "../../configurations/configs";
 export class EmployersService {
     accounts: any = null;
     opportunity: any;
+    account : any;
 
     constructor(public http: Http) {}
 
@@ -58,6 +59,48 @@ export class EmployersService {
                 .subscribe(data => {
                     this.opportunity = opportunity;
                     resolve(this.opportunity);
+                });
+        });
+    }
+
+    loadEmployer(opportunity){
+        let sql = "SELECT user_account.pk_user_account, user_entreprise.pk_user_entreprise, user_employeur.pk_user_employeur, " +
+            "user_account.email, user_account.telephone, user_entreprise.nom_ou_raison_sociale, user_employeur.nom, user_employeur.prenom " +
+            "FROM public.user_entreprise, public.user_employeur, public.user_account " +
+            "WHERE user_entreprise.fk_user_account = user_account.pk_user_account " +
+            "AND user_entreprise.fk_user_employeur = user_employeur.pk_user_employeur " +
+            "AND user_entreprise.pk_user_entreprise in (select fk_user_entreprise from user_opportunite where pk_user_opportunite="+opportunity.id+")";
+        console.log('Get account data SQL : '+sql);
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    this.account = {
+                        idAccount : 0,
+                        idEntreprise : 0,
+                        idEmployer : 0,
+                        fullName : '',
+                        companyName : '',
+                        tel : '',
+                        email : ''
+                    };
+
+                    if(data.data && data.data.length >0){
+                        let row = data.data[0];
+                        this.account = {
+                            idAccount : row.pk_user_account,
+                            idEntreprise : row.pk_user_entreprise,
+                            idEmployer : row.pk_user_employeur,
+                            fullName : row.nom+' '+row.prenom,
+                            companyName : row.nom_ou_raison_sociale,
+                            tel : row.telephone,
+                            email : row.email
+                        };
+                    }
+
+                    resolve(this.account);
                 });
         });
     }
