@@ -1,4 +1,4 @@
-import {Page, NavController} from 'ionic-angular';
+import {Page, NavController, Storage, LocalStorage} from 'ionic-angular';
 import {EmployersService} from "../../providers/employers-service/employers-service";
 
 
@@ -12,12 +12,29 @@ export class EntreprisePage {
     opportunity : any;
     service : EmployersService;
     storage : any;
+    noCompany : boolean = false;
 
     constructor(public nav: NavController,
                 service:EmployersService) {
+        this.opportunity = {
+            account : {
+                fullName: '',
+                tel: '',
+                email: ''
+            }
+        };
         this.service = service;
+        this.storage = new Storage(LocalStorage);
         this.storage.get('OPPORTUNITY').then(opp => {
             this.opportunity = JSON.parse(opp);
+            if(!this.opportunity.account){
+                this.opportunity.account = {
+                    fullName : '',
+                    tel:'',
+                    email:''
+                };
+                this.noCompany = true;
+            }
         });
     }
 
@@ -27,7 +44,7 @@ export class EntreprisePage {
 
     search(){
         this.service.seekAccounts(this.searchText).then(accounts=>{
-           this.accounts = accounts;
+            this.accounts = accounts;
         });
     }
 

@@ -352,6 +352,12 @@ var CandidatesPage = (function () {
                     console.log(message);
                     index_1.SMS.send(candidate.tel, message, options);
                 }
+                var alert_1 = ionic_angular_1.Alert.create({
+                    title: 'Invitation envoyée',
+                    subTitle: 'Une invitation a été adressé à votre contact pour considérer cette offre',
+                    buttons: ['OK']
+                });
+                _this.nav.present(alert_1);
             }
         });
         this.storage.set('OPP', JSON.stringify(this.opportunity)).then(function () {
@@ -810,9 +816,30 @@ var ionic_angular_1 = require('ionic-angular');
 var employers_service_1 = require("../../providers/employers-service/employers-service");
 var EntreprisePage = (function () {
     function EntreprisePage(nav, service) {
+        var _this = this;
         this.nav = nav;
         this.accounts = [];
+        this.noCompany = false;
+        this.opportunity = {
+            account: {
+                fullName: '',
+                tel: '',
+                email: ''
+            }
+        };
         this.service = service;
+        this.storage = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
+        this.storage.get('OPPORTUNITY').then(function (opp) {
+            _this.opportunity = JSON.parse(opp);
+            if (!_this.opportunity.account) {
+                _this.opportunity.account = {
+                    fullName: '',
+                    tel: '',
+                    email: ''
+                };
+                _this.noCompany = true;
+            }
+        });
     }
     EntreprisePage.prototype.popScreen = function () {
         this.nav.pop();
@@ -824,6 +851,11 @@ var EntreprisePage = (function () {
         });
     };
     EntreprisePage.prototype.selectAccount = function (account) {
+        var _this = this;
+        this.opportunity.account = account;
+        this.service.saveEnterprise(this.opportunity).then(function (data) {
+            _this.storage.set('OPPORTUNITY', JSON.stringify(_this.opportunity));
+        });
     };
     EntreprisePage = __decorate([
         ionic_angular_1.Page({
@@ -3135,6 +3167,21 @@ var EmployersService = (function () {
                 // and save the data for later reference
                 _this.accounts = data;
                 resolve(_this.accounts);
+            });
+        });
+    };
+    EmployersService.prototype.saveEnterprise = function (opportunity) {
+        var _this = this;
+        var sql = "update user_opportunite set fk_user_entreprise=" + opportunity.account.idEntreprise + " where pk_user_opportunite=" + opportunity.id;
+        console.log('UPDATE OPPORTUNITY SQL : ' + sql);
+        return new Promise(function (resolve) {
+            var headers = new http_1.Headers();
+            headers.append("Content-Type", 'text/plain');
+            _this.http.post(configs_1.Configs.sqlURL, sql, { headers: headers })
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                _this.opportunity = opportunity;
+                resolve(_this.opportunity);
             });
         });
     };

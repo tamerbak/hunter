@@ -57,7 +57,6 @@ export class NewOpportunityPage {
     }
 
     saveOpp(){
-        /*debugger;
          let posOptions = {maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
          let onSuccess = function(position){
          this.opportunity.lat = position.coords.latitude;
@@ -75,10 +74,7 @@ export class NewOpportunityPage {
          this.saveOpportunity();
          };
 
-         navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);*/
-        this.opportunity.lat = 0;
-        this.opportunity.lng = 0;
-        this.saveOpportunity();
+         navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);
     }
 
     saveOpportunity(){

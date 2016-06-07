@@ -5,6 +5,20 @@
 </ion-navbar>
 
 <ion-content padding class="entreprise">
+    <ion-card *ngIf="noCompany">
+        <ion-card-content>
+            Aucune entreprise n'est associé à cette offre
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="!noCompany">
+        <ion-card-content>
+            <h2>{{opportunity.account.fullName}}</h2>
+            <ul>
+                <li>{{opportunity.account.tel}}</li>
+                <li>{{opportunity.account.email}}</li>
+            </ul>
+        </ion-card-content>
+    </ion-card>
     <ion-grid>
         <ion-row>
             <ion-col width-90>
