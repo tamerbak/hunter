@@ -820,6 +820,7 @@ var EntreprisePage = (function () {
         this.nav = nav;
         this.accounts = [];
         this.noCompany = false;
+        debugger;
         this.opportunity = {
             account: {
                 fullName: '',
@@ -830,6 +831,7 @@ var EntreprisePage = (function () {
         this.service = service;
         this.storage = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
         this.storage.get('OPPORTUNITY').then(function (opp) {
+            debugger;
             _this.opportunity = JSON.parse(opp);
             if (!_this.opportunity.account) {
                 _this.opportunity.account = {
@@ -1630,8 +1632,8 @@ var ionic_angular_1 = require('ionic-angular');
 var index_1 = require("ionic-native/dist/index");
 var core_1 = require("@angular/core");
 var opportunities_service_1 = require("../../providers/opportunities-service/opportunities-service");
-var candidates_1 = require("../candidates/candidates");
 var opportunities_list_1 = require("../opportunities-list/opportunities-list");
+var additional_details_1 = require("../additional-details/additional-details");
 var NewOpportunityPage = (function () {
     function NewOpportunityPage(nav, navParams, zone, opportunityService) {
         this.nav = nav;
@@ -1639,6 +1641,7 @@ var NewOpportunityPage = (function () {
         this.zone = zone;
         this.opportunityService = opportunityService;
         this.storage = new ionic_angular_1.Storage(ionic_angular_1.SqlStorage);
+        this.lstore = new ionic_angular_1.Storage(ionic_angular_1.LocalStorage);
         this.opportunity = {
             id: 0,
             title: '',
@@ -1677,28 +1680,22 @@ var NewOpportunityPage = (function () {
         });
     };
     NewOpportunityPage.prototype.saveOpp = function () {
-        /*debugger;
-         let posOptions = {maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
-         let onSuccess = function(position){
-         this.opportunity.lat = position.coords.latitude;
-         this.opportunity.lng = position.coords.longitude;
-         this.saveOpportunity();
-         };
-
-         let onError = function(err){
-         this.opportunity.lat = 0;
-         this.opportunity.lng = 0;
-         console.log('Error while getting location');
-         console.log(err.code);
-         console.log(err.message);
-         console.log(JSON.stringify(err));
-         this.saveOpportunity();
-         };
-
-         navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);*/
-        this.opportunity.lat = 0;
-        this.opportunity.lng = 0;
-        this.saveOpportunity();
+        var posOptions = { maximumAge: 0, timeout: 50000, enableHighAccuracy: false };
+        var onSuccess = function (position) {
+            this.opportunity.lat = position.coords.latitude;
+            this.opportunity.lng = position.coords.longitude;
+            this.saveOpportunity();
+        };
+        var onError = function (err) {
+            this.opportunity.lat = 0;
+            this.opportunity.lng = 0;
+            console.log('Error while getting location');
+            console.log(err.code);
+            console.log(err.message);
+            console.log(JSON.stringify(err));
+            this.saveOpportunity();
+        };
+        navigator.geolocation.getCurrentPosition(onSuccess.bind(this), onError.bind(this), posOptions);
     };
     NewOpportunityPage.prototype.saveOpportunity = function () {
         var _this = this;
@@ -1728,7 +1725,9 @@ var NewOpportunityPage = (function () {
             buttons: [{
                     text: 'Oui',
                     handler: function () {
-                        _this.nav.push(candidates_1.CandidatesPage, { opportunity: _this.opportunity });
+                        _this.lstore.set('OPPORTUNITY', JSON.stringify(_this.opportunity)).then(function (data) {
+                            _this.nav.push(additional_details_1.AdditionalDetailsPage);
+                        });
                         return true;
                     }
                 }, {
@@ -1766,7 +1765,7 @@ var NewOpportunityPage = (function () {
 }());
 exports.NewOpportunityPage = NewOpportunityPage;
 
-},{"../../providers/opportunities-service/opportunities-service":29,"../candidates/candidates":6,"../opportunities-list/opportunities-list":18,"@angular/core":164,"ionic-angular":413,"ionic-native/dist/index":436}],17:[function(require,module,exports){
+},{"../../providers/opportunities-service/opportunities-service":29,"../additional-details/additional-details":5,"../opportunities-list/opportunities-list":18,"@angular/core":164,"ionic-angular":413,"ionic-native/dist/index":436}],17:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

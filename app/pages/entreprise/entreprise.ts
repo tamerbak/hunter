@@ -16,6 +16,7 @@ export class EntreprisePage {
 
     constructor(public nav: NavController,
                 service:EmployersService) {
+        debugger;
         this.opportunity = {
             account : {
                 fullName: '',
@@ -26,6 +27,7 @@ export class EntreprisePage {
         this.service = service;
         this.storage = new Storage(LocalStorage);
         this.storage.get('OPPORTUNITY').then(opp => {
+            debugger;
             this.opportunity = JSON.parse(opp);
             if(!this.opportunity.account){
                 this.opportunity.account = {
