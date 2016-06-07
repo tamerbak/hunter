@@ -2,7 +2,7 @@
     <ion-searchbar primary [(ngModel)]="contactInfo"
                    (keyup)="seekContact($event)"
                    show-cancel="true"
-                   placeholder="Search">
+                   placeholder="Nom, numéro de téléphone, ...">
     </ion-searchbar>
     <ion-list>
         <button ion-item *ngFor="let c of candidates"  (click)="selectContact(c)">

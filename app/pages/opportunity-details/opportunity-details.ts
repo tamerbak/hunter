@@ -1,8 +1,8 @@
-import {Page, NavController, NavParams} from 'ionic-angular';
+import {Page, NavController, NavParams, Storage, LocalStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {CandidatesPage} from "../candidates/candidates";
 import {isUndefined} from "ionic-angular/util";
-import {OnInit} from "@angular/core";
+import {AdditionalDetailsPage} from "../additional-details/additional-details";
 
 @Page({
     templateUrl: 'build/pages/opportunity-details/opportunity-details.html',
@@ -15,11 +15,13 @@ export class OpportunityDetailsPage {
     save : boolean = true;
     contact : boolean = false;
 
+    storage : any;
 
     constructor(public nav: NavController,
                 public navParams: NavParams,
                 service : OpportunitiesService) {
         this.service = service;
+        this.storage = new Storage(LocalStorage);
         this.opportunity = navParams.data.opportunity;
         this.service.loadOpportunitiesById(this.opportunity.id).then(opp=>{
             this.loadMap();
@@ -39,7 +41,6 @@ export class OpportunityDetailsPage {
         this.map = new google.maps.Map(mapElement, mapOptions);
         let address = new google.maps.LatLng(this.opportunity.lat, this.opportunity.lng);
         let bounds = new google.maps.LatLngBounds();
-
         let marker = new google.maps.Marker({
             map: this.map,
             animation: google.maps.Animation.DROP,
@@ -61,5 +62,11 @@ export class OpportunityDetailsPage {
 
     getOpportunityContacts(){
         this.nav.push(CandidatesPage,{opportunity : this.opportunity});
+    }
+
+    moreData(){
+        this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(result =>{
+            this.nav.push(AdditionalDetailsPage,{opportunity : this.opportunity});
+        });
     }
 }

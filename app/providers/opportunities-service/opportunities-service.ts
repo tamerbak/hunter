@@ -223,7 +223,7 @@ export class OpportunitiesService {
             'WHERE user_account.pk_user_account = user_candidature_opportunite.fk_user_account ' +
             'AND user_jobyer.fk_user_account = user_account.pk_user_account ' +
             'AND user_candidature_opportunite.fk_user_opportunite='+opportunity.id;
-
+        console.log(sql);
         return new Promise(resolve => {
             let headers = new Headers();
             headers.append("Content-Type", 'text/plain');

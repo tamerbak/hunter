@@ -1,0 +1,17 @@
+<ion-navbar primary="" *navbar>
+    <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Invitations</ion-title>
+</ion-navbar>
+
+<ion-content padding class="propositions">
+    <ion-list>
+        <ion-list>
+            <button ion-item *ngFor="let i of invitations" (click)="expandOpportunity(i)">
+                <ion-icon name="{{i.seen?'eye':'eye-off'}}"></ion-icon>&nbsp;{{i.opportunity.title}}
+                <p>{{i.opportunity.creationDate}}</p>
+            </button>
+        </ion-list>
+    </ion-list>
+</ion-content>

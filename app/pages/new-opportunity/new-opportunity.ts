@@ -104,7 +104,7 @@ export class NewOpportunityPage {
     successfulSave(){
         let alert = Alert.create({
             title : 'Vitonjob Hunter',
-            message : "La sauvegarde des données a réussie désirez vous suggérer cette opportunité à vos contact ?",
+            message : "La sauvegarde des données a réussie, désirez vous fournir plus d'information et suggérer cette offre à vos contacts ?",
             buttons :[{
                 text: 'Oui',
                 handler: ()=> {
