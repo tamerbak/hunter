@@ -18,6 +18,7 @@ export class OpportunitiesListPage {
 
     constructor(public nav:NavController,
                 opportunityService:OpportunitiesService, gc:GlobalConfigs) {
+        debugger;
         let projectTarget = gc.getProjectTarget();
         // get config of selected target
         let config = Configs.setConfigs(projectTarget);

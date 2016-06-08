@@ -1,0 +1,19 @@
+<ion-content padding class="modal-new-entreprise">
+    <ion-list>
+        <ion-item>
+            <ion-label>Nom / Raison sociale</ion-label>
+            <ion-input type="text" [(ngModel)]="company.fullName"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Numéro de téléphone</ion-label>
+            <ion-input type="text" [(ngModel)]="company.tel"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input type="text" [(ngModel)]="company.email"></ion-input>
+        </ion-item>
+    </ion-list>
+    <button block primary (click)="saveNewCompany()">
+        Enregistrer
+    </button>
+</ion-content>

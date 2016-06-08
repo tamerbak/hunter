@@ -117,7 +117,7 @@ export class OpportunitiesService {
             'user_opportunite.longitude, user_opportunite.latitude, user_opportunite.scan_encode, user_opportunite.est_active, ' +
             'user_opportunite.fin_de_candidature, user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, ' +
             'user_opportunite.pk_user_opportunite';
-
+        console.log('GET OFFERS SQL : '+sql);
         return new Promise(resolve => {
             let headers = new Headers();
             headers.append("Content-Type", 'text/plain');

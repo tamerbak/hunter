@@ -104,5 +104,58 @@ export class EmployersService {
                 });
         });
     }
+
+    saveNewAccount(account){
+        let sql = "insert into user_account (email, mot_de_passe, telephone, role, est_employeur) values " +
+            "('"+account.email+"', 'Hgtze', '"+account.tel+"', 'employeur', 'OUI') returning pk_user_account";
+        console.log(sql);
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    if(data.data && data.data.length>0){
+                        account.id = data.data[0].pk_user_account;
+                        this.saveNewEmployer(account);
+                    }
+
+                    resolve(account);
+                });
+        });
+    }
+
+    saveNewEmployer(account){
+        let sql = "insert into user_employeur (nom, prenom, titre) values ('"+account.fullName+"','','') returning pk_user_employeur";
+        console.log(sql);
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    if(data.data && data.data.length>0){
+                        this.saveNewEntreprise(account, data.data[0].pk_user_employeur);
+                    }
+
+                    resolve(account);
+                });
+        });
+    }
+
+    saveNewEntreprise(account, idEmployeur){
+        let sql = "insert into user_entreprise (nom_ou_raison_sociale, fk_user_account, fk_user_employeur) values " +
+            "('"+account.fullName+"',"+account.id+","+idEmployeur+") returning pk_user_entreprise";
+
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(account);
+                });
+        });
+    }
 }
 

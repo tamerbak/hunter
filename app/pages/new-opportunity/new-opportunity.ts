@@ -40,7 +40,7 @@ export class NewOpportunityPage {
             date: new Date(),
             mode: type
         }).then(date=>{
-            this.opportunity.closureDate = (date.getDay()+1)+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
+            this.opportunity.closureDate = (date.getDate())+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
         });
     }
 
@@ -102,7 +102,7 @@ export class NewOpportunityPage {
     successfulSave(){
         let alert = Alert.create({
             title : 'VitOnJob Hunter',
-            message : "La sauvegarde des données a réussie, désirez vous fournir plus d'information et suggérer cette offre à vos contacts ?",
+            message : "L’enregistrement des données est réalisé. Souhaiteriez-vous détailler votre offre et la proposer à vos contacts ?",
             buttons :[{
                 text: 'Oui',
                 handler: ()=> {

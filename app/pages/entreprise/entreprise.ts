@@ -1,6 +1,7 @@
-import {NavController, Storage, LocalStorage} from 'ionic-angular';
+import {NavController, Storage, LocalStorage, Modal} from 'ionic-angular';
 import {EmployersService} from "../../providers/employers-service/employers-service";
 import {Component} from "@angular/core";
+import {ModalNewEntreprisePage} from "../modal-new-entreprise/modal-new-entreprise";
 
 
 @Component({
@@ -29,6 +30,13 @@ export class EntreprisePage {
         this.storage = new Storage(LocalStorage);
         this.storage.get('OPPORTUNITY').then(opp => {
             let obj = JSON.parse(opp);
+            debugger;
+            this.opportunity = obj;
+            this.opportunity.account = {
+                fullName: '',
+                tel: '',
+                email: ''
+            };
             this.service.loadEmployer(obj).then(o => {
                 this.opportunity.account = o;
                 if(!this.opportunity.account || this.opportunity.account.idAccount == 0){
@@ -56,7 +64,18 @@ export class EntreprisePage {
     selectAccount(account){
         this.opportunity.account = account;
         this.service.saveEnterprise(this.opportunity).then(data => {
+            debugger;
             this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity));
         });
+    }
+
+    createCompany(){
+        let modal = new Modal(ModalNewEntreprisePage);
+        modal.onDismiss(company => {
+            this.searchText = company.fullName;
+            this.search();
+        });
+        this.nav.present(modal);
+
     }
 }
