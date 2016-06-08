@@ -53,7 +53,7 @@ export class ContactsPage {
                             intent: ''
                         }
                     };
-                    let message = "Vous êtes invité à créer un compte sur href://www.vitonjob.com afin d'accéder à l'offre '"+this.opportunity.title+"'";
+                    let message = "Vous êtes invité à créer un compte sur href://www.vitonjob.com afin d'accéder à l'offre '"+this.opportunity.title+"'. Vous pouvez utiliser votre numéro de téléphone : "+candidate.tel+" et votre mot de passe temporaire : "+candidate.password;
                     console.log(message);
                     SMS.send(candidate.tel, message, options);
                 }

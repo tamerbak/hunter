@@ -266,7 +266,7 @@ export class OpportunitiesService {
 
         let payload = {
             'class': 'fr.protogen.masterdata.model.CCallout',
-            id: 143,
+            id: 149,
             args: [{
                 'class': 'fr.protogen.masterdata.model.CCalloutArguments',
                 label: 'Contact to create',
