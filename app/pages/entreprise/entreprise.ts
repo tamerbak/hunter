@@ -73,7 +73,8 @@ export class EntreprisePage {
         let modal = new Modal(ModalNewEntreprisePage);
         modal.onDismiss(company => {
             this.searchText = company.fullName;
-            this.search();
+            if(this.searchText.length>0)
+                this.search();
         });
         this.nav.present(modal);
 

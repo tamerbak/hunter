@@ -144,8 +144,8 @@ export class EmployersService {
     }
 
     saveNewEntreprise(account, idEmployeur){
-        let sql = "insert into user_entreprise (nom_ou_raison_sociale, fk_user_account, fk_user_employeur) values " +
-            "('"+account.fullName+"',"+account.id+","+idEmployeur+") returning pk_user_entreprise";
+        let sql = "insert into user_entreprise (nom_ou_raison_sociale, fk_user_account, fk_user_employeur, siret) values " +
+            "('"+account.fullName+"',"+account.id+","+idEmployeur+",'"+account.siret+"') returning pk_user_entreprise";
 
         return new Promise(resolve => {
             let headers = new Headers();
