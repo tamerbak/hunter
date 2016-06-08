@@ -3,28 +3,27 @@
 </ion-navbar>
 
 <ion-content padding class="new-opportunity">
+    <button fab fab-top fab-center (click)="takePicture()">
+        <ion-icon name="camera"></ion-icon>
+    </button>
+
+    <img src="{{opportunity.picture}}" />
+    <ion-row>&nbsp;</ion-row>
     <ion-list>
         <ion-item>
             <ion-label floating>Titre</ion-label>
             <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label floating>Description</ion-label>
-            <ion-textarea [(ngModel)]="opportunity.description"></ion-textarea>
-        </ion-item>
-        <ion-item>
             <ion-label floating>Date de fin de validité de l’offre</ion-label>
             <ion-input [(ngModel)]="opportunity.closureDate" type="text" (focus)="showDatePicker('date')" ></ion-input>
         </ion-item>
-
-        <button list-item block primary (click)="saveOpp()">
-            Enregistrer
-        </button>
+        <ion-item>
+            <ion-label floating>Description</ion-label>
+            <ion-textarea [(ngModel)]="opportunity.description"></ion-textarea>
+        </ion-item>
     </ion-list>
-
-    <button fab (click)="takePicture()">
-        <ion-icon name="camera"></ion-icon>
+    <button list-item block primary (click)="saveOpp()">
+        Enregistrer
     </button>
-
-    <img src="{{opportunity.picture}}" />
 </ion-content>

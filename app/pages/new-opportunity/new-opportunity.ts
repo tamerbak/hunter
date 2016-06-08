@@ -38,7 +38,8 @@ export class NewOpportunityPage {
     showDatePicker(type:string) {
         DatePicker.show({
             date: new Date(),
-            mode: type
+            mode: type,
+            androidTheme: 5
         }).then(date=>{
             this.opportunity.closureDate = (date.getDate())+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
         });
