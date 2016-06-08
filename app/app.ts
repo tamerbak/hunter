@@ -1,7 +1,7 @@
 import {App, Platform, MenuController, Storage, SqlStorage, Events, Nav, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {HomePage} from './pages/home/home';
-import {ViewChild, Component} from "@angular/core";
+import {ViewChild, Component, enableProdMode} from "@angular/core";
 import {OpportunitiesListPage} from "./pages/opportunities-list/opportunities-list";
 import {PropositionsPage} from "./pages/propositions/propositions";
 import {LoginsPage} from "./pages/logins/logins";
@@ -97,6 +97,7 @@ export class Hunter {
     }
 }
 
+enableProdMode();
 ionicBootstrap(Hunter, [], {
     backButtonText: "Retour"
 });
