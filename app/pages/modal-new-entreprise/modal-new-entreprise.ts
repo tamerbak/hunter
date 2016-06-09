@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, Storage, LocalStorage, SqlStorage, ViewController} from 'ionic-angular';
 import {EmployersService} from "../../providers/employers-service/employers-service";
 import {NotationService} from "../../providers/notation-service/notation-service";
+import {SMS} from "ionic-native/dist/index";
 
 @Component({
     templateUrl: 'build/pages/modal-new-entreprise/modal-new-entreprise.html',
@@ -48,6 +49,15 @@ export class ModalNewEntreprisePage {
         this.service.saveNewAccount(this.company).then(c =>{
             this.notationService.notationEntreprise(this.currentUser.id);
             this.company = c;
+            let options = {
+                replaceLineBreaks: true,
+                android: {
+                    intent: ''
+                }
+            };
+            let message = "Vous êtes invité à créer un compte sur www.vitonjob.com. Vous pouvez utiliser votre numéro de téléphone : "+this.company.tel+" et votre mot de passe temporaire : Hgtze";
+            console.log(message);
+            SMS.send(this.company.tel, message, options);
             this.viewCtrl.dismiss(this.company);
         });
     }
