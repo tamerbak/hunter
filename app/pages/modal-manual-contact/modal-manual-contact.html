@@ -1,0 +1,26 @@
+<ion-content padding class="modal-manual-contact">
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Nom</ion-label>
+      <ion-input type="text" [(ngModel)]="contact.lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Prénom</ion-label>
+      <ion-input type="text" [(ngModel)]="contact.firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Numéro de téléphone</ion-label>
+      <ion-input type="text" [(ngModel)]="contact.tel"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" [(ngModel)]="contact.email"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button block primary (click)="saveNewContact()">
+    Enregistrer
+  </button>
+  <button block secondary (click)="cancelNewContact()">
+    Annuler
+  </button>
+</ion-content>

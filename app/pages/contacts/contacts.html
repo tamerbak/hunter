@@ -1,30 +1,34 @@
 <ion-navbar *navbar primary>
-  <button clear (click)="popScreen()" style="color: white">
-    <ion-icon name="arrow-back"></ion-icon> Retour
-  </button>
+    <button clear (click)="popScreen()" style="color: white">
+        <ion-icon name="arrow-back"></ion-icon> Retour
+    </button>
 </ion-navbar>
 
 <ion-content padding class="contacts">
-  <ion-card *ngIf="voidCandidates">
-    <ion-card-content>
-      Vous n'avez encore invité aucun contact
-    </ion-card-content>
-  </ion-card>
-  <ion-list>
-    <ion-item-sliding>
-      <ion-item *ngFor="let c of candidates">
-        <ion-icon name="{{c.seen?'eye':'eye-off'}}"></ion-icon>{{c.title}} {{c.firstName}} {{c.lastName}}
-        <p>{{c.tel}} - {{c.email}}</p>
-      </ion-item>
-      <ion-item-options>
-        <button primary>
-          <ion-icon name="trash"></ion-icon>
-          Supprimer
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-  <button fab fab-bottom fab-center (click)="addNewCandidates()">
-    <ion-icon name="add"></ion-icon>
-  </button>
+    <ion-card *ngIf="voidCandidates">
+        <ion-card-content>
+            Vous n'avez encore invité aucun contact
+        </ion-card-content>
+    </ion-card>
+    <ion-list>
+        <ion-item-sliding>
+            <ion-item *ngFor="let c of candidates">
+                <ion-icon name="{{c.seen?'eye':'eye-off'}}"></ion-icon>{{c.title}} {{c.firstName}} {{c.lastName}}
+                <p>{{c.tel}} - {{c.email}}</p>
+            </ion-item>
+            <ion-item-options>
+                <button primary>
+                    <ion-icon name="trash"></ion-icon>
+                    Supprimer
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <button fab fab-bottom fab-left (click)="addNewCandidates()">
+        <ion-icon name="contact"></ion-icon>
+    </button>
+    <button fab fab-bottom fab-right (click)="addManualCandidate()">
+        <ion-icon name="add"></ion-icon>
+    </button>
+
 </ion-content>
