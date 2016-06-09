@@ -153,7 +153,7 @@ export class PhonePage {
 			
 			this.storage.set('connexion', JSON.stringify(connexion));
 			this.storage.set('currentUser', JSON.stringify(data)).then(()=>{
-				this.events.publish('user:login');
+			this.events.publish('user:login', data);
 				
 				//user is connected, then change the name of connexion btn to deconnection
 				this.gc.setCnxBtnName("Déconnexion");

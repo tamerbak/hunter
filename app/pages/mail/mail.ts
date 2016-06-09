@@ -1,4 +1,5 @@
-import {Page, Alert, NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {Alert, NavController, Events, Loading} from 'ionic-angular';
 import {Configs} from '../../configurations/configs';
 import {GlobalConfigs} from '../../configurations/globalConfigs';
 import {AuthenticationService} from "../../providers/authentication.service";
@@ -7,8 +8,8 @@ import {DataProviderService} from "../../providers/data-provider.service";
 import {GlobalService} from "../../providers/global.service";
 import {ValidationDataService} from "../../providers/validation-data.service";
 import {HomePage} from "../home/home";
-import {InfoUserPage} from "../info-user/info-user";
-import {Component} from "@angular/core";
+import {CivilityPage} from "../civility/civility";
+import {Storage, SqlStorage} from 'ionic-angular';
 
 /**
 	* @author Amal ROCHD
@@ -17,45 +18,45 @@ import {Component} from "@angular/core";
 */
 @Component({
 	templateUrl: 'build/pages/mail/mail.html',
-	providers: [GlobalConfigs, AuthenticationService, LoadListService, DataProviderService, GlobalService, ValidationDataService]
+	providers: [AuthenticationService, LoadListService, DataProviderService, GlobalService, ValidationDataService]
 })
 export class MailPage {
 	projectTarget: string;
 	isEmployer: boolean;
-	public people: any;
+	mailTitle: string;
+	themeColor: string;
 	public phone;
 	public index;
 	public pays = [];
+	showPhoneField: boolean
 	email: string;
 	libelleButton: string;
 	password1: string;
 	password2: string;
-	mailTitle: string;
-	themeColor: string;
-	showPhoneField: boolean
+	storage:any;
+	isPhoneNumValid = true;
 	
 	/**
 		* @description While constructing the view, we load the list of countries to display their codes
 	*/
 	constructor(public nav: NavController,
-    public gc: GlobalConfigs, private authService: AuthenticationService, private loadListService: LoadListService, private dataProviderService: DataProviderService, private globalService: GlobalService, private validationDataService: ValidationDataService) {
-		
+	public gc: GlobalConfigs, private authService: AuthenticationService, private loadListService: LoadListService, private dataProviderService: DataProviderService, private globalService: GlobalService, private validationDataService: ValidationDataService, public events: Events) {
 		// Set global configs
 		// Get target to determine configs
 		this.projectTarget = gc.getProjectTarget();
+		this.storage = new Storage(SqlStorage);
 		
 		// get config of selected target
 		let config = Configs.setConfigs(this.projectTarget);
 		
 		// Set local variables and messages
+		this.themeColor = config.themeColor;
 		this.isEmployer = (this.projectTarget == 'employer');
 		this.mailTitle = "E-mail";
-		this.themeColor = config.themeColor;
-		this.nav = nav;
 		this.index = 33;
 		this.libelleButton = "Se connecter";
 		
-		//load countrie list
+		//load countries list
 		this.loadListService.loadCountries(this.projectTarget).then((data) => {
 			this.pays = data.data;
 		});
@@ -81,14 +82,11 @@ export class MailPage {
 			text: 'Ok',
 			handler: data => {
 				console.log('Radio data:', data);
-				this.testRadioOpen = false;
-				this.testRadioResult = data;
 				this.index = data;
 			}
 		});
 		
 		this.nav.present(alert).then(() => {
-			this.testRadioOpen = true;
 		});
 	}
 	
@@ -97,19 +95,35 @@ export class MailPage {
 	*/
 	authenticate() {
 		var indPhone = this.index + this.phone;
+		let loading = Loading.create({
+			content: ` 
+			<div>
+			<img src='img/loading.gif' />
+			</div>
+			`,
+			spinner : 'hide'
+		});
+		this.nav.present(loading);
 		//call the service of autentication
 		this.authService.authenticate(this.email, indPhone, this.password1, this.projectTarget)
 		.then(data => {
 			//case of authentication failure : server unavailable or connection probleme 
 			if (!data || data.length == 0 || (data.id == 0 && data.status == "failure")) {
 				console.log(data);
-				this.globalService.showAlertValidation("Serveur non disponible ou problème de connexion.");
+				loading.dismiss();
+				this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");
 				return;
 			}
 			//case of authentication failure : incorrect password 
 			if (data.id == 0 && data.status == "passwordError") {
 				console.log("Password error");
-				this.globalService.showAlertValidation("Votre mot de passe est incorrect");
+				loading.dismiss();
+				if(!this.showPhoneField){
+				this.globalService.showAlertValidation("VitOnJob", "Votre mot de passe est incorrect.");
+					}else{
+					console.log("used phone error");
+					this.globalService.showAlertValidation("VitOnJob", "Ce numéro de téléphone a été déjà utilisé. Veuillez choisir un autre.");
+				}
 				return;
 			}
 			
@@ -123,30 +137,37 @@ export class MailPage {
 			};
 			
 			//load device token to current account
-			var token = this.authService.getObj('deviceToken');
-			console.log(token);
+			var token;
+			this.authService.getObj('deviceToken').then(val => {
+				token = val;
+			});
 			var accountId = data.id;
-			console.log(accountId);
-			
 			if (token) {
 				console.log("insertion du token : " + token);
 				this.authService.insertToken(token, accountId, this.projectTarget);
 			}
 			
+			this.storage.set('connexion', JSON.stringify(connexion));
+			this.storage.set('currentUser', JSON.stringify(data)).then(()=>{
+			this.events.publish('user:login', data);
+			
 			//user is connected, then change the name of connexion btn to deconnection
-			this.authService.setObj('connexion', JSON.stringify(connexion));
-			this.authService.setObj('currentUser', JSON.stringify(data));
 			this.gc.setCnxBtnName("Déconnexion");
+			loading.dismiss();
 			
 			//if user is connected for the first time, redirect him to the page 'civility', else redirect him to the home page
 			var isNewUser = data.newAccount;
 			if (isNewUser) {
-				this.globalService.showAlertValidation("Bienvenue dans votre espace VitOnJob!");
-				this.nav.push(InfoUserPage, {
-				currentEmployer: data});
+				this.globalService.showAlertValidation("VitOnJob", "Bienvenue dans votre espace VitOnJob!");
+				this.nav.push(CivilityPage, {
+				currentUser: data});
 				} else {
-				this.nav.pop(HomePage);
+				this.nav.rootNav.setRoot(HomePage);
+				//this.nav.push(InfoUserPage, {
+				//currentUser: data});
 			}
+			});
+			
 		});
 	}
 	
@@ -156,36 +177,57 @@ export class MailPage {
 	isAuthDisabled() {
 		if (this.showPhoneField == true) {
 			//inscription
-			return (!this.index || !this.phone || !this.password1
-			|| !this.password2 || !this.email) && !this.password2IsValid()
+			return (!this.index || !this.phone || !this.isPhoneNumValid || !this.password1 || this.showPassword1Error() || !this.password2 || this.showPassword2Error() || !this.email || this.showEmailError())
 			} else {
 			//connection
-			return (!this.email || !this.password1)
+			return (!this.index || !this.email || this.showEmailError() || !this.password1 || this.showPassword1Error())
 		}
 	}
 	
 	/**
 		* @description function called on change of the email input to validate it
 	*/
-	watchEmail(e, el) {
-		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-		if (!re.test(this.email)) {
-			let alert = Alert.create({
-				title: 'Email incorrect',
-				buttons: ['OK']
-			});
-			this.nav.present(alert);
-			} else {
-			this.isRegistration(el);
-		}
+	watchEmail(e) {
+		if(this.validationDataService.checkEmail(this.email)){
+				this.isRegistration();
+			}
 	}
 	
 	/**
+		* @description show error msg if phone is not valid
+	*/
+	watchPhone(e) {
+		if (this.phone) {
+			this.isPhoneNumValid = false;
+			if (e.target.value.substring(0,1) == '0') {
+				e.target.value = e.target.value.substring(1, e.target.value.length);
+			}
+			if (e.target.value.includes('.')) {
+				e.target.value = e.target.value.replace('.', '');
+			}
+			if(e.target.value.length > 9){
+				e.target.value = e.target.value.substring(0, 9);
+			}
+			if (e.target.value.length == 9) {
+				this.isPhoneNumValid = true;
+			}
+		}
+	}
+	
+	showPhoneError(){
+		return !this.isPhoneNumValid;
+	}
+	/**
 		* @description function called when the email input is valid to decide if the form is for inscription or authentication
 	*/
-	isRegistration(el) {
+	isRegistration() {
 		//verify if the email exist in the database
 		this.dataProviderService.getUserByMail(this.email, this.projectTarget).then((data) => {
+			if (!data || data.status == "failure") {
+					console.log(data);
+					this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");
+					return;
+				}
 			if (!data || data.data.length == 0) {
 				//el.setFocus();
 				this.showPhoneField = true;
@@ -203,13 +245,13 @@ export class MailPage {
 	/**
 		* @description validate the phone format
 	*/
-	isPhoneValid() {
-		if (this.phone != undefined) {
+	isPhoneValid(tel) {
+		if (this.phone) {
 			var phone_REGEXP = /^0/;
-			var isMatchRegex = phone_REGEXP.test(this.phone);
-			console.log("isMatchRegex = " + isMatchRegex);
-			if (Number(this.phone.length) >= 9 && !isMatchRegex) {
-				console.log('test phone');
+			//check if the phone number start with a zero
+			var isMatchRegex = phone_REGEXP.test(tel);
+			if (Number(tel.length) == 9 && !isMatchRegex) {
+				console.log('phone number is valid');
 				return true;
 			}
 			else
@@ -221,23 +263,34 @@ export class MailPage {
 	/**
 		* @description validate the email format
 	*/
-	validateEmail(e) {
-		//this.validationDataService.checkEmail(e);
+	showEmailError() {
+		if(this.email)
+		return !(this.validationDataService.checkEmail(this.email));
+		else
+		return false
+	}
+	
+	/**
+		* @description show error msg if password is not valid
+	*/
+	showPassword1Error(){
+		if(this.password1)
+		return this.password1.length < 6;
 	}
 	
 	/**
 		* @description check if the password and its confirmation are the same 
 	*/
-	password2IsValid() {
-		return (
-		this.password1 == this.password2
-		)
+	showPassword2Error(){
+		if(this.password2)
+		return this.password2 != this.password1;
 	}
+	
 	
 	/**
 		* @description return to the home page
 	*/
 	goBack() {
-		this.nav.pop(HomePage);
+		this.nav.rootNav.setRoot(HomePage)
 	}
-}	
+}
