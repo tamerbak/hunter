@@ -9,24 +9,21 @@
 	
 	<ion-label stacked>Entrez votre numéro de téléphone</ion-label>
 	<ion-row baseline>
-		<ion-col width-10>
-			<ion-icon name="md-call"></ion-icon>
-		</ion-col>
 		<ion-col width-25>
 			<ion-item>
 				<ion-input type="number" [(ngModel)]="index"></ion-input>
 			</ion-item>
 		</ion-col>
-		<ion-col width-10>
-			<button (click)="doRadioAlert()" class="disable-hover button button-clear button-outline"><ion-icon name="ios-arrow-down"></ion-icon></button>
+		<ion-col width-20>
+			<button (click)="doRadioAlert()" class="button button-clear button-outline"><ion-icon name="ios-arrow-down"></ion-icon></button>
 		</ion-col>
 		<ion-col>
 			<ion-item>
-				<ion-input type="text" [(ngModel)]="phone" (keypress)="checkForString($event)" (keyup)="watchPhone($event, focusable)" maxlength="9"></ion-input>
+				<ion-input type="number" [(ngModel)]="phone" (keyup)="watchPhone($event)" maxlength="9"></ion-input>
 			</ion-item>
 		</ion-col>
 	</ion-row>
-	<div [hidden]="!showPhoneError()" 
+	<div [hidden]="isPhoneNumValid" 
             class="error-box">* Saisissez les 9 chiffres sans le 0</div>
 	
 	<ion-label [hidden]="!showEmailField" stacked>Votre email</ion-label>
