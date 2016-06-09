@@ -56,7 +56,7 @@ export class Hunter {
             if(value){
                 this.currentUser = JSON.parse(value);
                 this.userName = this.currentUser.titre+' '+this.currentUser.prenom+' '+this.currentUser.nom;
-                this.userMail = value.email;
+                this.userMail = this.currentUser.email;
                 this.enableMenu(true);
             }else{
 
@@ -68,7 +68,7 @@ export class Hunter {
                 
                 this.currentUser = JSON.parse(value);
                 this.userName = this.currentUser.titre+' '+this.currentUser.prenom+' '+this.currentUser.nom;
-                this.userMail = value.email;
+                this.userMail = this.currentUser.email;
                 this.enableMenu(true);
             });
         });

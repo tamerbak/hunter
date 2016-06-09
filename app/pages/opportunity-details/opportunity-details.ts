@@ -1,4 +1,4 @@
-import {Page, NavController, NavParams, Storage, LocalStorage} from 'ionic-angular';
+import {NavController, NavParams, Storage, LocalStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {CandidatesPage} from "../candidates/candidates";
 import {isUndefined} from "ionic-angular/util";

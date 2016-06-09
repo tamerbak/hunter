@@ -18,11 +18,12 @@
 
 <ion-menu [content]="menuContent" id="loggedInMenu">
 	<ion-toolbar secondary>
-        <ion-title>
+        <ion-title style="padding: 0 0 0 !important;">
             <ion-item style="background-color: transparent;">
-                <ion-avatar item-left>
+                <!--ion-avatar item-left>
                     <img src="img/jobyer_avatar.png" style="width: 100%;">
-                </ion-avatar>
+                </ion-avatar-->
+                <ion-icon name="contact" item-left light style="font-size: xx-large"></ion-icon>
                 <h2 style="color: white;">{{userName}}</h2>
                 <p style="color: white;">{{userMail}}</p>
             </ion-item>

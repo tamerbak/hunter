@@ -18,7 +18,6 @@ export class OpportunitiesListPage {
 
     constructor(public nav:NavController,
                 opportunityService:OpportunitiesService, gc:GlobalConfigs) {
-        debugger;
         let projectTarget = gc.getProjectTarget();
         // get config of selected target
         let config = Configs.setConfigs(projectTarget);
@@ -30,6 +29,11 @@ export class OpportunitiesListPage {
             let idAccount = user.id;
             this.opportunityService.loadOpportunitiesByAccountId(idAccount).then(ops => {
                 this.opportunities = ops;
+
+                // Sort offers corresponding to their search results :
+                /*this.opportunities.sort((a, b) => {
+                    return b.creationDate - a.creationDate;
+                })*/
             });
         });
     }

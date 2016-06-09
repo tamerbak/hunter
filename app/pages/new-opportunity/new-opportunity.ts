@@ -66,7 +66,7 @@ export class NewOpportunityPage implements OnInit{
             mode: type,
             androidTheme: 5
         }).then(date=> {
-            this.opportunity.closureDate = (date.getDate()) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+            this.opportunity.closureDate = (date.getDate()) + '/' + (parseInt(date.getMonth()) + 1) + '/' + date.getFullYear();
             if (document.getElementById('dynamicItem').children[0])
                 document.getElementById('dynamicItem').children[0].setAttribute('style', 'border-bottom: 2px solid #757575');
             this.style = {
@@ -116,7 +116,8 @@ export class NewOpportunityPage implements OnInit{
 
     saveOpportunity() {
         let date = new Date();
-        this.opportunity.creationDate = (date.getDay() + 1) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        debugger;
+        this.opportunity.creationDate = (date.getDate()) + '/' + (parseInt(date.getMonth()) + 1) + '/' + date.getFullYear();
         this.opportunity.candidatesCount = 0;
         this.storage.get('currentUser').then((value)=> {
             let user = JSON.parse(value);
