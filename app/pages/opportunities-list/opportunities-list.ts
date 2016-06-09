@@ -30,10 +30,12 @@ export class OpportunitiesListPage {
             this.opportunityService.loadOpportunitiesByAccountId(idAccount).then(ops => {
                 this.opportunities = ops;
 
-                // Sort offers corresponding to their search results :
-                /*this.opportunities.sort((a, b) => {
-                    return b.creationDate - a.creationDate;
-                })*/
+                // Sort opportunities corresponding to their creation date :
+                this.opportunities.sort((a, b) => {
+                    let firstDate = new Date(a.creationDate.replace('/','-').replace('/','-')).getTime();
+                    let secondDate = new Date(b.creationDate.replace('/','-').replace('/','-')).getTime();
+                    return secondDate - firstDate;
+                })
             });
         });
     }

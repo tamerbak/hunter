@@ -10,12 +10,26 @@
 
 <ion-content padding class="opportunity-details">
     <h4 style="text-align: center" [style.color]="themeColor">{{opportunity.title}}</h4>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row>
     <ion-list>
+
+        <button fab fab-top fab-center (click)="takePicture()" style="top:45px">
+            <ion-icon name="camera"></ion-icon>
+        </button>
+
+        <img src="{{opportunity.picture}}"/>
+
         <ion-item>
             <ion-label floating>
                 Titre
             </ion-label>
             <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="showDatePicker('date')" id="dynamicItem">
+            <h4 [ngStyle]="style">Date de fin de validité de l’offre</h4>
+            {{opportunity.closureDate}}
         </ion-item>
         <ion-item>
             <ion-label floating>
@@ -30,12 +44,6 @@
             <ion-toggle [(ngModel)]="opportunity.activeOpportunity" ></ion-toggle>
         </ion-item>
         <ion-item>
-            Date de création {{opportunity.creationDate}}
-        </ion-item>
-        <ion-item>
-            <img src="{{opportunity.picture}}" />
-        </ion-item>
-        <ion-item>
             <div id="map" style="width:100%px;height:300px;"></div>
         </ion-item>
 
@@ -43,5 +51,8 @@
     </ion-list>
     <button block primary (click)="saveOpportunityChanges()">
         <ion-icon name="checkmark" ></ion-icon>&nbsp;Enregistrer
+    </button>
+    <button block primary (click)="deleteOpportunity()">
+        <ion-icon name="trash" ></ion-icon>&nbsp;Supprimer
     </button>
 </ion-content>

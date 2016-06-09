@@ -71,6 +71,19 @@ export class OpportunitiesService {
         });
     }
 
+    deleteOpportunityById(oid) {
+        let sql = "UPDATE user_opportunite SET dirty='Y' WHERE pk_user_opportunite = '"+oid+"';";
+        return new Promise(resolve => {
+            let headers = new Headers();
+            headers.append("Content-Type", 'text/plain');
+            this.http.post(Configs.sqlURL, sql, {headers:headers})
+                .map(res => res.json())
+                .subscribe(date => {
+                    resolve('Update done');
+                });
+        });
+    }
+
     loadOpportunitiesById(oid){
         let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, ' +
             'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
@@ -108,15 +121,16 @@ export class OpportunitiesService {
     }
 
     loadOpportunitiesByAccountId(idAccount){
-        let sql = 'SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, ' +
-            'user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, ' +
-            'count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures ' +
-            'FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite ' +
-            'WHERE user_opportunite.fk_user_account='+idAccount+' ' +
-            'group by user_opportunite.fk_user_account, user_opportunite.fk_user_entreprise, user_opportunite.fk_user_offre_entreprise, ' +
-            'user_opportunite.longitude, user_opportunite.latitude, user_opportunite.scan_encode, user_opportunite.est_active, ' +
-            'user_opportunite.fin_de_candidature, user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, ' +
-            'user_opportunite.pk_user_opportunite';
+        let sql = "SELECT user_opportunite.scan_encode, user_opportunite.est_active, user_opportunite.fin_de_candidature, user_opportunite.latitude, user_opportunite.longitude, " +
+            "user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, user_opportunite.pk_user_opportunite, " +
+            "count(user_candidature_opportunite.pk_user_candidature_opportunite) as count_candidatures " +
+            "FROM public.user_opportunite LEFT JOIN public.user_candidature_opportunite ON user_candidature_opportunite.fk_user_opportunite = user_opportunite.pk_user_opportunite " +
+            "WHERE user_opportunite.dirty = 'N' AND user_opportunite.fk_user_account="+idAccount+" " +
+            "group by user_opportunite.fk_user_account, user_opportunite.fk_user_entreprise, user_opportunite.fk_user_offre_entreprise, " +
+            "user_opportunite.longitude, user_opportunite.latitude, user_opportunite.scan_encode, user_opportunite.est_active, " +
+            "user_opportunite.fin_de_candidature, user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, " +
+            "user_opportunite.pk_user_opportunite";
+
         console.log('GET OFFERS SQL : '+sql);
         return new Promise(resolve => {
             let headers = new Headers();
@@ -329,7 +343,7 @@ export class OpportunitiesService {
 
     seeInvitation(invitation){
         let date = new Date();
-        let sdate = (date.getDay()+1)+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
+        let sdate = date.getDate()+'/'+(parseInt(date.getMonth())+1)+'/'+date.getFullYear();
         let sql = "update user_candidature_opportunite set vue = 'OUI', updated='"+this.sqlfyDate(sdate)+"' where pk_user_candidature_opportunite="+invitation.id;
 
         console.log('UPDATE OPPORTUNITY SQL : '+sql);
@@ -353,7 +367,7 @@ export class OpportunitiesService {
         sdate = sdate.split(' ')[0];
         let d = new Date(sdate);
 
-        return d.getDay()+'/'+d.getMonth()+'/'+d.getFullYear();
+        return d.getDate()+'/'+(parseInt(d.getMonth())+1)+'/'+d.getFullYear();
     }
 
     sqlfyDate(date){

@@ -7,12 +7,19 @@
 
 <ion-content padding class="propositions">
     <h4 style="text-align: center" [style.color]="themeColor">Mes offres reçues</h4>
-    <ion-list>
+    <ion-row>
+        <ion-col text-center>
+            <ion-spinner style="font-size: xx-large" [hidden]="(invitations.length > 0)"></ion-spinner>
+        </ion-col>
+    </ion-row>
+    <ion-list text-wrap>
         <ion-list>
-            <button ion-item *ngFor="let i of invitations" (click)="expandOpportunity(i)">
-                <ion-icon name="{{i.seen?'eye':'eye-off'}}"></ion-icon>&nbsp;{{i.opportunity.title}}
-                <p>{{i.opportunity.creationDate}}</p>
-            </button>
+            <ion-item *ngFor="let i of invitations" (click)="expandOpportunity(i)">
+                <ion-icon name="{{i.seen?'eye':'eye-off'}}" item-right></ion-icon>
+                <h3>{{i.opportunity.title}}</h3>
+                <p>Créée le {{i.opportunity.creationDate}}</p>
+            </ion-item>
+
         </ion-list>
     </ion-list>
 </ion-content>

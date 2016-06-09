@@ -1,20 +1,23 @@
-import {NavController, NavParams, Storage, LocalStorage} from 'ionic-angular';
+import {NavController, NavParams, Storage, LocalStorage, Alert} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {CandidatesPage} from "../candidates/candidates";
 import {isUndefined} from "ionic-angular/util";
 import {AdditionalDetailsPage} from "../additional-details/additional-details";
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
+import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
+import {DatePicker} from "ionic-native/dist/index";
 
 @Component({
     templateUrl: 'build/pages/opportunity-details/opportunity-details.html',
     providers: [OpportunitiesService]
 })
-export class OpportunityDetailsPage {
+export class OpportunityDetailsPage implements OnInit{
     opportunity : any;
     service : OpportunitiesService;
     map: any;
     save : boolean = true;
     contact : boolean = false;
+    style:any;
 
     storage : any;
 
@@ -26,6 +29,45 @@ export class OpportunityDetailsPage {
         this.opportunity = navParams.data.opportunity;
         this.service.loadOpportunitiesById(this.opportunity.id).then(opp=>{
             this.loadMap();
+        });
+    }
+
+    ngOnInit() {
+        if (this.opportunity.closureDate.length == 0) {
+            this.style = {
+                color: '#999',
+                'font-size': '1.6rem',
+                'margin-top': '2em'
+            };
+            if (document.getElementById('dynamicItem').children[0])
+                document.getElementById('dynamicItem').children[0].setAttribute('style', '');
+        } else {
+            if (document.getElementById('dynamicItem').children[0])
+                document.getElementById('dynamicItem').children[0].setAttribute('style', 'border-bottom: 2px solid #757575');
+            this.style = {
+                color: '#999',
+                'font-size': '1.3rem',
+                'margin-top': '0',
+                'margin-bottom': '1.5rem'
+            }
+        }
+    }
+
+    showDatePicker(type:string) {
+        DatePicker.show({
+            date: new Date(),
+            mode: type,
+            androidTheme: 5
+        }).then(date=> {
+            this.opportunity.closureDate = (date.getDate()) + '/' + (parseInt(date.getMonth()) + 1) + '/' + date.getFullYear();
+            if (document.getElementById('dynamicItem').children[0])
+                document.getElementById('dynamicItem').children[0].setAttribute('style', 'border-bottom: 2px solid #757575');
+            this.style = {
+                color: '#999',
+                'font-size': '1.3rem',
+                'margin-top': '0',
+                'margin-bottom': '1.5rem'
+            }
         });
     }
 
@@ -69,5 +111,31 @@ export class OpportunityDetailsPage {
         this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(result =>{
             this.nav.push(AdditionalDetailsPage,{opportunity : this.opportunity});
         });
+    }
+
+    deleteOpportunity () {
+        let confirm = Alert.create({
+            title: "Suppression",
+            message: "Êtes-vous sûr de vouloir supprimer cette offre?",
+            buttons: [
+                {
+                    text: 'Non',
+                    handler: () => {
+                        console.log('Disagree clicked');
+                    }
+                },
+                {
+                    text: 'Oui',
+                    handler: () => {
+                        console.log('Agree clicked');
+                        this.service.deleteOpportunityById(this.opportunity.id).then( ()=>{
+                            this.nav.setRoot(OpportunitiesListPage);
+                        });
+                    }
+                }
+            ]
+        });
+
+        this.nav.present(confirm);
     }
 }

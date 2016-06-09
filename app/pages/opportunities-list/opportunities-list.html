@@ -7,11 +7,19 @@
 
 <ion-content padding class="opportunities-list">
     <h4 style="text-align: center" [style.color]="themeColor">Mes offres publiées</h4>
-    <ion-list>
-        <button ion-item *ngFor="let o of opportunities" (click)="expandOpportunity(o)">
-            <ion-icon name="play"></ion-icon>&nbsp;
-            {{o.title}}
+    <ion-row>
+        <ion-col text-center>
+            <ion-spinner style="font-size: xx-large" [hidden]="(opportunities.length > 0)"></ion-spinner>
+        </ion-col>
+    </ion-row>
+    <ion-list text-wrap>
+        <ion-item *ngFor="let o of opportunities" (click)="expandOpportunity(o)">
+            <!--ion-avatar item-left>
+                <img src="{{o.picture}}">
+            </ion-avatar-->
+            <h3>{{o.title}}</h3>
+            <p>Créée le {{o.creationDate}}</p>
             <ion-badge item-right>{{o.candidatesCount}}</ion-badge>
-        </button>
+        </ion-item>
     </ion-list>
 </ion-content>
