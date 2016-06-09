@@ -14,9 +14,11 @@
             <ion-label floating>Titre</ion-label>
             <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
         </ion-item>
-        <ion-item>
-            <ion-label floating>Date de fin de validité de l’offre</ion-label>
-            <ion-input [(ngModel)]="opportunity.closureDate" type="text" (focus)="showDatePicker('date')" ></ion-input>
+        <ion-item (click)="showDatePicker('date')" id="dynamicItem">
+            <!--ion-button (click)="showDatePicker('date')">Date de fin de validité de l’offre {{opportunity.closureDate}}</ion-button-->
+            <h4 [ngStyle]="style">Date de fin de validité de l’offre</h4>
+            {{opportunity.closureDate}}
+            <!--ion-input [(ngModel)]="opportunity.closureDate" type="text" (focus)="showDatePicker('date')" ></ion-input-->
         </ion-item>
         <ion-item>
             <ion-label floating>Description</ion-label>
