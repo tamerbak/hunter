@@ -7,7 +7,7 @@ import {DataProviderService} from "../../providers/data-provider.service";
 import {GlobalService} from "../../providers/global.service";
 import {ValidationDataService} from "../../providers/validation-data.service";
 import {HomePage} from "../home/home";
-import {InfoUserPage} from "../info-user/info-user";
+import {CivilityPage} from "../civility/civility";
 import {Storage, SqlStorage} from 'ionic-angular';
 import {Component} from '@angular/core';
 
@@ -163,7 +163,7 @@ export class PhonePage {
 				var isNewUser = data.newAccount;
 				if (isNewUser) {
 					this.globalService.showAlertValidation("VitOnJob", "Bienvenue dans votre espace VitOnJob!");
-					this.nav.push(InfoUserPage, {
+					this.nav.push(CivilityPage, {
 					currentUser: data});
 					} else {
 					this.nav.rootNav.setRoot(HomePage);

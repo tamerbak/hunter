@@ -94,32 +94,20 @@ export class AuthenticationService {
 		* @description update jobyer information
 		* @param title, lastname, firstname, numSS, cni, nationalityId, roleId, birthdate, birthplace
 	*/
-	updateJobyerCivility(title, lastname, firstname, numSS, cni, nationalityId, roleId, birthdate, birthplace){
+	updateJobyerCivility(title, lastname, firstname,roleId){
 		var sql = "";
 		//building the sql request 
-		if (nationalityId){
 			sql = "update user_jobyer set  " +
 			"titre='" + title + "', " +
 			"nom='" + lastname + "', " +
-			"prenom='" + firstname + "', " +
-			"numero_securite_sociale='" + numSS + "', " +
-			"cni='" + cni + "', " +
-			"date_de_naissance ='"+ birthdate +"'," +
-			"lieu_de_naissance ='" + birthplace + "', " +
-			"fk_user_nationalite ='" + nationalityId + "' " +
+			"prenom='" + firstname + "' " +
+			//"numero_securite_sociale='" + numSS + "', " +
+			//"cni='" + cni + "', " +
+			//"date_de_naissance ='"+ birthdate +"'," +
+			//"lieu_de_naissance ='" + birthplace + "', " +
+			//"fk_user_nationalite ='" + nationalityId + "' " +
 			"where pk_user_jobyer ='" + roleId + "';";
-			} else {
-			sql = "update user_jobyer set  " +
-			"titre='" + title + "', " +
-			"nom='" + lastname + "', " +
-			"prenom='" + firstname + "', " +
-			"numero_securite_sociale='" + numSS + "', " +
-			"cni='" + cni + "', " +
-			"date_de_naissance ='"+ birthdate +"'," +
-			"lieu_de_naissance ='" + birthplace + "' " +
-			"where pk_user_jobyer ='" + roleId + "';";
-		}
-		
+
 		return new Promise(resolve => {
 			let headers = new Headers();
 			headers.append("Content-Type", 'text/plain');
@@ -137,14 +125,14 @@ export class AuthenticationService {
 		* @description update employer and jobyer civility information
 		* @param title, lastname, firstname, companyname, siret, ape, roleId, entrepriseId
 	*/
-	updateEmployerCivility(title, lastname, firstname, companyname, siret, ape, roleId, entrepriseId){
+	updateEmployerCivility(title, lastname, firstname, roleId, entrepriseId){
 		var sql = "update user_employeur set ";
 		sql = sql + " titre='" + title + "', ";
 		sql = sql + " nom='" + lastname + "', prenom='" + firstname + "' where pk_user_employeur=" + roleId + ";";
-		sql = sql + " update user_entreprise set nom_ou_raison_sociale='" + companyname + "', ";
-		sql = sql + "siret='" + siret + "', ";
+		//sql = sql + " update user_entreprise set nom_ou_raison_sociale='" + companyname + "', ";
+		//sql = sql + "siret='" + siret + "', ";
 		//sql = sql + "urssaf='" + numUrssaf + "', ";
-		sql = sql + "ape_ou_naf='" + ape + "' where  pk_user_entreprise=" + entrepriseId;
+		//sql = sql + "ape_ou_naf='" + ape + "' where  pk_user_entreprise=" + entrepriseId;
 		
 		return new Promise(resolve => {
 			let headers = new Headers();
