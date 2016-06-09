@@ -1,4 +1,4 @@
-import {NavController, NavParams, Tabs, Loading} from 'ionic-angular';
+import {NavController, NavParams, Tabs, Loading, Events} from 'ionic-angular';
 import {LoadListService} from "../../providers/load-list.service";
 import {Configs} from '../../configurations/configs';
 import {GlobalConfigs} from '../../configurations/globalConfigs';
@@ -29,7 +29,7 @@ export class CivilityPage {
 		* @description While constructing the view, we load the list of nationalities, and get the currentUser passed as parameter from the connection page, and initiate the form with the already logged user
 	*/
 	constructor(public nav: NavController, private authService: AuthenticationService,
-	public gc: GlobalConfigs, private loadListService: LoadListService, private sqlStorageService: SqlStorageService, params: NavParams, private globalService: GlobalService) {
+	public gc: GlobalConfigs, private loadListService: LoadListService, private sqlStorageService: SqlStorageService, params: NavParams, private globalService: GlobalService, public events: Events) {
 		// Set global configs
 		// Get target to determine configs
 		this.projectTarget = gc.getProjectTarget();
@@ -96,6 +96,7 @@ export class CivilityPage {
 					this.currentUser.prenom = this.firstname;
 					// PUT IN SESSION
 					this.storage.set('currentUser', JSON.stringify(this.currentUser));
+					this.events.publish('user:login', this.currentUser);
 					loading.dismiss();
 					//redirecting to personal address tab
 					this.nav.rootNav.setRoot(HomePage);
@@ -120,6 +121,7 @@ export class CivilityPage {
 					this.currentUser.prenom = this.firstname;
 					// PUT IN SESSION
 					this.storage.set('currentUser', JSON.stringify(this.currentUser));
+					this.events.publish('user:login', this.currentUser);
 					loading.dismiss();
 					//redirecting to personal address tab
 					this.nav.rootNav.setRoot(HomePage);
