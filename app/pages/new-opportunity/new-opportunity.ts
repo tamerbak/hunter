@@ -141,22 +141,16 @@ export class NewOpportunityPage implements OnInit{
             buttons: [{
                 text: 'Oui',
                 handler: ()=> {
-                    let navTransition = alert.dismiss();
                     this.lstore.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(data => {
-                        this.nav.push(AdditionalDetailsPage);
-                        navTransition.then(() => {
-                            this.nav.pop();
-                        });
+                        alert.dismiss().then(() => {
+							this.nav.push(AdditionalDetailsPage);
+						})
                     });
-
-                    return false;
                 }
             }, {
                 text: 'Non',
-                role: 'cancel',
                 handler: ()=> {
                     this.nav.setRoot(OpportunitiesListPage);
-                    return true;
                 }
             }]
         });
