@@ -116,7 +116,7 @@ export class OpportunityDetailsPage implements OnInit{
     deleteOpportunity () {
         let confirm = Alert.create({
             title: "Suppression",
-            message: "Êtes-vous sûr de vouloir supprimer cette offre?",
+            message: "Êtes-vous sûr de vouloir supprimer cette opportunité?",
             buttons: [
                 {
                     text: 'Non',

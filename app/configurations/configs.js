@@ -35,7 +35,7 @@ var JobyerConfigs = (function () {
         // User employer image
         this.userImageURL = 'img/jobyer.png';
         this.bgMenuURL = 'img/bg_jobyer.png';
-        this.highlightSentence = "Des milliers d'offres à proximité!";
+        this.highlightSentence = "Des milliers d'opportunités à proximité!";
         this.calloutURL = 'http://ns389914.ovh.net/vitonjobv1/api/business';
         this.sqlURL = 'http://ns389914.ovh.net/vitonjobv1/api/sql';
         this.calendarTheme = 5;

@@ -33,14 +33,14 @@ export class Hunter {
         this.storage = new Storage(SqlStorage);
 
         this.loggedOutPages = [
-            {title : "Publier une Offre", component : HomePage, icon:"md-share", isBadged:false},
+            {title : "Publier une opportunité", component : HomePage, icon:"md-share", isBadged:false},
             {title : "Se connecter / S'inscrire", component : LoginsPage, icon:"log-in", isBadged:false}
         ];
 
         this.loggedInPages = [
-            {title : "Publier une Offre", component : HomePage, icon:"md-share", isBadged:false},
-            {title : "Mes offres publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
-            {title : "Mes offres reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
+            {title : "Publier une opportunité", component : HomePage, icon:"md-share", isBadged:false},
+            {title : "Mes opportunités publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
+            {title : "Mes opportunités reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
             {title : "Se déconnecter", component : HomePage, icon:"log-out", isBadged:false}
         ];
 

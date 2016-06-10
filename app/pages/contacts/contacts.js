@@ -40,7 +40,7 @@ var ContactsPage = (function () {
                             intent: ''
                         }
                     };
-                    var message = "Vous êtes invité à créer un compte sur href://www.vitonjob.com afin d'accéder à l'offre '" + _this.opportunity.title + "'";
+                    var message = "Vous êtes invité à créer un compte sur href://www.vitonjob.com afin d'accéder à l'opportunité '" + _this.opportunity.title + "'";
                     console.log(message);
                     index_1.SMS.send(candidate.tel, message, options);
                 }

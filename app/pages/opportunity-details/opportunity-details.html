@@ -28,7 +28,7 @@
         </ion-item>
 
         <ion-item (click)="showDatePicker('date')" id="dynamicItem">
-            <h4 [ngStyle]="style">Date de fin de validité de l’offre</h4>
+            <h4 [ngStyle]="style">Date de fin de validité de l’opportunité</h4>
             {{opportunity.closureDate}}
         </ion-item>
         <ion-item>
@@ -43,6 +43,7 @@
             </ion-label>
             <ion-toggle [(ngModel)]="opportunity.activeOpportunity" ></ion-toggle>
         </ion-item>
+		<div class="info-box"><ion-icon name="information-circle"></ion-icon> Décochez si l’opportunité n’est plus d’actualité, cela informera vos éventuels contacts invités</div>
         <ion-item>
             <div id="map" style="width:100%px;height:300px;"></div>
         </ion-item>

@@ -7,7 +7,7 @@
 <ion-content padding class="entreprise">
     <ion-card *ngIf="noCompany">
         <ion-card-content>
-            Aucune entreprise n'est associé à cette offre
+            Aucune entreprise n'est associée à cette opportunité
         </ion-card-content>
     </ion-card>
     <ion-card *ngIf="!noCompany">
@@ -19,13 +19,23 @@
             </ul>
         </ion-card-content>
     </ion-card>
+	<button fab fab-center (click)="createCompany()">
+        <ion-icon name="add"></ion-icon>
+    </button>
+	<ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row>
+	<ion-row>&nbsp;</ion-row>
     <ion-grid>
         <ion-row>
             <ion-col width-90>
-                <ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
+                <ion-item text-wrap>
+					<ion-label stacked>Retrouvez un employeur déjà créé</ion-label>
+					<ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
+				</ion-item>
             </ion-col>
             <ion-col width-10>
-                <button primary="" (click)="search()">
+                <ion-row>&nbsp;</ion-row>
+				<button primary="" (click)="search()">
                     <ion-icon name="search"></ion-icon>
                 </button>
             </ion-col>
@@ -39,7 +49,4 @@
             </p>
         </button>
     </ion-list>
-    <button fab fab-bottom fab-center (click)="createCompany()">
-        <ion-icon name="add"></ion-icon>
-    </button>
 </ion-content>

@@ -9,19 +9,19 @@
 
     <img src="{{opportunity.picture}}" />
     <ion-row>&nbsp;</ion-row>
-    <ion-list>
+    <ion-list text-wrap>
         <ion-item>
-            <ion-label floating>Titre</ion-label>
+            <ion-label floating>Titre  (ex : Hôtesse d’accueil)</ion-label>
             <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
         </ion-item>
         <ion-item (click)="showDatePicker('date')" id="dynamicItem">
             <!--ion-button (click)="showDatePicker('date')">Date de fin de validité de l’offre {{opportunity.closureDate}}</ion-button-->
-            <h4 [ngStyle]="style">Date de fin de validité de l’offre</h4>
+            <h4 [ngStyle]="style">Date de fin de validité de l’opportunité</h4>
             {{opportunity.closureDate}}
             <!--ion-input [(ngModel)]="opportunity.closureDate" type="text" (focus)="showDatePicker('date')" ></ion-input-->
         </ion-item>
         <ion-item>
-            <ion-label floating>Description</ion-label>
+            <ion-label floating>Description: indiquez les informations complémentaires dont vous disposez sur le job</ion-label>
             <ion-textarea [(ngModel)]="opportunity.description"></ion-textarea>
         </ion-item>
     </ion-list>

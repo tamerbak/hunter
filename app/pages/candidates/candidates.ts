@@ -53,13 +53,13 @@ export class CandidatesPage {
                             intent: ''
                         }
                     };
-                    let message = "Vous êtes invité à créer un compte sur href://www.vitonjob.com afin d'accéder à l'offre '"+this.opportunity.title+"'";
+                    let message = "Vous êtes invité à créer un compte sur href://www.vitonjob.com afin d'accéder à l'opportunité '"+this.opportunity.title+"'";
                     console.log(message);
                     SMS.send(candidate.tel, message, options);
                 }
                 let alert = Alert.create({
                     title: 'Invitation envoyée',
-                    subTitle: 'Une invitation a été adressé à votre contact pour considérer cette offre',
+                    subTitle: 'Une invitation a été adressé à votre contact pour considérer cette opportunité',
                     buttons: ['OK']
                 });
                 this.nav.present(alert);

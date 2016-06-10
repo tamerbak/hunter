@@ -55,7 +55,7 @@ export class ModalNewEntreprisePage {
                     intent: ''
                 }
             };
-            let message = "Vous êtes invité à créer un compte sur www.vitonjob.com. Vous pouvez utiliser votre numéro de téléphone : "+this.company.tel+" et votre mot de passe temporaire : Hgtze";
+            let message = " Pour recruter plus rapidement la personne dont vous avez besoin, je vous invite à créer votre compte sur www.vitonjob.com. Vous pouvez utiliser votre numéro de téléphone : "+this.company.tel+" et votre mot de passe temporaire : Hgtze";
             console.log(message);
             SMS.send(this.company.tel, message, options);
             this.viewCtrl.dismiss(this.company);

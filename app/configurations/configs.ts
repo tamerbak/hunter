@@ -47,7 +47,7 @@ class JobyerConfigs implements AbstractConfigs {
     // User employer image
     userImageURL = 'img/jobyer.png';
     bgMenuURL: string = 'img/bg_jobyer.png';
-    highlightSentence : string = "Des milliers d'offres à proximité!";
+    highlightSentence : string = "Des milliers d'opportunités à proximité!";
     calloutURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/business';
     sqlURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/sql';
     calendarTheme: number = 5;
