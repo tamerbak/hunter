@@ -304,11 +304,11 @@ export class OpportunitiesService {
         });
     }
 
-    addManuelCandidate(contact, opportunity){
+    addManuelCandidate(indexTel, contact, opportunity){
         let arg = {
             'class' : 'com.vitonjob.hunter.PhoneContact',
             name : contact.firstName+' '+contact.lastName,
-            tel : contact.tel,
+            tel : "+" + indexTel + contact.tel,
             email : contact.email,
             oppId : opportunity.id
         };
