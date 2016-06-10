@@ -76,12 +76,16 @@ export class ModalManualContactPage {
 			if (e.target.value.length == 9) {
 				this.isPhoneNumValid = true;
 			}
+		}else{
+			this.isPhoneNumValid = true;
 		}
 	}
 	
 	checkEmail(e){
 		if(e.target.value)
 		this.isEmailValid = (this.validationDataService.checkEmail(e.target.value));
+		else
+		this.isEmailValid = true;
 	}
 	
 	/**
@@ -108,5 +112,9 @@ export class ModalManualContactPage {
 			}
 		});
 		this.nav.present(alert);
+	}
+	
+	isBtnDisabled() {
+		return ((!this.isEmailValid && this.contact.email) || (!this.isPhoneNumValid && this.contact.tel))
 	}
 }
