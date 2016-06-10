@@ -9,7 +9,12 @@
     <h4 style="text-align: center" [style.color]="themeColor">Mes opportunités reçues</h4>
     <ion-row>
         <ion-col text-center>
-            <ion-spinner style="font-size: xx-large" [hidden]="(invitations.length > 0)"></ion-spinner>
+            <ion-spinner style="font-size: xx-large" [hidden]="(invitations.length >= 0)"></ion-spinner>
+			<ion-card [hidden]="invitations.length != 0">
+			<ion-card-content>
+				Vous n'avez reçu aucune invitation.
+			</ion-card-content>
+    </ion-card>
         </ion-col>
     </ion-row>
     <ion-list text-wrap>
