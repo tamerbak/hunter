@@ -5,12 +5,12 @@
 </ion-navbar>
 
 <ion-content padding class="entreprise">
-    <ion-card *ngIf="noCompany">
+    <ion-card [hidden]="!noCompany">
         <ion-card-content>
             Aucune entreprise n'est associée à cette opportunité
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="!noCompany">
+    <ion-card [hidden]="noCompany">
         <ion-card-content>
             <h2>{{opportunity.account.fullName}}</h2>
             <ul>

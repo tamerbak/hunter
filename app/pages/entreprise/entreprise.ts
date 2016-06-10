@@ -67,6 +67,7 @@ export class EntreprisePage {
             debugger;
             this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity));
         });
+		this.noCompany = false;
     }
 
     createCompany(){
