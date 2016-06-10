@@ -105,9 +105,10 @@ export class EmployersService {
         });
     }
 
-    saveNewAccount(account){
-        let sql = "insert into user_account (email, mot_de_passe, telephone, role, est_employeur) values " +
-            "('"+account.email+"', 'Hgtze', '"+account.tel+"', 'employeur', 'OUI') returning pk_user_account";
+    saveNewAccount(indexTel, account){
+        let tel = "+" + indexTel + account.tel; 
+		let sql = "insert into user_account (email, mot_de_passe, telephone, role, est_employeur) values " +
+            "('"+account.email+"', 'Hgtze', '"+tel+"', 'employeur', 'OUI') returning pk_user_account";
         console.log(sql);
         return new Promise(resolve => {
             let headers = new Headers();
