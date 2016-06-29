@@ -18,7 +18,7 @@ export class LoginsPage {
   phoneTabTitle : string;
   mailTabTitle: string;
 
-  constructor(public nav: NavController,
+  constructor(nav: NavController,
               navParams: NavParams) {
     // set the root pages for each tab
     this.phoneRoot = PhonePage;

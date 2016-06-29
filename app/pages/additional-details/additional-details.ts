@@ -10,6 +10,10 @@ import {Component} from "@angular/core";
 })
 export class AdditionalDetailsPage {
 
+  tab1Root: any;
+  tab2Root: any;
+  tab3Root: any;
+
   constructor(public nav: NavController) {
     // set the root pages for each tab
     this.tab1Root = EntreprisePage;

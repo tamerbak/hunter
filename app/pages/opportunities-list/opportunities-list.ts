@@ -15,6 +15,7 @@ export class OpportunitiesListPage {
     opportunities:any = [];
     opportunityService:any;
     storage:any;
+    themeColor:string;
 
     constructor(public nav:NavController,
                 opportunityService:OpportunitiesService, gc:GlobalConfigs) {

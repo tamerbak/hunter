@@ -58,7 +58,7 @@ export class PhonePage {
 		this.libelleButton = "Se connecter";
 		
 		//load countries list
-		this.loadListService.loadCountries(this.projectTarget).then((data) => {
+		this.loadListService.loadCountries().then((data:{data:any}) => {
 			this.pays = data.data;
 		});
 	}
@@ -109,7 +109,7 @@ export class PhonePage {
 		
 		//call the service of autentication
 		this.authService.authenticate(this.email, indPhone, this.password1, this.projectTarget)
-		.then(data => {
+		.then((data:{length:number, status:string,id:number, jobyerId:number, employerId:number,newAccount:boolean}) => {
 			console.log(data);
 			//case of authentication failure : server unavailable or connection probleme 
 			if (!data || data.length == 0 || (data.id == 0 && data.status == "failure")) {
@@ -232,7 +232,7 @@ export class PhonePage {
 		if (this.isPhoneValid(phone)) {
 			//On teste si le tél existe dans la base
 			var tel = "+" + this.index + phone;
-			this.dataProviderService.getUserByPhone(tel, this.projectTarget).then((data) => {
+			this.dataProviderService.getUserByPhone(tel, this.projectTarget).then((data: {status:string,data:{length:number}}) => {
 				if (!data || data.status == "failure") {
 					console.log(data);
 					this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");

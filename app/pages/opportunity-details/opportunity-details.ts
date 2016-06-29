@@ -7,6 +7,7 @@ import {Component, OnInit} from "@angular/core";
 import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
 import {DatePicker} from "ionic-native/dist/index";
 
+declare var google;
 @Component({
     templateUrl: 'build/pages/opportunity-details/opportunity-details.html',
     providers: [OpportunitiesService]
@@ -59,7 +60,7 @@ export class OpportunityDetailsPage implements OnInit{
             mode: type,
             androidTheme: 5
         }).then(date=> {
-            this.opportunity.closureDate = (date.getDate()) + '/' + (parseInt(date.getMonth()) + 1) + '/' + date.getFullYear();
+            this.opportunity.closureDate = (date.getDate()) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
             if (document.getElementById('dynamicItem').children[0])
                 document.getElementById('dynamicItem').children[0].setAttribute('style', 'border-bottom: 2px solid #757575');
             this.style = {

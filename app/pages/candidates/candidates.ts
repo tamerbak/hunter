@@ -30,9 +30,9 @@ export class CandidatesPage {
         this.notationService = notationService;
         this.opportunity = navParams.data.opportunity;
         this.opportunitiesService = opportunitiesService;
-        this.opportunitiesService.loadOpportunityCandidates(this.opportunity).then((data)=>{
+        this.opportunitiesService.loadOpportunityCandidates(this.opportunity).then((data:{length:number})=>{
             this.voidCandidates = data.length == 0;
-            this.candidates = data;
+            this.candidates = <any> data;
         });
         this.sqlStore.get('currentUser').then(data =>{
             this.account = JSON.parse(data);

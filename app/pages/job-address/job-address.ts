@@ -13,6 +13,7 @@ import {ElementRef, Renderer, Component} from '@angular/core';
 	* @description update job address for employers and jobyers
 	* @module Authentication
 */
+	declare var google;
 @Component({
 	directives: [GooglePlaces],
 	templateUrl: 'build/pages/job-address/job-address.html',
@@ -22,6 +23,14 @@ export class JobAddressPage {
 	searchData : string;
 	geolocAddress;
 	geolocResult;
+	projectTarget: string;
+	themeColor: string;
+	isEmployer: boolean;
+	tabs: any;
+	storage: any;
+	params: any;
+	currentUser: any;
+	selectedPlace: any;
 	
 	/**
 		* @description While constructing the view, we get the currentEmployer passed as parameter from the connection page
@@ -224,7 +233,7 @@ export class JobAddressPage {
 				var eid = "" + entreprise.id + "";
 				// update job address
 				this.authService.updateUserJobAddress(eid, address, this.geolocResult)
-				.then((data) => {
+				.then((data:{status:string, error:string}) => {
 					if (!data || data.status == "failure") {
 						console.log(data.error);
 						loading.dismiss();
@@ -244,7 +253,7 @@ export class JobAddressPage {
 				var roleId = "" + this.currentUser.jobyer.id + "";
 				// update job address
 				this.authService.updateUserJobAddress(roleId, address, this.geolocResult)
-				.then((data) => {
+				.then((data: {status:string,error:string}) => {
 					if (!data || data.status == "failure") {
 						console.log(data.error);
 						loading.dismiss();

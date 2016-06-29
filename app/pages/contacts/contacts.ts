@@ -30,9 +30,9 @@ export class ContactsPage {
         this.opportunitiesService = opportunitiesService;
         this.storage.get('OPPORTUNITY').then(opp => {
             this.opportunity = JSON.parse(opp);
-            this.opportunitiesService.loadOpportunityCandidates(this.opportunity).then((data)=>{
+            this.opportunitiesService.loadOpportunityCandidates(this.opportunity).then((data: {length:number})=>{
                 this.voidCandidates = data.length == 0;
-                this.candidates = data;
+                this.candidates = <any> data;
             });
         });
         this.sqlStore.get('currentUser').then(data =>{

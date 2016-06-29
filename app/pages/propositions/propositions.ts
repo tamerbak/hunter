@@ -14,6 +14,7 @@ export class PropositionsPage {
     invitations : any = [];
     service : OpportunitiesService;
     storage : any;
+    themeColor: string;
     constructor(public nav: NavController,
                 service : OpportunitiesService, gc:GlobalConfigs) {
         let projectTarget = gc.getProjectTarget();
@@ -33,7 +34,7 @@ export class PropositionsPage {
 
     expandOpportunity(invitation){
         invitation.seen = true;
-        this.service.seeInvitation(invitation).then(invitation => {
+        this.service.seeInvitation(invitation).then((invitation: {opportunity: any}) => {
             this.nav.push(OpportunityContactPage, {opp : invitation.opportunity});
         });
     }

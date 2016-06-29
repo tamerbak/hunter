@@ -57,7 +57,7 @@ export class MailPage {
 		this.libelleButton = "Se connecter";
 		
 		//load countries list
-		this.loadListService.loadCountries(this.projectTarget).then((data) => {
+		this.loadListService.loadCountries().then((data: {data:any}) => {
 			this.pays = data.data;
 		});
 	}
@@ -106,7 +106,7 @@ export class MailPage {
 		this.nav.present(loading);
 		//call the service of autentication
 		this.authService.authenticate(this.email, indPhone, this.password1, this.projectTarget)
-		.then(data => {
+		.then((data: {length:number, id: number, status: string, jobyerId: number, employerId: number, newAccount:boolean }) => {
 			//case of authentication failure : server unavailable or connection probleme 
 			if (!data || data.length == 0 || (data.id == 0 && data.status == "failure")) {
 				console.log(data);
@@ -222,7 +222,7 @@ export class MailPage {
 	*/
 	isRegistration() {
 		//verify if the email exist in the database
-		this.dataProviderService.getUserByMail(this.email, this.projectTarget).then((data) => {
+		this.dataProviderService.getUserByMail(this.email, this.projectTarget).then((data: {status:string, data:{length:number}}) => {
 			if (!data || data.status == "failure") {
 					console.log(data);
 					this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");

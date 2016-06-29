@@ -24,6 +24,11 @@ export class CivilityPage {
 	firstname: string;
 	currentUser;
 	titlePage: string;
+	projectTarget: string;
+	storage: any;
+	themeColor: any;
+	isEmployer:boolean;
+	params: any;
 	
 	/**
 		* @description While constructing the view, we load the list of nationalities, and get the currentUser passed as parameter from the connection page, and initiate the form with the already logged user
@@ -82,7 +87,7 @@ export class CivilityPage {
 			var entrepriseId = this.currentUser.employer.entreprises[0].id;
 			// update employer
 			this.authService.updateEmployerCivility(this.title, this.lastname, this.firstname, employerId, entrepriseId)
-			.then((data) => {
+			.then((data: {status:string, error:string}) => {
 				if (!data || data.status == "failure") {
 					console.log(data.error);
 					loading.dismiss();
@@ -107,7 +112,7 @@ export class CivilityPage {
 			var jobyerId = this.currentUser.jobyer.id;
 			// update jobyer
 			this.authService.updateJobyerCivility(this.title, this.lastname, this.firstname, jobyerId)
-			.then((data) => {
+			.then((data: {status:string, error: string}) => {
 				if (!data || data.status == "failure") {
 					console.log(data.error);
 					loading.dismiss();

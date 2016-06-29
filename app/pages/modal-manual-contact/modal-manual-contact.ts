@@ -16,7 +16,7 @@ export class ModalManualContactPage {
     service : OpportunitiesService;
 	isEmailValid = true;
 	isPhoneNumValid = true;
-	index: int;
+	index: number;
 	pays = [];
 
     constructor(public nav: NavController,
@@ -44,7 +44,7 @@ export class ModalManualContactPage {
         };
 		this.index = 33;
 		//load countries list
-		this.loadListService.loadCountries('employer').then((data) => {
+		this.loadListService.loadCountries().then((data: {data:any}) => {
 			this.pays = data.data;
 		});
     }

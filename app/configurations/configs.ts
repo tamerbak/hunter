@@ -33,6 +33,7 @@ class EmployerConfigs implements AbstractConfigs {
     highlightSentence : string = 'Trouvez vos jobyers immédiatement disponibles!';
     calloutURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/business';
     sqlURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/sql';
+    calendarTheme: number = 4;
 }
 
 class JobyerConfigs implements AbstractConfigs {

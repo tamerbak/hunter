@@ -21,7 +21,7 @@ export class ModalNewEntreprisePage {
     currentUser : any;
 	isEmailValid = true;
 	isPhoneNumValid = true;
-	index: int;
+	index: number;
 	pays = [];
 
     constructor(public nav: NavController,
@@ -52,7 +52,7 @@ export class ModalNewEntreprisePage {
         });
 		this.index = 33;
 		//load countries list
-		this.loadListService.loadCountries('employer').then((data) => {
+		this.loadListService.loadCountries().then((data:{data:any}) => {
 			this.pays = data.data;
 		});
     }
