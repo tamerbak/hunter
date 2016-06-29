@@ -24,6 +24,7 @@ class EmployerConfigs implements AbstractConfigs {
     // Application theme color
     themeColor: string = '#757575';
     // Application opposite theme color
+    inversedThemeColor: string = '#757575';
     // VitOnJob Employer image
     imageURL: string = 'img/logo_employeur.png';
     // User employer image

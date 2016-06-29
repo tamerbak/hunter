@@ -10,8 +10,9 @@ import {Configs} from '../configurations/configs';
 
 @Injectable()
 export class LoadListService {
-	configuration;
-	
+	configuration:any;
+	http:any;
+	data:any;
 	constructor(http: Http) {
 		this.http = http;
 	}

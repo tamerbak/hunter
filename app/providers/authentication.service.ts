@@ -15,6 +15,8 @@ export class AuthenticationService {
 	db : any;
 	configuration;
 	projectTarget;
+	data:any;
+	http:any;
 	
 	constructor(http: Http,gc: GlobalConfigs) {
 		this.http = http;
@@ -43,8 +45,8 @@ export class AuthenticationService {
 			'password': password,
 			'role': (projectTarget == 'employer' ? 'employeur' : projectTarget) 
 		};
-		login = JSON.stringify(login);
-		var encodedLogin = btoa(login);
+		let loginString = JSON.stringify(login);
+		var encodedLogin = btoa(loginString);
 		var dataLog = {
 			'class': 'fr.protogen.masterdata.model.CCallout',
 			'id': 130,
@@ -178,8 +180,8 @@ export class AuthenticationService {
 			'id': id,
 			'type': 'personnelle'
 		};
-		addressData = JSON.stringify(addressData);
-		var encodedAddress = btoa(addressData);
+		let addressDataString = JSON.stringify(addressData);
+		var encodedAddress = btoa(addressDataString);
 		var data = {
 			'class': 'fr.protogen.masterdata.model.CCallout',
 			'id': 138,
@@ -233,8 +235,8 @@ export class AuthenticationService {
 			'id': id,
 			'type': 'travaille'
 		};
-		addressData = JSON.stringify(addressData);
-		var encodedAddress = btoa(addressData);
+		let addressDataString = JSON.stringify(addressData);
+		var encodedAddress = btoa(addressDataString);
 		var data = {
 			'class': 'fr.protogen.masterdata.model.CCallout',
 			'id': 138,
@@ -371,8 +373,8 @@ export class AuthenticationService {
 			"operation": action,
 			"encodedFile": (scanUri)? scanUri.split(';base64,')[1] : ''
 		};
-		scanData = JSON.stringify(scanData);
-		var encodedData = btoa(scanData);
+		let scanDataString :string = JSON.stringify(scanData);
+		var encodedData = btoa(scanDataString);
 		
 		var body = {
         'class': 'fr.protogen.masterdata.model.CCallout',

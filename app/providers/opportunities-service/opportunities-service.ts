@@ -343,7 +343,7 @@ export class OpportunitiesService {
 
     seeInvitation(invitation){
         let date = new Date();
-        let sdate = date.getDate()+'/'+(parseInt(date.getMonth())+1)+'/'+date.getFullYear();
+        let sdate = date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
         let sql = "update user_candidature_opportunite set vue = 'OUI', updated='"+this.sqlfyDate(sdate)+"' where pk_user_candidature_opportunite="+invitation.id;
 
         console.log('UPDATE OPPORTUNITY SQL : '+sql);
@@ -367,7 +367,7 @@ export class OpportunitiesService {
         sdate = sdate.split(' ')[0];
         let d = new Date(sdate);
 
-        return d.getDate()+'/'+(parseInt(d.getMonth())+1)+'/'+d.getFullYear();
+        return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
     }
 
     sqlfyDate(date){
