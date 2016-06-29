@@ -39,8 +39,8 @@ export class Hunter {
 
         this.loggedInPages = [
             {title : "Publier une opportunité", component : HomePage, icon:"md-share", isBadged:false},
-            {title : "Mes opportunités publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
-            {title : "Mes opportunités reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
+            {title : "Opportunités publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
+            {title : "Opportunités reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
             {title : "Se déconnecter", component : HomePage, icon:"log-out", isBadged:false}
         ];
 

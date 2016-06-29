@@ -16,25 +16,30 @@
         <ion-col width-20></ion-col>
     </ion-row>
     <ion-row>&nbsp;</ion-row>
-    <ion-row>&nbsp;</ion-row><ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>&nbsp;</ion-row>
+    <ion-row>
+        <ion-col text-center><h3 style="color: black; margin-top: 0px;margin-bottom: 0px;">Capturer une opportunité</h3></ion-col>
+    </ion-row>
     <ion-row>
         <ion-col text-center>
 
-            <button fab primary [disabled]="!userIsConnected" (click)="newOffer()" style="position: inherit;width: 100px;height: 100px;">
-                <ion-icon name="camera" style="font-size: -webkit-xxx-large"></ion-icon>
+            <button fab favorite [disabled]="!userIsConnected" (click)="newOffer()" style="position: inherit;width: 100px;height: 100px;">
+                <ion-icon name="aperture" style="font-size: -webkit-xxx-large"></ion-icon>
             </button>
         </ion-col>
-        <!--ion-col text-center>
+        <ion-col text-center>
 
             <button fab secondary [disabled]="!userIsConnected" (click)="newOffer()" style="position: inherit;width: 100px;height: 100px;">
-                <ion-icon name="camera" style="font-size: -webkit-xxx-large"></ion-icon>
+                <ion-icon name="aperture" style="font-size: -webkit-xxx-large"></ion-icon>
             </button>
-        </ion-col-->
+        </ion-col>
     </ion-row>
     <ion-row>
-        <ion-col text-center><h3 style="color: white; margin-top: 0px;margin-bottom: 0px;">Capturer une opportunité</h3></ion-col>
+        <ion-col text-center><h3 style="color: white; margin-top: 0px;margin-bottom: 0px;">Jobyer</h3></ion-col>
+        <ion-col text-center><h3 style="color: white; margin-top: 0px;margin-bottom: 0px;">Employeur</h3></ion-col>
     </ion-row>
-    <ion-row>&nbsp;</ion-row>
+
     <ion-row>
         <ion-col width-10></ion-col>
         <ion-col text-center>
