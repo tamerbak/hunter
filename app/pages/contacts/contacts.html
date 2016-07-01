@@ -1,8 +1,11 @@
-<ion-navbar *navbar primary>
-    <button clear (click)="popScreen()" style="color: white">
-        <ion-icon name="arrow-back"></ion-icon> Retour
-    </button>
-</ion-navbar>
+<ion-header>
+    <ion-navbar primary>
+        <button clear (click)="popScreen()" style="color: white">
+            <ion-icon name="arrow-back"></ion-icon> Retour
+        </button>
+    </ion-navbar>
+</ion-header>
+
 
 <ion-content padding class="contacts">
     <ion-card *ngIf="voidCandidates">

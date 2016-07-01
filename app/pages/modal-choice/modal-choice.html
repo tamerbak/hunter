@@ -1,0 +1,35 @@
+<!--
+  Generated template for the ModalChoicePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<div class="modal-choice">
+    <div class="content">
+        <ion-list>
+            <ion-item [navPush]="pushPicturePage">
+                <ion-icon name="camera" primary item-left></ion-icon>
+                {{pictureMessage}}
+            </ion-item>
+            <ion-item [navPush]="pushOfferPage">
+                <ion-icon name="paper" primary item-left></ion-icon>
+                {{offerMessage.header}}
+                <p>{{offerMessage.body}}</p>
+            </ion-item>
+            <ion-item [navPush]="pushInvitePage">
+                <ion-icon name="person-add" primary item-left></ion-icon>
+                {{inviteMessage}}
+            </ion-item>
+        </ion-list>
+    </div>
+</div>
+
+<div class="cancelButton">
+    <button fab fab-bottom fab-center (click)="closeModal()">
+        <ion-icon name="close-circle"></ion-icon>
+    </button>
+</div>
+
+

@@ -1,11 +1,13 @@
-<ion-navbar primary="" *navbar>
-    <button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>
-        VitOnJob Hunter
-    </ion-title>
-</ion-navbar>
+<ion-header>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            VitOnJob Hunter
+        </ion-title>
+    </ion-navbar>
+</ion-header>
 
 <ion-content class="home">
     <ion-row>&nbsp;</ion-row>
@@ -24,13 +26,13 @@
     <ion-row>
         <ion-col text-center>
 
-            <button fab favorite [disabled]="!userIsConnected" (click)="newOffer()" style="position: inherit;width: 100px;height: 100px;">
+            <button fab favorite [disabled]="!userIsConnected" (click)="jobyerMode()" style="position: inherit;width: 100px;height: 100px;">
                 <ion-icon name="aperture" style="font-size: -webkit-xxx-large"></ion-icon>
             </button>
         </ion-col>
         <ion-col text-center>
 
-            <button fab secondary [disabled]="!userIsConnected" (click)="newOffer()" style="position: inherit;width: 100px;height: 100px;">
+            <button fab secondary [disabled]="!userIsConnected" (click)="employerMode()" style="position: inherit;width: 100px;height: 100px;">
                 <ion-icon name="aperture" style="font-size: -webkit-xxx-large"></ion-icon>
             </button>
         </ion-col>

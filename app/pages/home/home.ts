@@ -1,8 +1,9 @@
-import {App, NavParams, NavController, Events, Storage, SqlStorage} from 'ionic-angular';
+import {App, NavParams, NavController, Events, Storage, SqlStorage, Modal, NavOptions} from 'ionic-angular';
 import {LoginsPage} from "../logins/logins";
 import {NewOpportunityPage} from "../new-opportunity/new-opportunity";
 import {Component} from "@angular/core";
 import {NotationService} from "../../providers/notation-service/notation-service";
+import {ModalChoicePage} from "../modal-choice/modal-choice";
 
 @Component({
     templateUrl: 'build/pages/home/home.html',
@@ -49,7 +50,13 @@ export class HomePage {
         }
     }
 
-    newOffer(){
-        this.nav.push(NewOpportunityPage);
+    employerMode() {
+        let employerModal = Modal.create(ModalChoicePage, {'isEmployerChoice' : true});
+        this.nav.present(employerModal);
+    }
+
+    jobyerMode() {
+        let jobyerModal = Modal.create(ModalChoicePage, {'isEmployerChoice' : false});
+        this.nav.present(jobyerModal);
     }
 }
