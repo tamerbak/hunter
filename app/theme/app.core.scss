@@ -11,9 +11,11 @@
 @import '../pages/opportunity-details/opportunity-details';
 @import '../pages/modal-manual-contact/modal-manual-contact';
 @import "../pages/modal-choice/modal-choice.scss";
+@import "../pages/opportunity-fill/opportunity-fill.scss";
+@import "../pages/new-opportunity/new-opportunity.scss";
 
 
-.error-box{
+.error-box {
     float: right;
     color: red;
 }

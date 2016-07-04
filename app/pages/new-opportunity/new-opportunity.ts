@@ -137,7 +137,7 @@ export class NewOpportunityPage implements OnInit{
     successfulSave() {
         let alert = Alert.create({
             title: 'VitOnJob Hunter',
-            message: "L’enregistrement des données est réalisé. Souhaiteriez-vous détailler l’opportunité de job et la proposer à vos contacts ?",
+            message: "L’enregistrement des données est réalisé. Souhaiteriez-vous détailler l’opportunité et la proposer à vos contacts ?",
             buttons: [{
                 text: 'Oui',
                 handler: ()=> {
