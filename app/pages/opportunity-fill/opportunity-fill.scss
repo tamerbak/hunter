@@ -1,0 +1,25 @@
+.opportunity-fill {
+  background-image: url("../../img/bgPicture.png");
+  background-size: cover;
+
+  .mainCard {
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+  }
+
+  .ion-searchbar {
+    background: rgba(20,186,166, 0.5);
+  }
+  .error-box {
+    color: red;
+    text-align: right;
+    font-style: italic;
+    padding-right: 10px;
+  }
+
+  ion-list-header {
+    font-size: 1.8rem;
+    font-weight: bolder;
+  }
+}

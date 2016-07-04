@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-navbar primary>
+    <ion-title>Opportunité</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="opportunity-fill">
+  <ion-list>
+    <ion-card class="mainCard">
+      <ion-card>
+        <ion-list-header>
+          <ion-row>
+            <ion-col>Entreprise</ion-col>
+            <ion-col text-right>
+              <ion-icon favorite style="font-size: xx-large" [hidden]="enterpriseCard.enterprise.name || enterpriseCard.enterprise.address" name="create"></ion-icon>
+              <ion-spinner [hidden]="(!(enterpriseCard.enterprise.name) || (enterpriseCard.enterprise.address)) &&
+                             ((enterpriseCard.enterprise.name) || !(enterpriseCard.enterprise.address))"></ion-spinner>
+              <ion-icon favorite style="font-size: xx-large" [hidden]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address" name="checkmark-circle"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating>Nom</ion-label>
+          <ion-input [(ngModel)]="enterpriseCard.enterprise.name"></ion-input>
+        </ion-item>
+        <!--ion-item [hidden]="!isIOS">
+          <ion-label floating>Adresse</ion-label>
+          <ion-input [(ngModel)]="enterpriseCard.enterprise.address"></ion-input>
+        </ion-item-->
+        <google-places [(bindModelData)]="enterpriseCard.enterprise.address" (onPlaceChanged)='showResults($event)'></google-places>
+
+      </ion-card>
+
+      <ion-card >
+        <ion-list-header>
+          <ion-row>
+            <ion-col>Offre</ion-col>
+            <ion-col text-right>
+              <ion-icon favorite style="font-size: xx-large" [hidden]="(enterpriseCard.offer.sector || enterpriseCard.offer.job) ||
+                            (!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address)" name="create"></ion-icon>
+              <ion-spinner [hidden]="(!enterpriseCard.offer.sector || enterpriseCard.offer.job) &&
+                            (enterpriseCard.offer.sector || !enterpriseCard.offer.job)"></ion-spinner>
+              <ion-icon favorite style="font-size: xx-large" [hidden]="!enterpriseCard.offer.sector || !enterpriseCard.offer.job" name="checkmark-circle"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating>Secteur</ion-label>
+          <ion-input [(ngModel)]="enterpriseCard.offer.sector"
+                     [disabled]="!enterpriseCard.enterprise.name && !enterpriseCard.enterprise.address"></ion-input>
+          <button small item-right (click)="setSectorsPicker()"
+                  [disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address">
+            <ion-icon name="list"></ion-icon>
+          </button>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Job</ion-label>
+          <ion-input [(ngModel)]="enterpriseCard.offer.job">
+            [disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address"--></ion-input>
+          <button small item-right (click)="setJobsPicker()"
+                  [disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address">
+            <ion-icon name="list"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-list-header>
+          <ion-row>
+            <ion-col>Employeur</ion-col>
+            <ion-col text-right>
+              <ion-icon favorite style="font-size: xx-large" [hidden]="(enterpriseCard.employer.firstName || enterpriseCard.employer.lastName ||
+                            enterpriseCard.employer.phone || enterpriseCard.employer.mail ) ||
+                            (!enterpriseCard.offer.sector || !enterpriseCard.offer.job)" name="create"></ion-icon>
+              <ion-spinner [hidden]="(!enterpriseCard.employer.firstName && !enterpriseCard.employer.lastName &&
+                            !enterpriseCard.employer.phone && !enterpriseCard.employer.mail) || (enterpriseCard.employer.firstName &&
+                            enterpriseCard.employer.lastName && enterpriseCard.employer.phone && enterpriseCard.employer.mail)"></ion-spinner>
+              <ion-icon favorite style="font-size: xx-large" [hidden]="(!enterpriseCard.employer.firstName || !enterpriseCard.employer.lastName ||
+                            !enterpriseCard.employer.phone || !enterpriseCard.employer.mail)" name="checkmark-circle"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating>Nom</ion-label>
+          <ion-input [(ngModel)]="enterpriseCard.employer.firstName"
+                     [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Prénom</ion-label>
+          <ion-input [(ngModel)]="enterpriseCard.employer.lastName"
+                     [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Téléphone</ion-label>
+          <ion-input type="number" [(ngModel)]="enterpriseCard.employer.phone" (keyup)="watchPhone($event)" maxlength="9">
+            [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
+        </ion-item>
+        <!--div class="error-box" [hidden]="!showPhoneError()">&#8598; Saisissez les 9 chiffres sans le 0</div-->
+        <ion-item>
+          <ion-label floating>e-Mail</ion-label>
+          <ion-input type="email" [(ngModel)]="enterpriseCard.employer.mail"
+                     [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
+        </ion-item>
+        <div class="error-box" [hidden]="!showEmailError()">&#8598; Saisissez un email valide</div>
+      </ion-card>
+
+      <ion-row>
+        <ion-col text-center>
+          <button outline (click)="sendCard()" style="border-color: #f4f4f4;color: #f4f4f4"
+                  [disabled]="(!enterpriseCard.employer.mail || !enterpriseCard.employer.firstName || !enterpriseCard.employer.lastName) ||
+                            (!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address || !enterpriseCard.offer.job || !enterpriseCard.offer.sector)">
+            Envoyer la fiche
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </ion-list>
+</ion-content>
+
