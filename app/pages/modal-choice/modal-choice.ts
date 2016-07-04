@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {NewOpportunityPage} from "../new-opportunity/new-opportunity";
+import {OpportunityFillPage} from "../opportunity-fill/opportunity-fill";
 
 /*
  Generated class for the ModalChoicePage page.
@@ -25,24 +26,25 @@ export class ModalChoicePage {
         this.isEmployerChoice = params.get('isEmployerChoice');
         switch (this.isEmployerChoice) {
             case true :
-                this.pictureMessage = "J'ai une photo";
+                this.pictureMessage = "Je prends une photo";
                 this.offerMessage = {
-                    header: "Saisir l'offre",
-                    body:"Fiches entreprise et employeur"
+                    header: "Je saisis l'opportunité",
+                    body:"Fiches entreprise, employeur et job"
                 };
-                this.inviteMessage = "Inviter un employeur";
+                this.inviteMessage = "J'invite un employeur";
                 break;
             case false :
-                this.pictureMessage = "J'ai une photo";
+                this.pictureMessage = "Je prends une photo";
                 this.offerMessage = {
-                    header: "Saisir la fiche Jobyer",
+                    header: "Je saisis la fiche Jobyer",
                     body:""
                 };
-                this.inviteMessage = "Inviter un jobyer";
+                this.inviteMessage = "J'invite un jobyer";
                 break;
         }
 
         this.pushPicturePage = NewOpportunityPage;
+        this.pushOfferPage = OpportunityFillPage;
 
     }
 
