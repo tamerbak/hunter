@@ -1,55 +1,64 @@
 <ion-header>
     <ion-navbar  primary>
-        <button clear (click)="popScreen()" style="color: white">
-            <ion-icon name="arrow-back"></ion-icon> Retour
-        </button>
+        <ion-title>
+            Employeur
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding class="entreprise">
-    <ion-card [hidden]="!noCompany">
+    <!--ion-card [hidden]="!noCompany">
         <ion-card-content>
             Aucune entreprise n'est associée à cette opportunité
         </ion-card-content>
+    </ion-card-->
+
+    <ion-card class="mainCard">
+        <ion-card>
+            <ion-card-header>Retrouvez un employeur</ion-card-header>
+            <ion-row>
+                <ion-col width-80 style="padding-right: 0px;">
+                        <ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
+                </ion-col>
+                <ion-col width-20>
+                    <button clear primary (click)="search()">
+                        <ion-icon name="search"></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col text-center>
+                    <ion-spinner style="font-size: xx-large" [hidden]="!loadingSearch"></ion-spinner>
+                </ion-col>
+            </ion-row>
+            <ion-card [hidden]="accountFound">
+                <ion-card-content>
+                    Aucune entreprise ne correspond à la recherche.
+                </ion-card-content>
+            </ion-card>
+            <ion-list [hidden]="!listShowed" text-wrap>
+                <button *ngFor="let e of accounts" ion-item (click)="selectAccount(e)">
+                    <ion-icon name="cube"></ion-icon>&nbsp;{{e.companyName}}
+                    {{e.fullName}}
+                    <p>{{e.tel}}</p>
+                    <p>{{e.email}}</p>
+                </button>
+                <button ion-item [hidden]="accounts.length==0" (click)="createCompany()">
+                    Ajouter une nouvelle entreprise ?
+                </button>
+            </ion-list>
+            <ion-card [hidden]="noCompany || listShowed">
+                <ion-card-content>
+                    <h2>{{opportunity.account.companyName}}</h2>
+                    <h4>{{opportunity.account.fullName}}</h4>
+                        <p>{{opportunity.account.tel}}</p>
+                        <p>{{opportunity.account.email}}</p>
+                </ion-card-content>
+            </ion-card>
+        </ion-card>
+
     </ion-card>
-    <ion-card [hidden]="noCompany">
-        <ion-card-content>
-            <h2>{{opportunity.account.fullName}}</h2>
-            <ul>
-                <li>{{opportunity.account.tel}}</li>
-                <li>{{opportunity.account.email}}</li>
-            </ul>
-        </ion-card-content>
-    </ion-card>
-	<button fab fab-center (click)="createCompany()">
+    <button fab fab-bottom fab-center (click)="createCompany()" [hidden]="accountFound">
         <ion-icon name="add"></ion-icon>
     </button>
-	<ion-row>&nbsp;</ion-row>
-    <ion-row>&nbsp;</ion-row>
-	<ion-row>&nbsp;</ion-row>
-    <ion-row>&nbsp;</ion-row>
-    <ion-grid>
-        <ion-row>
-            <ion-col width-90>
-                <ion-item text-wrap>
-					<ion-label stacked>Retrouvez un employeur déjà créé</ion-label>
-					<ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
-				</ion-item>
-            </ion-col>
-            <ion-col width-10>
-                <ion-row>&nbsp;</ion-row>
-				<button primary="" (click)="search()">
-                    <ion-icon name="search"></ion-icon>
-                </button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-    <ion-list>
-        <button *ngFor="let e of accounts" ion-item (click)="selectAccount(e)">
-            <ion-icon name="cube"></ion-icon>&nbsp;{{e.fullName}}
-            <p>
-                {{e.tel}} - {{e.email}}
-            </p>
-        </button>
-    </ion-list>
 </ion-content>
