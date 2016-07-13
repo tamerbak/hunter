@@ -1,10 +1,11 @@
-import {NavController, Alert, NavParams, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
+import {NavController, Alert, NavParams, Storage, SqlStorage, LocalStorage, Toast} from 'ionic-angular';
 import {DatePicker, Camera} from "ionic-native/dist/index";
 import {NgZone, Component, OnInit} from "@angular/core";
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {CandidatesPage} from "../candidates/candidates";
 import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
 import {AdditionalDetailsPage} from "../additional-details/additional-details";
+import {EntreprisePage} from "../entreprise/entreprise";
 
 
 @Component({
@@ -16,6 +17,7 @@ export class NewOpportunityPage implements OnInit{
     storage:any;
     lstore:any;
     style:any;
+    isLoading:boolean = false;
 
     constructor(public nav:NavController,
                 public navParams:NavParams,
@@ -33,7 +35,7 @@ export class NewOpportunityPage implements OnInit{
             lng: 2.569684,
             creationDate: '',
             closureDate: '',
-            picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AYDDgMz2Qb0swAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAgSURBVGje7cEBAQAAAIIg/69uSEABAAAAAAAAAADAowEnQgAB2mBYUwAAAABJRU5ErkJggg=='
+            picture: ''//'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AYDDgMz2Qb0swAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAgSURBVGje7cEBAQAAAIIg/69uSEABAAAAAAAAAADAowEnQgAB2mBYUwAAAABJRU5ErkJggg=='
         };
 
 
@@ -94,6 +96,7 @@ export class NewOpportunityPage implements OnInit{
     }
 
     saveOpp() {
+        this.isLoading = true;
         let posOptions = {maximumAge: 0, timeout: 50000, enableHighAccuracy: false};
         let onSuccess = function (position) {
             this.opportunity.lat = position.coords.latitude;
@@ -115,6 +118,7 @@ export class NewOpportunityPage implements OnInit{
     }
 
     saveOpportunity() {
+        //this.isLoading = true;
         let date = new Date();
         debugger;
         this.opportunity.creationDate = (date.getDate()) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
@@ -135,7 +139,9 @@ export class NewOpportunityPage implements OnInit{
     }
 
     successfulSave() {
-        let alert = Alert.create({
+        this.isLoading = false;
+        this.presentToast('L’enregistrement des données est réalisé');
+        /*let alert = Alert.create({
             title: 'VitOnJob Hunter',
             message: "L’enregistrement des données est réalisé. Souhaiteriez-vous détailler l’opportunité et la proposer à vos contacts ?",
             buttons: [{
@@ -143,7 +149,7 @@ export class NewOpportunityPage implements OnInit{
                 handler: ()=> {
                     this.lstore.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(data => {
                         alert.dismiss().then(() => {
-							this.nav.push(AdditionalDetailsPage);
+							this.nav.push(EntreprisePage);
 						})
                     });
                 }
@@ -154,11 +160,14 @@ export class NewOpportunityPage implements OnInit{
                 }
             }]
         });
-        this.nav.present(alert);
+        this.nav.present(alert);*/
     }
 
     unsuccessfulSave() {
-        let alert = Alert.create({
+        this.isLoading = false;
+
+        this.presentToast('La sauvegarde des données a échoué veuillez réssayer ultérieurement');
+        /*let alert = Alert.create({
             title: 'VitOnJob Hunter',
             message: "La sauvegarde des données a échoué veuillez réssayer ultérieurement",
             buttons: [{
@@ -168,6 +177,19 @@ export class NewOpportunityPage implements OnInit{
                 }
             }]
         });
-        this.nav.present(alert);
+        this.nav.present(alert);*/
+    }
+
+    presentToast(message) {
+        let toast = Toast.create({
+            message: message,
+            duration: 3000
+        });
+
+        toast.onDismiss(() => {
+            console.log('Dismissed toast');
+        });
+
+        this.nav.present(toast);
     }
 }

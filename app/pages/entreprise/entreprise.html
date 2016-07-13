@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar  primary>
         <ion-title>
-            Employeur
+            {{target}}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -15,7 +15,7 @@
 
     <ion-card class="mainCard">
         <ion-card>
-            <ion-card-header>Retrouvez un employeur</ion-card-header>
+            <ion-card-header>Retrouvez un {{target}}</ion-card-header>
             <ion-row>
                 <ion-col width-80 style="padding-right: 0px;">
                         <ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
@@ -33,7 +33,7 @@
             </ion-row>
             <ion-card [hidden]="accountFound">
                 <ion-card-content>
-                    Aucune entreprise ne correspond à la recherche.
+                    {{noResultMessage}}
                 </ion-card-content>
             </ion-card>
             <ion-list [hidden]="!listShowed" text-wrap>
@@ -56,8 +56,16 @@
                 </ion-card-content>
             </ion-card>
         </ion-card>
-
     </ion-card>
+
+    <!--ion-row>
+        <ion-col text-center>
+            <button list-item outline primary>
+                Enregistrer
+            </button>
+        </ion-col>
+    </ion-row-->
+
     <button fab fab-bottom fab-center (click)="createCompany()" [hidden]="accountFound">
         <ion-icon name="add"></ion-icon>
     </button>

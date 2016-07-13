@@ -1,36 +1,53 @@
 <ion-header>
     <ion-navbar primary>
-        <button clear (click)="popScreen()" style="color: white">
-            <ion-icon name="arrow-back"></ion-icon> Retour
-        </button>
+        <ion-title>
+            Contacts
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
-
 <ion-content padding class="contacts">
-    <ion-card *ngIf="voidCandidates">
+
+    <ion-card class="mainCard">
+        <ion-card>
+            <ion-searchbar primary [(ngModel)]="contactInfo"
+                           (keyup)="seekContact($event)"
+                           show-cancel="true"
+                           placeholder="Nom, numéro de téléphone, ...">
+            </ion-searchbar>
+            <ion-list>
+                <button ion-item *ngFor="let c of candidates"  (click)="selectContact(c)">
+                    <ion-icon name="contact"></ion-icon>
+                    {{c.displayName}} - {{c.tel}}
+                </button>
+            </ion-list>
+
+            <ion-list>
+                <ion-item-sliding>
+                    <ion-item *ngFor="let c of candidates">
+                        <ion-icon name="{{c.seen?'eye':'eye-off'}}"></ion-icon>{{c.title}} {{c.firstName}} {{c.lastName}}
+                        <p>{{c.tel}} - {{c.email}}</p>
+                    </ion-item>
+                    <ion-item-options>
+                        <button primary outline>
+                            <ion-icon name="trash"></ion-icon>
+                            Supprimer
+                        </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+        </ion-card>
+    </ion-card>
+    <!--ion-card *ngIf="voidCandidates">
         <ion-card-content>
             Vous n'avez encore invité aucun contact
         </ion-card-content>
-    </ion-card>
-    <ion-list>
-        <ion-item-sliding>
-            <ion-item *ngFor="let c of candidates">
-                <ion-icon name="{{c.seen?'eye':'eye-off'}}"></ion-icon>{{c.title}} {{c.firstName}} {{c.lastName}}
-                <p>{{c.tel}} - {{c.email}}</p>
-            </ion-item>
-            <ion-item-options>
-                <button primary>
-                    <ion-icon name="trash"></ion-icon>
-                    Supprimer
-                </button>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
-    <button fab fab-bottom fab-left (click)="addNewCandidates()">
+    </ion-card-->
+
+    <!--button fab fab-bottom fab-left (click)="addNewCandidates()">
         <ion-icon name="contact"></ion-icon>
-    </button>
-    <button fab fab-bottom fab-right (click)="addManualCandidate()">
+    </button-->
+    <button fab fab-center fab-bottom fab-right (click)="addManualCandidate()">
         <ion-icon name="add"></ion-icon>
     </button>
 

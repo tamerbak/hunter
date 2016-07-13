@@ -1,4 +1,19 @@
 .new-opportunity {
   background-image: url("../../img/bgPicture.png");
   background-size: cover;
+
+  .mainCard {
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+  }
+
+  .spinner-crescent circle {
+    fill: transparent;
+    stroke: #edab1f;
+  }
+
+  ion-spinner.spinner-ios line {
+    stroke: #edab1f;
+  }
 }

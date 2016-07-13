@@ -8,19 +8,25 @@
 
 <div class="modal-choice">
     <div class="content">
-        <ion-list no-lines>
+        <ion-list no-lines text-wrap>
             <ion-item [navPush]="pushPicturePage">
                 <ion-icon name="camera" primary item-left></ion-icon>
                 {{pictureMessage}}
             </ion-item>
-            <ion-item [navPush]="pushOfferPage">
+            <ion-item [navPush]="pushPersonPage" [navParams]="paramsOfferPage">
+                <ion-icon name="person-add" primary item-left></ion-icon>
+                {{personMessage.header}}
+                <p>{{personMessage.body}}</p>
+            </ion-item>
+            <ion-item [navPush]="pushOfferPage" [navParams]="paramsOfferPage">
                 <ion-icon name="paper" primary item-left></ion-icon>
                 {{offerMessage.header}}
                 <p>{{offerMessage.body}}</p>
             </ion-item>
             <ion-item [navPush]="pushInvitePage">
-                <ion-icon name="person-add" primary item-left></ion-icon>
-                {{inviteMessage}}
+                <ion-icon name="share" primary item-left></ion-icon>
+                {{inviteMessage.header}}
+                <p>{{inviteMessage.body}}</p>
             </ion-item>
         </ion-list>
     </div>

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar primary >
+    <ion-navbar primary>
         <ion-title>Opportunité</ion-title>
     </ion-navbar>
 </ion-header>
@@ -7,29 +7,46 @@
 
 <ion-content padding class="new-opportunity">
 
-
-        <button fab fab-top fab-center (click)="takePicture()">
-            <ion-icon name="camera"></ion-icon>
-        </button>
-        <img src="{{opportunity.picture}}" />
-        <ion-list text-wrap>
-            <ion-item>
-                <ion-label floating>Titre  (ex : Hôtesse d’accueil)</ion-label>
-                <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
-            </ion-item>
-            <ion-item (click)="showDatePicker('date')" id="dynamicItem">
-                <!--ion-button (click)="showDatePicker('date')">Date de fin de validité de l’offre {{opportunity.closureDate}}</ion-button-->
-                <h4 [ngStyle]="style">Date de fin de validité de l’opportunité</h4>
-                {{opportunity.closureDate}}
-                <!--ion-input [(ngModel)]="opportunity.closureDate" type="text" (focus)="showDatePicker('date')" ></ion-input-->
-            </ion-item>
-            <ion-item>
-                <ion-label floating>Description: indiquez les informations complémentaires dont vous disposez sur le job</ion-label>
-                <ion-textarea [(ngModel)]="opportunity.description"></ion-textarea>
-            </ion-item>
-        </ion-list>
-
-    <button list-item block primary (click)="saveOpp()">
-        Enregistrer
+    <button fab fab-top fab-center (click)="takePicture()">
+        <ion-icon name="camera"></ion-icon>
     </button>
+    <ion-card class="mainCard">
+        <ion-card>
+            <img src="{{opportunity.picture}}" [hidden]="opportunity.picture===''"/>
+            <div [hidden]="!(opportunity.picture==='')">
+                <ion-row>&nbsp;</ion-row>
+                <ion-row>&nbsp;</ion-row>
+                <ion-row>&nbsp;</ion-row>
+                <ion-row>&nbsp;</ion-row>
+            </div>
+
+            <ion-list text-wrap>
+                <ion-item>
+                    <ion-label floating>Titre (ex : Hôtesse d’accueil)</ion-label>
+                    <ion-input type="text" [(ngModel)]="opportunity.title"></ion-input>
+                </ion-item>
+                <ion-item (click)="showDatePicker('date')" id="dynamicItem">
+                    <!--ion-button (click)="showDatePicker('date')">Date de fin de validité de l’offre {{opportunity.closureDate}}</ion-button-->
+                    <h4 [ngStyle]="style">Date fin de validité</h4>
+                    {{opportunity.closureDate}}
+                    <!--ion-input [(ngModel)]="opportunity.closureDate" type="text" (focus)="showDatePicker('date')" ></ion-input-->
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Description du job
+                    </ion-label>
+                    <ion-textarea [(ngModel)]="opportunity.description"></ion-textarea>
+                </ion-item>
+            </ion-list>
+        </ion-card>
+    </ion-card>
+
+
+    <!--ion-row>
+        <ion-col text-center>
+            <button list-item outline primary (click)="saveOpp()">
+                <ion-spinner icon="spiral" [hidden]="!isLoading"></ion-spinner>
+                Enregistrer
+            </button>
+        </ion-col>
+    </ion-row-->
 </ion-content>

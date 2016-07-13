@@ -6,6 +6,7 @@ import {AdditionalDetailsPage} from "../additional-details/additional-details";
 import {Component, OnInit} from "@angular/core";
 import {OpportunitiesListPage} from "../opportunities-list/opportunities-list";
 import {DatePicker} from "ionic-native/dist/index";
+import {EntreprisePage} from "../entreprise/entreprise";
 
 declare var google;
 @Component({
@@ -110,7 +111,7 @@ export class OpportunityDetailsPage implements OnInit{
 
     moreData(){
         this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity)).then(result =>{
-            this.nav.push(AdditionalDetailsPage,{opportunity : this.opportunity});
+            this.nav.push(EntreprisePage,{opportunity : this.opportunity});
         });
     }
 

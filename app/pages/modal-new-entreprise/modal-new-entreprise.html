@@ -1,3 +1,14 @@
+<ion-header>
+	<ion-navbar  primary>
+		<ion-title>Employeur</ion-title>
+		<ion-buttons end>
+			<button (click)="cancelNewCompany()">
+				<ion-icon name="close-circle" style="font-size: xx-large;"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
 <ion-content padding class="modal-new-entreprise">
     <ion-list>
         <ion-item>
@@ -38,15 +49,6 @@
 		<ion-col text-center>
 			<button block primary (click)="saveNewCompany()" [disabled]="isBtnDisabled()">
 				Enregistrer
-			</button>
-		</ion-col>
-		<ion-col width-10></ion-col>
-	</ion-row>
-	<ion-row>
-		<ion-col width-10></ion-col>
-		<ion-col text-center>
-			<button block secondary (click)="cancelNewCompany()">
-				Annuler
 			</button>
 		</ion-col>
 		<ion-col width-10></ion-col>

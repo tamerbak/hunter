@@ -1,10 +1,23 @@
 <ion-header>
-    <ion-navbar primary >
+    <!--ion-navbar primary >
+
+        <ion-title>Opportunités</ion-title>
+    </ion-navbar-->
+
+    <ion-toolbar [attr.primary]="isAndroid ? '' : null" no-border-top>
         <button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Opportunités</ion-title>
-    </ion-navbar>
+        <ion-segment [(ngModel)]="pet" [attr.light]="isAndroid ? '' : null">
+            <ion-segment-button value="puppies">
+                Employeur
+            </ion-segment-button>
+            <ion-segment-button value="kittens">
+                Jobyer
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+
 </ion-header>
 
 

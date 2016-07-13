@@ -3,6 +3,7 @@ import {NavController, Platform, SqlStorage, Storage, Alert, Picker, PickerColum
 import {HomePage} from "../home/home";
 import {EnterpriseAddService} from "../../providers/enterprise-add-service/enterprise-add-service";
 import {GooglePlaces} from "../../components/google-places/google-places";
+import {Toast} from "ionic-native/dist/index";
 
 /*
   Generated class for the OpportunityFillPage page.
@@ -29,6 +30,7 @@ export class OpportunityFillPage {
   private validators:any;
   private platform;
   private isIOS;
+  private opportunity: any;
 
   constructor(private _navController:NavController, _service:EnterpriseAddService, platform:Platform) {
     this.service = _service;
@@ -59,6 +61,25 @@ export class OpportunityFillPage {
         phone:''
       }
     };
+
+    this.opportunity = this.enterpriseCard.offer;
+    this.db.get('OPPORTUNITY').then(opp => {
+      debugger;
+      if (opp) {
+        let obj = JSON.parse(opp);
+        //debugger;
+        if (obj) {
+          this.enterpriseCard.offer.sector = obj.offer.sector;
+          this.enterpriseCard.offer.idSector = obj.offer.idSector;
+          this.enterpriseCard.offer.job = obj.offer.job;
+          this.enterpriseCard.offer.idJob = obj.offer.idJob;
+          this.opportunity = obj;
+        }
+      }
+    });
+
+
+
     this.validators = {
       isEnterpriseName: false,
       isAddress: false,
@@ -268,6 +289,8 @@ export class OpportunityFillPage {
           this.filterJobList();
           this.enterpriseCard.offer.job = '';
           this.enterpriseCard.offer.idJob = 0;
+          this.opportunity.offer = {sector:data.undefined.text,idSector: data.undefined.value, job:"", idJob:0};
+          this.db.set('OPPORTUNITY', JSON.stringify(this.opportunity));
         }
       });
       picker.setCssClass('sectorPicker');
@@ -317,6 +340,10 @@ export class OpportunityFillPage {
               handler: data => {
                 this.enterpriseCard.offer.job = data.undefined.text;
                 this.enterpriseCard.offer.idJob = data.undefined.value;
+                this.opportunity.offer.job = this.enterpriseCard.offer.job;
+                this.opportunity.offer.idJob = this.enterpriseCard.offer.idJob;
+                this.db.set('OPPORTUNITY', JSON.stringify(this.opportunity));
+                this.presentToast("L'offre est bien enregistrée");
               }
             });
             picker.setCssClass('jobPicker');
@@ -388,6 +415,20 @@ export class OpportunityFillPage {
         }
     );
 
+  }
+
+
+  presentToast(message) {
+    let toast = Toast.create({
+      message: message,
+      duration: 3000
+    });
+
+    toast.onDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    this.nav.present(toast);
   }
 
 }

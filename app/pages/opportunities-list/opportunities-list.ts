@@ -1,4 +1,4 @@
-import {Page, NavController} from 'ionic-angular';
+import {Page, NavController, Platform} from 'ionic-angular';
 import {Storage, SqlStorage} from 'ionic-angular';
 import {OpportunitiesService} from "../../providers/opportunities-service/opportunities-service";
 import {OpportunityDetailsPage} from "../opportunity-details/opportunity-details";
@@ -16,15 +16,17 @@ export class OpportunitiesListPage {
     opportunityService:any;
     storage:any;
     themeColor:string;
+    isAndroid:boolean;
 
     constructor(public nav:NavController,
-                opportunityService:OpportunitiesService, gc:GlobalConfigs) {
+                opportunityService:OpportunitiesService, gc:GlobalConfigs, platform:Platform) {
         let projectTarget = gc.getProjectTarget();
         // get config of selected target
         let config = Configs.setConfigs(projectTarget);
         this.themeColor = config.themeColor;
         this.opportunityService = opportunityService;
         this.storage = new Storage(SqlStorage);
+        this.isAndroid = platform.is('android');
         this.storage.get('currentUser').then((value)=> {
             let user = JSON.parse(value);
             let idAccount = user.id;
