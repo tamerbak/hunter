@@ -43,8 +43,8 @@
                     <p>{{e.tel}}</p>
                     <p>{{e.email}}</p>
                 </button>
-                <button ion-item [hidden]="accounts.length==0" (click)="createCompany()">
-                    Ajouter une nouvelle entreprise ?
+                <button ion-item [hidden]="accounts.length==0" (click)="createCompany()" style="color: #eca713;">
+                    {{(target==='Employeur')? 'Ajouter une nouvelle entreprise ?' : 'Ajouter un nouveau jobyer ?'}}
                 </button>
             </ion-list>
             <ion-card [hidden]="noCompany || listShowed">

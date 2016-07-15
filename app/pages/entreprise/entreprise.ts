@@ -2,6 +2,8 @@ import {NavController, Storage, LocalStorage, Modal, NavParams, Toast} from 'ion
 import {EmployersService} from "../../providers/employers-service/employers-service";
 import {Component} from "@angular/core";
 import {ModalNewEntreprisePage} from "../modal-new-entreprise/modal-new-entreprise";
+import {ContactsPage} from "../contacts/contacts";
+import {ModalManualContactPage} from "../modal-manual-contact/modal-manual-contact";
 
 
 @Component({
@@ -100,13 +102,24 @@ export class EntreprisePage {
 
     createCompany(){
         //todo launch new jobyer modal
-        let modal = new Modal(ModalNewEntreprisePage);
-        modal.onDismiss(company => {
-            this.searchText = company.fullName;
-            if(this.searchText.length>0)
-                this.search();
-        });
-        this.nav.present(modal);
+        if (this.target==='Employeur') {
+            let modal = new Modal(ModalNewEntreprisePage);
+            modal.onDismiss(company => {
+                this.searchText = company.fullName;
+                if(this.searchText.length>0)
+                    this.search();
+            });
+            this.nav.present(modal);
+        } else {
+            let modal = new Modal(ModalManualContactPage);
+            modal.onDismiss(company => {
+                this.searchText = company.firstName +' '+ company.lastName;
+                if(this.searchText.length>0)
+                    this.search();
+            });
+            this.nav.present(modal);
+        }
+
 
     }
 
