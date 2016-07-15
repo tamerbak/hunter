@@ -144,7 +144,7 @@ export class ContactsPage {
     selectContact(c){
 
         this.presentToast('Une invitation a été adressée à votre contact');
-        /*this.opportunitiesService.addCandidate(c,this.opportunity).then((contact) =>{
+        this.opportunitiesService.addCandidate(c,this.opportunity).then((contact) =>{
             this.contact = contact;
             if(this.contact && this.contact.id>0){
                 this.notationService.notationJobyer(this.account.id);
@@ -161,14 +161,14 @@ export class ContactsPage {
                     console.log(message);
                     SMS.send(this.contact.tel, message, options);
                 }
-                let alert = Alert.create({
+                /*let alert = Alert.create({
                     title: 'Invitation envoyée',
                     subTitle: 'Une invitation a été adressé à votre contact',
                     buttons: ['OK']
                 });
-                this.nav.present(alert);
+                this.nav.present(alert);*/
             }
-        });*/
+        });
     }
 
     presentToast(message) {
