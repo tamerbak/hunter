@@ -41,7 +41,7 @@
           </ion-row>
         </ion-list-header>
         <ion-item>
-          <ion-label floating>Secteur</ion-label>
+          <ion-label floating>Séléctionnez un secteur</ion-label>
           <ion-input [(ngModel)]="enterpriseCard.offer.sector"
                      [disabled]="!enterpriseCard.enterprise.name && !enterpriseCard.enterprise.address"></ion-input>
           <button small item-right (click)="setSectorsPicker()">
@@ -50,7 +50,7 @@
           </button>
         </ion-item>
         <ion-item>
-          <ion-label floating>Job</ion-label>
+          <ion-label floating>Sélectionnez un job</ion-label>
           <ion-input [(ngModel)]="enterpriseCard.offer.job"
             [disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address"></ion-input>
           <button small item-right (click)="setJobsPicker()">
@@ -110,13 +110,13 @@
       </ion-row-->
     </ion-card>
 
-    <ion-row>
+    <!--ion-row>
       <ion-col text-center>
         <button list-item outline primary>
           Enregistrer
         </button>
       </ion-col>
-    </ion-row>
+    </ion-row-->
 
   </ion-list>
 </ion-content>

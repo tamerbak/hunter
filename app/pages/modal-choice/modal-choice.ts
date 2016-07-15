@@ -62,7 +62,7 @@ export class ModalChoicePage {
                     header: "J'invite un employeur",
                     body:"Qui correspond à l'opportunité"
                 };
-                this.pushOfferPage = JobyerNewPage;
+                this.pushOfferPage = OpportunityFillPage;
                 this.paramsOfferPage = {target: 'Jobyer'};
                 break;
         }
