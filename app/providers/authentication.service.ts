@@ -70,6 +70,54 @@ export class AuthenticationService {
 		})
 	}
 	
+    /**
+		* @descriptionget vit-on-job user_account data by phonenumber
+		* @param token, accountId
+	*/
+    
+    getUserByPhone(tel,role){
+		//  Init project parameters
+		this.configuration = Configs.setConfigs(role);
+
+		var sql = "select pk_user_account, email from user_account where telephone = '"+tel+"' ";
+	    return new Promise(resolve => {
+	      let headers = new Headers();
+	      headers.append("Content-Type", 'text/plain');
+	      this.http.post(this.configuration.sqlURL, sql, {headers:headers})
+	          .map(res => res.json())
+	          .subscribe(data => {
+	            this.data = data;
+	            console.log("Newly loaded data" + this.data);
+	            resolve(this.data);
+	          });
+	    })
+	}
+    
+    /**
+		* @description get user information by his phone and role
+		* @param phone, role
+		* @return JSON results in the form of user accounts
+	*/
+	getUserByPhoneAndRole(tel, role){
+		//  Init project parameters
+		this.configuration = Configs.setConfigs(role);
+		role = (role === 'employer') ? 'employeur' : role;
+
+		var sql = "select email, role,mot_de_passe from user_account where telephone = '"+tel+"' " +
+			"and role = '" + role +"'";
+	    return new Promise(resolve => {
+	      let headers = new Headers();
+	      headers.append("Content-Type", 'text/plain');
+	      this.http.post(this.configuration.sqlURL, sql, {headers:headers})
+	          .map(res => res.json())
+	          .subscribe(data => {
+	            this.data = data;
+	            console.log("Newly loaded data" + this.data);
+	            resolve(this.data);
+	          });
+	    })
+	}
+    
 	/**
 		* @description Update user_account with the new device token and accountid
 		* @param token, accountId
