@@ -106,71 +106,80 @@ export class PhonePage {
 			spinner : 'hide'
 		});
 		this.nav.present(loading);
-		
-		//call the service of autentication
-		this.authService.authenticate(this.email, indPhone, this.password1, this.projectTarget)
-		.then((data:{length:number, status:string,id:number, jobyerId:number, employerId:number,newAccount:boolean}) => {
-			console.log(data);
-			//case of authentication failure : server unavailable or connection probleme 
-			if (!data || data.length == 0 || (data.id == 0 && data.status == "failure")) {
-				console.log(data);
-				loading.dismiss();
-				this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");
-				return;
-			}
-			//case of authentication failure : incorrect password 
-			if (data.id == 0 && data.status == "passwordError") {
-				console.log("Password error");
-				loading.dismiss();
-				if(!this.showEmailField){
-					this.globalService.showAlertValidation("VitOnJob", "Votre mot de passe est incorrect.");
-					}else{
-					console.log("used email error");
-					this.globalService.showAlertValidation("VitOnJob", "Cette adresse email a été déjà utilisé. Veuillez choisir une autre.");
-				}
-				return;
-			}
-			
-			//case of authentication success
-			this.authService.setObj('connexion', null);
-			this.authService.setObj('currentUser', null);
-			var connexion = {
-				'etat': true,
-				'libelle': 'Se déconnecter',
-				'employeID' : (this.projectTarget == 'jobyer' ? data.jobyerId : data.employerId)
-			};
-			
-			//load device token to current account
-			var token;
-			this.authService.getObj('deviceToken').then(val => {
-				token = val;
-			});
-			var accountId = data.id;
-			if (token) {
-				console.log("insertion du token : " + token);
-				this.authService.insertToken(token, accountId, this.projectTarget);
-			}
-			
-			this.storage.set('connexion', JSON.stringify(connexion));
-			this.storage.set('currentUser', JSON.stringify(data)).then(()=>{
-			this.events.publish('user:login', data);
-				
-				//user is connected, then change the name of connexion btn to deconnection
-				this.gc.setCnxBtnName("Déconnexion");
-				loading.dismiss();
-				
-				//if user is connected for the first time, redirect him to the page 'civility', else redirect him to the home page
-				var isNewUser = data.newAccount;
-				if (isNewUser) {
-					this.globalService.showAlertValidation("VitOnJob", "Bienvenue dans votre espace VitOnJob!");
-					this.nav.push(CivilityPage, {
-					currentUser: data});
-					} else {
-					this.nav.rootNav.setRoot(HomePage);
-				}
-			});
-			
-		});
+            //verfu if password is unique for other account's roles
+            var reverseRole = this.projectTarget == "jobyer" ? "employer" : "jobyer";
+            this.authService.getUserByPhoneAndRole("+"+indPhone,reverseRole).then(data1 => {
+                
+                if(data1 && data1.data.length !=0 && (data1.data[0].mot_de_passe !== md5(this.password1))){
+                    this.globalService.showAlertValidation("VitOnJob", "Votre mot de passe est incorrect.");
+                    loading.dismiss();
+                    return;
+                }
+                //call the service of autentication
+                    this.authService.authenticate(this.email, indPhone, md5(this.password1), this.projectTarget)
+                    .then((data:{length:number, status:string,id:number, jobyerId:number, employerId:number,newAccount:boolean}) => {
+                        console.log(data);
+                        //case of authentication failure : server unavailable or connection probleme 
+                        if (!data || data.length == 0 || (data.id == 0 && data.status == "failure")) {
+                            console.log(data);
+                            loading.dismiss();
+                            this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");
+                            return;
+                        }
+                        //case of authentication failure : incorrect password 
+                        if (data.id == 0 && data.status == "passwordError") {
+                            console.log("Password error");
+                            loading.dismiss();
+                            if(!this.showEmailField){
+                                this.globalService.showAlertValidation("VitOnJob", "Votre mot de passe est incorrect.");
+                                }else{
+                                console.log("used email error");
+                                this.globalService.showAlertValidation("VitOnJob", "Cette adresse email a été déjà utilisé. Veuillez choisir une autre.");
+                            }
+                            return;
+                        }
+                        
+                        //case of authentication success
+                        this.authService.setObj('connexion', null);
+                        this.authService.setObj('currentUser', null);
+                        var connexion = {
+                            'etat': true,
+                            'libelle': 'Se déconnecter',
+                            'employeID' : (this.projectTarget == 'jobyer' ? data.jobyerId : data.employerId)
+                        };
+                        
+                        //load device token to current account
+                        var token;
+                        this.authService.getObj('deviceToken').then(val => {
+                            token = val;
+                        });
+                        var accountId = data.id;
+                        if (token) {
+                            console.log("insertion du token : " + token);
+                            this.authService.insertToken(token, accountId, this.projectTarget);
+                        }
+                        
+                        this.storage.set('connexion', JSON.stringify(connexion));
+                        this.storage.set('currentUser', JSON.stringify(data)).then(()=>{
+                        this.events.publish('user:login', data);
+                            
+                            //user is connected, then change the name of connexion btn to deconnection
+                            this.gc.setCnxBtnName("Déconnexion");
+                            loading.dismiss();
+                            
+                            //if user is connected for the first time, redirect him to the page 'civility', else redirect him to the home page
+                            var isNewUser = data.newAccount;
+                            if (isNewUser) {
+                                this.globalService.showAlertValidation("VitOnJob", "Bienvenue dans votre espace VitOnJob!");
+                                this.nav.push(CivilityPage, {
+                                currentUser: data});
+                                } else {
+                                this.nav.rootNav.setRoot(HomePage);
+                            }
+                        });
+                        
+                    });
+            });
 	}
 	
 	/**
@@ -231,8 +240,9 @@ export class PhonePage {
 	isRegistration(phone) {
 		if (this.isPhoneValid(phone)) {
 			//On teste si le tél existe dans la base
+                  
 			var tel = "+" + this.index + phone;
-			this.dataProviderService.getUserByPhone(tel, this.projectTarget).then((data: {status:string,data:{length:number}}) => {
+			this.authService.getUserByPhone(tel, this.projectTarget).then((data: {status:string,data:{length:number}}) => {
 				if (!data || data.status == "failure") {
 					console.log(data);
 					this.globalService.showAlertValidation("VitOnJob", "Serveur non disponible ou problème de connexion.");
@@ -242,7 +252,7 @@ export class PhonePage {
 					this.showEmailField = true;
 					this.email = "";
 					this.libelleButton = "S'inscrire";
-					} else {
+                } else {
 					this.email = data.data[0]["email"];
 					this.libelleButton = "Se connecter";
 					this.showEmailField = false;
