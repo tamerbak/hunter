@@ -5,6 +5,7 @@ import {ViewChild, Component, enableProdMode} from "@angular/core";
 import {OpportunitiesListPage} from "./pages/opportunities-list/opportunities-list";
 import {PropositionsPage} from "./pages/propositions/propositions";
 import {LoginsPage} from "./pages/logins/logins";
+import {AccountPage} from "./pages/account/account";
 
 declare var cordova;
 @Component({
@@ -87,8 +88,9 @@ export class Hunter {
 
         this.loggedInPages = [
             {title : "Publier une opportunité", component : HomePage, icon:"md-share", isBadged:false},
-            {title : "Opportunités publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
-            {title : "Opportunités reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
+            //{title : "Mon compte", component : AccountPage, icon:"person", isBadged:false},
+            //{title : "Opportunités publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
+            //{title : "Opportunités reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
             {title : "Se déconnecter", component : HomePage, icon:"log-out", isBadged:false}
         ];
 

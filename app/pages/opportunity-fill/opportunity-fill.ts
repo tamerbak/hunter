@@ -3,7 +3,6 @@ import {NavController, Platform, SqlStorage, Storage, Alert, Picker, PickerColum
 import {HomePage} from "../home/home";
 import {EnterpriseAddService} from "../../providers/enterprise-add-service/enterprise-add-service";
 import {GooglePlaces} from "../../components/google-places/google-places";
-import {Toast} from "ionic-native/dist/index";
 
 /*
   Generated class for the OpportunityFillPage page.

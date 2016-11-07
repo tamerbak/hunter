@@ -55,6 +55,25 @@ class JobyerConfigs implements AbstractConfigs {
     calendarTheme: number = 5;
 }
 
+class HunterConfigs implements AbstractConfigs {
+
+    // Application title
+    projectName:string = "Vit-On-Job Hunter";
+    // Application theme color
+    themeColor: string = "#14baa6";
+    // Application opposite theme color
+    inversedThemeColor: string = '#757575';
+    // VitOnJob Jobyer image
+    imageURL: string = "img/logo_jobyer.png";
+    // User employer image
+    userImageURL = 'img/jobyer.png';
+    bgMenuURL: string = 'img/bg_jobyer.png';
+    highlightSentence : string = "Des milliers d'opportunités à proximité!";
+    calloutURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
+    sqlURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sql';
+    calendarTheme: number = 5;
+}
+
 
 export class Configs {
 
@@ -76,6 +95,8 @@ export class Configs {
             return new EmployerConfigs();
         } else if (type === "jobyer") {
             return new JobyerConfigs();
+        } else if (type === "hunter") {
+            return new HunterConfigs();
         }
 
         return null;
