@@ -33,8 +33,7 @@ export class EmployersService {
             // We're using Angular Http provider to request the data,
             // then on the response it'll map the JSON data to a parsed JS object.
             // Next we process the data and resolve the promise with the new data.
-            let headers = new Headers();
-            headers.append("Content-Type", 'application/json');
+            let headers = Configs.getHttpJsonHeaders();
             this.http.post(Configs.calloutURL, JSON.stringify(payload), {headers: headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -52,8 +51,7 @@ export class EmployersService {
         
         console.log('UPDATE OPPORTUNITY SQL : '+sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -72,8 +70,7 @@ export class EmployersService {
             "AND user_entreprise.pk_user_entreprise in (select fk_user_entreprise from user_opportunite where pk_user_opportunite="+opportunity.id+")";
         console.log('Get account data SQL : '+sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -111,8 +108,7 @@ export class EmployersService {
             "('"+account.email+"', 'Hgtze', '"+tel+"', 'employeur', 'OUI') returning pk_user_account";
         console.log(sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -130,8 +126,7 @@ export class EmployersService {
         let sql = "insert into user_employeur (nom, prenom, titre) values ('"+account.fullName+"','','') returning pk_user_employeur";
         console.log(sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -149,8 +144,7 @@ export class EmployersService {
             "('"+account.fullName+"',"+account.id+","+idEmployeur+",'"+account.siret+"') returning pk_user_entreprise";
 
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {

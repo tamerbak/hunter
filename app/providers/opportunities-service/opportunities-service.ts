@@ -39,8 +39,7 @@ export class OpportunitiesService {
         console.log('LOADING INVTIATIONS SQL : '+sql);
 
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -74,8 +73,7 @@ export class OpportunitiesService {
     deleteOpportunityById(oid) {
         let sql = "UPDATE user_opportunite SET dirty='Y' WHERE pk_user_opportunite = '"+oid+"';";
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(date => {
@@ -95,8 +93,7 @@ export class OpportunitiesService {
             'user_opportunite.fin_de_candidature, user_opportunite.date_de_creation, user_opportunite.description, user_opportunite.titre, ' +
             'user_opportunite.pk_user_opportunite';
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -133,8 +130,7 @@ export class OpportunitiesService {
 
         console.log('GET OFFERS SQL : '+sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -169,8 +165,7 @@ export class OpportunitiesService {
                 " returning pk_user_opportunite";
             console.log('insert opp sql : '+sql);
             return new Promise(resolve => {
-                let headers = new Headers();
-                headers.append("Content-Type", 'text/plain');
+                let headers = Configs.getHttpTextHeaders();
                 this.http.post(Configs.sqlURL, sql, {headers:headers})
                     .map(res => res.json())
                     .subscribe(data => {
@@ -189,8 +184,7 @@ export class OpportunitiesService {
                 " returning pk_user_opportunite";
             console.log('insert opp sql : '+sql);
             return new Promise(resolve => {
-                let headers = new Headers();
-                headers.append("Content-Type", 'text/plain');
+                let headers = Configs.getHttpTextHeaders();
                 this.http.post(Configs.sqlURL, sql, {headers:headers})
                     .map(res => res.json())
                     .subscribe(data => {
@@ -218,8 +212,7 @@ export class OpportunitiesService {
             sql = "update user_opportunite set titre='"+o.title+"', description='"+o.description+"', est_active='"+(o.activeOpportunity?"OUI":"NON")+"' where pk_user_opportunite="+o.id;
         console.log('UPDATE OPPORTUNITY SQL : '+sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -239,8 +232,7 @@ export class OpportunitiesService {
             'AND user_candidature_opportunite.fk_user_opportunite='+opportunity.id;
         console.log(sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -291,8 +283,7 @@ export class OpportunitiesService {
             // We're using Angular Http provider to request the data,
             // then on the response it'll map the JSON data to a parsed JS object.
             // Next we process the data and resolve the promise with the new data.
-            let headers = new Headers();
-            headers.append("Content-Type", 'application/json');
+            let headers = Configs.getHttpJsonHeaders();
             this.http.post(Configs.calloutURL, JSON.stringify(payload), {headers: headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -328,8 +319,7 @@ export class OpportunitiesService {
             // We're using Angular Http provider to request the data,
             // then on the response it'll map the JSON data to a parsed JS object.
             // Next we process the data and resolve the promise with the new data.
-            let headers = new Headers();
-            headers.append("Content-Type", 'application/json');
+            let headers = Configs.getHttpJsonHeaders();
             this.http.post(Configs.calloutURL, JSON.stringify(payload), {headers: headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -348,8 +338,7 @@ export class OpportunitiesService {
 
         console.log('UPDATE OPPORTUNITY SQL : '+sql);
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {

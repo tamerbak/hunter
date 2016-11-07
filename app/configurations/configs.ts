@@ -1,3 +1,4 @@
+import {Headers} from "@angular/http";
 /**
  * Created by tim on 04/05/16.
  * Here we will define all configurations of both apps.
@@ -77,19 +78,43 @@ class HunterConfigs implements AbstractConfigs {
 
 export class Configs {
 
+    /*
     public static calloutURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
     public static sqlURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sql';
     public static yousignURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
-    public static smsURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sms';
-    public static emailURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/email';
-
-    /*
+    public static smsURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/envoisms';
+    public static emailURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/envoimail';
+    */
+    
     public static calloutURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/business';
     public static sqlURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/sql';
     public static yousignURL : string = 'http://ns389914.ovh.net:8080/vitonjobv1/api/business';
-    public static smsURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/sms';
-    public static emailURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/email';
-*/
+    public static smsURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/envoisms';
+    public static emailURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/envoimail';
+
+    public static env: string = 'PROD'; //DEV
+
+    public static getHttpJsonHeaders() {
+        let headers = new Headers();
+        headers.append("Content-Type", 'application/json');
+        headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
+        return headers;
+    }
+
+    public static getHttpTextHeaders() {
+        let headers = new Headers();
+        headers.append("Content-Type", 'text/plain');
+        headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
+        return headers;
+    }
+
+    public static getHttpXmlHeaders() {
+        let headers = new Headers();
+        headers.append("Content-Type", 'text/xml');
+        headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
+        return headers;
+    }
+    
     public static setConfigs(type:string):AbstractConfigs {
         if (type === "employer") {
             return new EmployerConfigs();

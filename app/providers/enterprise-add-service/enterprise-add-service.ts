@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {Configs} from "../../configurations/configs";
 
 /*
  Generated class for the EnterpriseAddService provider.
@@ -101,8 +102,7 @@ export class EnterpriseAddService {
     let body = JSON.stringify(dataLog);
 
     return new Promise(resolve => {
-      let headers = new Headers();
-      headers.append("Content-Type", 'application/json');
+      let headers = Configs.getHttpJsonHeaders();
       this.http.post(this.calloutURL, body, {headers: headers})
           .map(res => res.json())
           .subscribe(data => {
@@ -123,8 +123,7 @@ export class EnterpriseAddService {
       // We're using Angular Http provider to request the data,
       // then on the response it'll map the JSON data to a parsed JS object.
       // Next we process the data and resolve the promise with the new data.
-      let headers = new Headers();
-      headers.append("Content-Type", 'text/plain');
+      let headers = Configs.getHttpTextHeaders();
       this.http.post(this.sqlURL, sql, {headers: headers})
           .map(res => res.json())
           .subscribe(data => {
@@ -159,8 +158,7 @@ export class EnterpriseAddService {
       // We're using Angular Http provider to request the data,
       // then on the response it'll map the JSON data to a parsed JS object.
       // Next we process the data and resolve the promise with the new data.
-      let headers = new Headers();
-      headers.append("Content-Type", 'text/plain');
+      let headers = Configs.getHttpTextHeaders();
       this.http.post(this.sqlURL, sql, {headers: headers})
           .map(res => res.json())
           .subscribe(data => {

@@ -37,8 +37,7 @@ var OpportunitiesService = (function () {
             "AND user_candidature_opportunite.fk_user_account = " + idAccount;
         console.log('LOADING INVTIATIONS SQL : ' + sql);
         return new Promise(function (resolve) {
-            var headers = new http_1.Headers();
-            headers.append("Content-Type", 'text/plain');
+            var headers = Configs.getHttpTextHeaders();
             _this.http.post(configs_1.Configs.sqlURL, sql, { headers: headers })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {

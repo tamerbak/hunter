@@ -36,8 +36,7 @@ var EmployersService = (function () {
             // We're using Angular Http provider to request the data,
             // then on the response it'll map the JSON data to a parsed JS object.
             // Next we process the data and resolve the promise with the new data.
-            var headers = new http_1.Headers();
-            headers.append("Content-Type", 'application/json');
+            var headers = Configs.getHttpJsonHeaders();
             _this.http.post(configs_1.Configs.calloutURL, JSON.stringify(payload), { headers: headers })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
@@ -54,8 +53,7 @@ var EmployersService = (function () {
         var sql = "update user_opportunite set fk_user_entreprise=" + opportunity.account.idEntreprise + " where pk_user_opportunite=" + opportunity.id;
         console.log('UPDATE OPPORTUNITY SQL : ' + sql);
         return new Promise(function (resolve) {
-            var headers = new http_1.Headers();
-            headers.append("Content-Type", 'text/plain');
+            var headers = Configs.getHttpTextHeaders();
             _this.http.post(configs_1.Configs.sqlURL, sql, { headers: headers })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {

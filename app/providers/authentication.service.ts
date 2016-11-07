@@ -59,8 +59,7 @@ export class AuthenticationService {
 		let body = JSON.stringify(dataLog);
 		
 	    return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'application/json');
+			let headers = Configs.getHttpJsonHeaders();
 			this.http.post(this.configuration.calloutURL, body, {headers:headers})
 			.map(res => res.json())
 			.subscribe(data => {
@@ -81,8 +80,7 @@ export class AuthenticationService {
 		var sql = "Update user_account set device_token = '" + token + "' where pk_user_account = '" + accountId + "';";
 		
 	    return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'text/plain');
+			let headers = Configs.getHttpTextHeaders();
 			this.http.post(this.configuration.sqlURL, sql, {headers:headers})
 			.map(res => res.json())
 			.subscribe(
@@ -111,8 +109,7 @@ export class AuthenticationService {
 			"where pk_user_jobyer ='" + roleId + "';";
 
 		return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'text/plain');
+			let headers = Configs.getHttpTextHeaders();
 			this.http.post(this.configuration.sqlURL, sql, {headers:headers})
 			.map(res => res.json())
 			.subscribe(data => {
@@ -137,8 +134,7 @@ export class AuthenticationService {
 		//sql = sql + "ape_ou_naf='" + ape + "' where  pk_user_entreprise=" + entrepriseId;
 		
 		return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'text/plain');
+			let headers = Configs.getHttpTextHeaders();
 			this.http.post(this.configuration.sqlURL, sql, {headers:headers})
 			.map(res => res.json())
 			.subscribe(data => {
@@ -193,8 +189,7 @@ export class AuthenticationService {
 		};
 		var stringData = JSON.stringify(data);
 		return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'application/json');
+			let headers = Configs.getHttpJsonHeaders();
 			this.http.post(this.configuration.calloutURL, stringData, {headers:headers})
 			.subscribe(data => {
 	            this.data = data;
@@ -249,8 +244,7 @@ export class AuthenticationService {
 		var stringData = JSON.stringify(data);
 		
 		return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'application/json');
+			let headers = Configs.getHttpJsonHeaders();
 			this.http.post(this.configuration.calloutURL, stringData, {headers:headers})
 			.subscribe(data => {
 	            this.data = data;
@@ -389,8 +383,7 @@ export class AuthenticationService {
 	
 		//  send request
 		return new Promise(resolve => {
-			let headers = new Headers();
-			headers.append("Content-Type", 'application/json');
+			let headers = Configs.getHttpJsonHeaders();
 			this.http.post(this.configuration.calloutURL, stringData, {headers:headers})
 			.subscribe(data => {
 	            this.data = data;

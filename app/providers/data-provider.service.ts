@@ -30,8 +30,7 @@ export class DataProviderService {
 		var sql = "select pk_user_account, email from user_account where telephone = '"+tel+"' " +
 			"and role = '" + role +"'";
 	    return new Promise(resolve => {
-	      let headers = new Headers();
-	      headers.append("Content-Type", 'text/plain');
+	      let headers = Configs.getHttpTextHeaders();
 	      this.http.post(this.configuration.sqlURL, sql, {headers:headers})
 	          .map(res => res.json())
 	          .subscribe(data => {
@@ -57,8 +56,7 @@ export class DataProviderService {
 
 	    // don't have the data yet
 	    return new Promise(resolve => {
-	      let headers = new Headers();
-	      headers.append("Content-Type", 'text/plain');
+	      let headers = Configs.getHttpTextHeaders();
 	      this.http.post(this.configuration.sqlURL, sql, {headers:headers})
 	          .map(res => res.json())
 	          .subscribe(data => {

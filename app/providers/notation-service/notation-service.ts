@@ -23,8 +23,7 @@ export class NotationService {
         let sql = "select coefficient_jobyer, coefficient_entreprise, coefficient_contrat from user_parametrage_des_notes " +
             "order by pk_user_parametrage_des_notes desc limit 1";
         return new Promise(resolve => {
-            let headers = new Headers();
-            headers.append("Content-Type", 'text/plain');
+            let headers = Configs.getHttpTextHeaders();
             this.http.post(Configs.sqlURL, sql, {headers:headers})
                 .map(res => res.json())
                 .subscribe(data => {
@@ -48,8 +47,7 @@ export class NotationService {
                 "('"+this.sqlfy(new Date())+"', 'Nouveau compte jobyer', "+params.jobyers+", "+idAccount+")";
             console.log(sql);
             return new Promise(resolve => {
-                let headers = new Headers();
-                headers.append("Content-Type", 'text/plain');
+                let headers = Configs.getHttpTextHeaders();
                 this.http.post(Configs.sqlURL, sql, {headers:headers})
                     .map(res => res.json())
                     .subscribe(data => {
@@ -68,8 +66,7 @@ export class NotationService {
                 "('"+this.sqlfy(new Date())+"', 'Nouveau compte employeur', "+params.employers+", "+idAccount+")";
             debugger;
             return new Promise(resolve => {
-                let headers = new Headers();
-                headers.append("Content-Type", 'text/plain');
+                let headers = Configs.getHttpTextHeaders();
                 this.http.post(Configs.sqlURL, sql, {headers:headers})
                     .map(res => res.json())
                     .subscribe(data => {
