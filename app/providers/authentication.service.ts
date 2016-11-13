@@ -17,6 +17,7 @@ export class AuthenticationService {
 	projectTarget;
 	data:any;
 	http:any;
+	status: any;
 	
 	constructor(http: Http,gc: GlobalConfigs) {
 		this.http = http;
@@ -404,5 +405,73 @@ export class AuthenticationService {
 				reject(error);
 			})
 		});
+	}
+
+	setNewPassword(phoneOrEmail, typeUser, idHunter) {
+		let encodedArg = btoa(phoneOrEmail);
+
+		let payload = {
+			'class': 'fr.protogen.masterdata.model.CCallout',
+			id: 10014,
+			args: [{
+				"class": "com.vitonjob.hunter.model.HunterAccessQuery",
+				"email": "",
+				"idHunter": idHunter,
+				"telephone": phoneOrEmail,
+				"type": typeUser
+			}]
+		};
+		
+		return new Promise(resolve => {
+			let headers = Configs.getHttpJsonHeaders();
+			this.http.post(this.configuration.calloutURL, JSON.stringify(payload), {headers: headers})
+				.map(res => res.json())
+				.subscribe(data => {
+					this.status = data;
+					resolve(this.status);
+				});
+		});
+	}
+
+	sendPasswordBySMS(tel, passwd) {
+		tel = tel.replace('+', '00');
+		let url = Configs.smsURL;
+		let payload = "<fr.protogen.connector.model.SmsModel>"
+			+ "<telephone>" + tel + "</telephone>"
+			+ "<text>Votre mot de passe est: " + passwd + ".</text>"
+			+ "</fr.protogen.connector.model.SmsModel>";
+
+		return new Promise(resolve => {
+			let headers = Configs.getHttpXmlHeaders();
+			this.http.post(url, payload, {headers: headers})
+				.subscribe(data => {
+					this.data = data;
+					console.log(this.data);
+					resolve(this.data);
+				});
+		})
+	}
+
+	sendPasswordByEmail(email, passwd) {
+		let url = Configs.emailURL;
+		let payload = "<fr.protogen.connector.model.MailModel>"
+			+ "<sendTo>" + email + "</sendTo>"
+			+ "<title>Vit-On-Job - Mot de passe réinitialisé</title>"
+			+ "<content>"
+			+ "Suite à votre requête nous avons procédé à une rénitialisation de votre mot de passe."
+			+ " Votre nouveau mot de passe est : " + passwd
+			+ "</content>"
+			+ "<status></status>"
+			+ "</fr.protogen.connector.model.MailModel>";
+
+		return new Promise(resolve => {
+			let headers = Configs.getHttpXmlHeaders();
+			this.http.post(url, payload, {headers: headers})
+				.subscribe(data => {
+					this.data = data;
+					console.log(this.data);
+					resolve(this.data);
+				});
+		})
 	}
 }

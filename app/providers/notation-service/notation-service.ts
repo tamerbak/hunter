@@ -64,7 +64,7 @@ export class NotationService {
             let params = JSON.parse(data);
             let sql = "insert into user_notes_hunters (created, type, note, fk_user_account) values " +
                 "('"+this.sqlfy(new Date())+"', 'Nouveau compte employeur', "+params.employers+", "+idAccount+")";
-            debugger;
+           
             return new Promise(resolve => {
                 let headers = Configs.getHttpTextHeaders();
                 this.http.post(Configs.sqlURL, sql, {headers:headers})

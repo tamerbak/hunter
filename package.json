@@ -38,7 +38,8 @@
     "cordova-plugin-geolocation",
     "cordova-plugin-camera",
     "cordova-sms-plugin",
-    "cordova-plugin-contacts"
+    "cordova-plugin-contacts",
+    "cordova-plugin-appavailability"
   ],
   "cordovaPlatforms": [
     "ios",

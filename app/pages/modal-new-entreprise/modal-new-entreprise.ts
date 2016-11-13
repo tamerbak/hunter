@@ -47,7 +47,7 @@ export class ModalNewEntreprisePage {
         });
 
         this.sqlStore.get('currentUser').then(data =>{
-            debugger;
+           
            this.currentUser = JSON.parse(data);
         });
 		this.index = 33;

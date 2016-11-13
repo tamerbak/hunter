@@ -6,6 +6,7 @@ import {OpportunitiesListPage} from "./pages/opportunities-list/opportunities-li
 import {PropositionsPage} from "./pages/propositions/propositions";
 import {LoginsPage} from "./pages/logins/logins";
 import {AccountPage} from "./pages/account/account";
+import {GlobalConfigs} from "./configurations/globalConfigs";
 
 declare var cordova;
 @Component({
@@ -148,6 +149,6 @@ export class Hunter {
 }
 
 enableProdMode();
-ionicBootstrap(Hunter, [], {
+ionicBootstrap(Hunter, [GlobalConfigs], {
     backButtonText: "Retour"
 });

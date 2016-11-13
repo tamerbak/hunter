@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import {NavController, Platform, SqlStorage, Storage, Alert, Picker, PickerColumnOption, Toast} from 'ionic-angular';
+import {
+    NavController, Platform, SqlStorage, Storage, Alert, Picker, PickerColumnOption, Toast,
+    NavParams, Loading
+} from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {EnterpriseAddService} from "../../providers/enterprise-add-service/enterprise-add-service";
 import {GooglePlaces} from "../../components/google-places/google-places";
+import {AppAvailability} from "ionic-native";
+import {AuthenticationService} from "../../providers/authentication.service";
+import {GlobalService} from "../../providers/global.service";
 
 /*
   Generated class for the OpportunityFillPage page.
@@ -12,7 +18,7 @@ import {GooglePlaces} from "../../components/google-places/google-places";
 */
 @Component({
   templateUrl: 'build/pages/opportunity-fill/opportunity-fill.html',
-  providers: [EnterpriseAddService],
+  providers: [EnterpriseAddService, AuthenticationService, GlobalService],
   directives: [GooglePlaces]
 })
 export class OpportunityFillPage {
@@ -30,13 +36,43 @@ export class OpportunityFillPage {
   private platform;
   private isIOS;
   private opportunity: any;
+  private target:string;
+  private isEmpInstalled:boolean = false;
+  private isJobInstalled:boolean = false;
+  private user:any;
+  private authService:any;
+  private globalService:any;
 
-  constructor(private _navController:NavController, _service:EnterpriseAddService, platform:Platform) {
+  constructor(private _navController:NavController, _service:EnterpriseAddService,
+              platform:Platform, params:NavParams, _authService:AuthenticationService, _globalService:GlobalService) {
     this.service = _service;
     this.nav = _navController;
     this.db = new Storage(SqlStorage);
     this.platform = platform;
     this.isIOS = this.platform.is('ios');
+    this.target = params.get('target');
+    this.authService = _authService;
+    this.globalService = _globalService;
+    let app;
+    if (this.isIOS) {
+      app = (this.target === 'Employeur') ? 'employeur://' : 'jobyer://';
+    } else if (platform.is('android')) {
+      app = (this.target === 'Employeur') ? 'com.manaona.vitonjob.employeur' : 'com.manaona.vitonjob.jobyer';
+    }
+
+    AppAvailability.check(app)
+        .then(
+            () => {
+              if (this.target === 'Employeur')
+                this.isEmpInstalled = true;
+              else this.isJobInstalled = true;
+            },
+            () => {
+              if (this.target === 'Employeur')
+                this.isEmpInstalled = false;
+              else this.isJobInstalled = false;
+            }
+        );
 
     this.enterpriseCard = {
       employer: {
@@ -63,7 +99,7 @@ export class OpportunityFillPage {
 
     this.opportunity = this.enterpriseCard.offer;
     this.db.get('OPPORTUNITY').then(opp => {
-      debugger;
+     
       if (opp) {
         let obj = JSON.parse(opp);
         //debugger;
@@ -75,6 +111,10 @@ export class OpportunityFillPage {
           this.opportunity = obj;
         }
       }
+    });
+
+    this.db.get('currentUser').then((value)=> {
+      this.user = JSON.parse(value);
     });
 
 
@@ -428,6 +468,38 @@ export class OpportunityFillPage {
     });
 
     this.nav.present(toast);
+  }
+
+
+  sendPassword() {
+    let loading = Loading.create({
+      content: ` 
+			<div>
+			<img src='img/loading.gif' />
+			</div>
+			`,
+      spinner: 'hide'
+    });
+    this.nav.present(loading);
+    let tel = this.opportunity.tel;
+    this.authService.setNewPassword(tel, this.target, this.user.id).then((data) => {
+      if (!data) {
+        loading.dismiss();
+        this.globalService.showAlertValidation("Vit-On-Job", "Serveur non disponible ou problème de connexion.");
+        return;
+      }
+      if (data && data.password.length != 0) {
+        let newPassword = data.password;
+        this.authService.sendPasswordBySMS(tel, newPassword).then((data) => {
+          if (!data || data.status != 200) {
+            loading.dismiss();
+            this.globalService.showAlertValidation("Vit-On-Job", "Serveur non disponible ou problème de connexion.");
+            return;
+          }
+          loading.dismiss();
+        });
+      }
+    })
   }
 
 }

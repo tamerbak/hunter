@@ -120,7 +120,7 @@ export class NewOpportunityPage implements OnInit{
     saveOpportunity() {
         //this.isLoading = true;
         let date = new Date();
-        debugger;
+       
         this.opportunity.creationDate = (date.getDate()) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         this.opportunity.candidatesCount = 0;
         this.storage.get('currentUser').then((value)=> {

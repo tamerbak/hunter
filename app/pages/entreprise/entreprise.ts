@@ -1,48 +1,88 @@
-import {NavController, Storage, LocalStorage, Modal, NavParams, Toast} from 'ionic-angular';
+import {NavController, Storage, Modal, NavParams, Toast, Platform, Loading, SqlStorage} from "ionic-angular";
 import {EmployersService} from "../../providers/employers-service/employers-service";
 import {Component} from "@angular/core";
 import {ModalNewEntreprisePage} from "../modal-new-entreprise/modal-new-entreprise";
-import {ContactsPage} from "../contacts/contacts";
 import {ModalManualContactPage} from "../modal-manual-contact/modal-manual-contact";
+import {AppAvailability} from "ionic-native";
+import {AuthenticationService} from "../../providers/authentication.service";
+import {GlobalService} from "../../providers/global.service";
+import {GlobalConfigs} from "../../configurations/globalConfigs";
 
+declare function md5();
 
 @Component({
     templateUrl: 'build/pages/entreprise/entreprise.html',
-    providers: [EmployersService]
+    providers: [EmployersService, AuthenticationService, GlobalService]
 })
 export class EntreprisePage {
-    searchText : string;
-    accounts : any = [];
-    opportunity : any;
-    service : EmployersService;
-    storage : any;
-    noCompany : boolean = false;
-    listShowed: boolean = false;
-    accountFound: boolean = true;
-    loadingSearch: boolean = false;
+    searchText:string;
+    accounts:any = [];
+    opportunity:any;
+    service:EmployersService;
+    storage:any;
+    noCompany:boolean = false;
+    listShowed:boolean = false;
+    accountFound:boolean = true;
+    loadingSearch:boolean = false;
     target:string;
-    noResultMessage: string;
+    noResultMessage:string;
+    isEmpInstalled:boolean = false;
+    isJobInstalled:boolean = false;
+    user:any;
+    authService:any;
+    globalService:any;
 
-    constructor(public nav: NavController,
-                service:EmployersService, params: NavParams) {
-        //debugger;
+    constructor(public nav:NavController,
+                service:EmployersService, params:NavParams, platform:Platform,
+                _authService:AuthenticationService, _globalService:GlobalService) {
+
+        let app;
+        this.target = params.get('target');
+        this.authService = _authService;
+        this.globalService = _globalService;
+
+        if (platform.is('ios')) {
+            app = (this.target === 'Employeur') ? 'employeur://' : 'jobyer://';
+        } else if (platform.is('android')) {
+            app = (this.target === 'Employeur') ? 'com.manaona.vitonjob.employeur' : 'com.manaona.vitonjob.jobyer';
+        }
+
+        AppAvailability.check(app)
+            .then(
+                () => {
+                    if (this.target === 'Employeur')
+                        this.isEmpInstalled = true;
+                    else this.isJobInstalled = true;
+                },
+                () => {
+                    if (this.target === 'Employeur')
+                        this.isEmpInstalled = false;
+                    else this.isJobInstalled = false;
+                }
+            );
+
         this.opportunity = {
-            account : {
+            account: {
                 fullName: '',
                 tel: '',
                 email: ''
             }
         };
-        this.target = params.get('target');
+
+
         if (this.target === 'Employeur')
             this.noResultMessage = 'Aucune entreprise ne correspond à la recherche.';
         else
             this.noResultMessage = 'Aucun jobyer ne correspond à la recherche.';
         this.service = service;
-        this.storage = new Storage(LocalStorage);
+        this.storage = new Storage(SqlStorage);
+
+        this.storage.get('currentUser').then((value)=> {
+            this.user = JSON.parse(value);
+        });
+
         this.storage.get('OPPORTUNITY').then(opp => {
             let obj = JSON.parse(opp);
-            //debugger;
             if (obj) {
                 console.log(obj);
                 this.opportunity = obj;
@@ -52,21 +92,21 @@ export class EntreprisePage {
                  email: ''
                  };*/
                 /*this.service.loadEmployer(obj).then(o => {
-                    this.opportunity.account = o;
-                    if(!this.opportunity.account || this.opportunity.account.idAccount == 0){
-                        this.opportunity.account = {
-                            fullName : '',
-                            tel:'',
-                            email:''
-                        };
-                        this.noCompany = true;
-                    }
-                });*/
+                 this.opportunity.account = o;
+                 if(!this.opportunity.account || this.opportunity.account.idAccount == 0){
+                 this.opportunity.account = {
+                 fullName : '',
+                 tel:'',
+                 email:''
+                 };
+                 this.noCompany = true;
+                 }
+                 });*/
             } else {
                 this.opportunity.account = {
-                    fullName : '',
-                    tel:'',
-                    email:''
+                    fullName: '',
+                    tel: '',
+                    email: ''
                 };
                 this.noCompany = true;
             }
@@ -74,47 +114,46 @@ export class EntreprisePage {
         });
     }
 
-    popScreen(){
+    popScreen() {
         this.nav.pop();
     }
 
-    search(){
+    search() {
         this.loadingSearch = true;
-        this.service.seekAccounts(this.searchText).then(accounts=>{
+        this.service.seekAccounts(this.searchText).then(accounts=> {
             this.accounts = accounts;
-                this.accountFound = this.accounts.length > 0;
+            this.accountFound = this.accounts.length > 0;
             this.listShowed = true;
             this.loadingSearch = false;
         });
     }
 
-    selectAccount(account){
+    selectAccount(account) {
         this.opportunity.account = account;
         this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity));
         /*this.service.saveEnterprise(this.opportunity).then(data => {
-            //debugger;
-            this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity));
-        });*/
-		this.noCompany = false;
+         this.storage.set('OPPORTUNITY', JSON.stringify(this.opportunity));
+         });*/
+        this.noCompany = false;
         this.listShowed = false;
         this.presentToast(this.target + ' est bien enregistré');
     }
 
-    createCompany(){
+    createCompany() {
         //todo launch new jobyer modal
-        if (this.target==='Employeur') {
+        if (this.target === 'Employeur') {
             let modal = new Modal(ModalNewEntreprisePage);
             modal.onDismiss(company => {
                 this.searchText = company.fullName;
-                if(this.searchText.length>0)
+                if (this.searchText.length > 0)
                     this.search();
             });
             this.nav.present(modal);
         } else {
             let modal = new Modal(ModalManualContactPage);
             modal.onDismiss(company => {
-                this.searchText = company.firstName +' '+ company.lastName;
-                if(this.searchText.length>0)
+                this.searchText = company.firstName + ' ' + company.lastName;
+                if (this.searchText.length > 0)
                     this.search();
             });
             this.nav.present(modal);
@@ -134,5 +173,36 @@ export class EntreprisePage {
         });
 
         this.nav.present(toast);
+    }
+
+    sendPassword() {
+        let loading = Loading.create({
+            content: ` 
+			<div>
+			<img src='img/loading.gif' />
+			</div>
+			`,
+            spinner: 'hide'
+        });
+        this.nav.present(loading);
+        let tel = this.opportunity.tel;
+        this.authService.setNewPassword(tel, this.target, this.user.id).then((data) => {
+            if (!data) {
+                loading.dismiss();
+                this.globalService.showAlertValidation("Vit-On-Job", "Serveur non disponible ou problème de connexion.");
+                return;
+            }
+            if (data && data.password.length != 0) {
+                let newPassword = data.password;
+                this.authService.sendPasswordBySMS(tel, newPassword).then((data) => {
+                    if (!data || data.status != 200) {
+                        loading.dismiss();
+                        this.globalService.showAlertValidation("Vit-On-Job", "Serveur non disponible ou problème de connexion.");
+                        return;
+                    }
+                    loading.dismiss();
+                });
+            }
+        })
     }
 }

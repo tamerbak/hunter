@@ -15,8 +15,41 @@
 
     <ion-card class="mainCard">
         <ion-card>
-            <ion-card-header>Retrouvez un {{target}}</ion-card-header>
-            <ion-row>
+            <ion-card-header>Ajoutez un {{target}}</ion-card-header>
+            <ion-item *ngIf="target==='Employeur'" text-wrap no-lines>
+                <span *ngIf="!isEmpInstalled">Télécharger </span><span style="color: #757575">Employeur</span><span *ngIf="isEmpInstalled"> déjà installée</span>
+                <button clear item-right *ngIf="isEmpInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
+                <button clear item-right *ngIf="!isEmpInstalled"><ion-icon name="download"></ion-icon></button>
+            </ion-item>
+            <ion-item *ngIf="target==='Jobyer'" text-wrap no-lines>
+                <span *ngIf="!isJobInstalled">Télécharger </span><span style="color: #14baa6">Jobyer</span><span *ngIf="isJobInstalled"> déjà installée</span>
+                <button clear item-right *ngIf="isJobInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
+                <button clear item-right *ngIf="!isJobInstalled"><ion-icon name="download"></ion-icon></button>
+            </ion-item>
+
+            <!--ion-item>
+                <ion-label floating>Email {{target}}</ion-label>
+                <ion-input type="email" [(ngModel)]="email"></ion-input>
+            </ion-item-->
+
+            <ion-item>
+                <ion-icon name="phone"></ion-icon>
+                <ion-label floating>Saisissez le tél {{target}}</ion-label>
+                <ion-input type="phone" [(ngModel)]="opportunity.tel" maxlength="10"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <button outline small (click)="sendPassword()" item-right>Envoyer le SMS</button>
+            </ion-item>
+
+            <ion-item text-wrap no-lines>
+                <p>
+                    Vous allez recevoir un SMS qui vous donne accès à l'application Vit-On-Job {{target}}.<br>
+                    Pour ajouter un {{target}}, il suffit d'ouvrir l'application et utiliser le code envoyé.
+                </p>
+            </ion-item>
+
+            <!--ion-row>
                 <ion-col width-80 style="padding-right: 0px;">
                         <ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
                 </ion-col>
@@ -54,7 +87,7 @@
                         <p>{{opportunity.account.tel}}</p>
                         <p>{{opportunity.account.email}}</p>
                 </ion-card-content>
-            </ion-card>
+            </ion-card-->
         </ion-card>
     </ion-card>
 

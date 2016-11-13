@@ -86,11 +86,11 @@ export class Configs {
     public static emailURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/envoimail';
     */
     
-    public static calloutURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/business';
-    public static sqlURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/sql';
-    public static yousignURL : string = 'http://ns389914.ovh.net:8080/vitonjobv1/api/business';
-    public static smsURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/envoisms';
-    public static emailURL : string = 'http://ns389914.ovh.net/vitonjobv1/api/envoimail';
+    public static calloutURL : string = 'https://app.vitonjob.com/api/business';
+    public static sqlURL : string = 'https://app.vitonjob.com/api/sql';
+    public static yousignURL : string = 'https://app.vitonjob.com/api/business';
+    public static smsURL : string = 'https://app.vitonjob.com/api/envoisms';
+    public static emailURL : string = 'https://app.vitonjob.com/api/envoimail';
 
     public static env: string = 'PROD'; //DEV
 

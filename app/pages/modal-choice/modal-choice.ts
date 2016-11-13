@@ -26,6 +26,7 @@ export class ModalChoicePage {
     pushInvitePage : any;
     pushPersonPage : any;
     paramsOfferPage: any;
+    paramsInvitePage: any;
 
     constructor(public nav:NavController, public viewCtrl:ViewController, public params:NavParams) {
 
@@ -42,11 +43,12 @@ export class ModalChoicePage {
                     body:"Job et horaire"
                 };
                 this.inviteMessage = {
-                    header: "J'invite un jobyer",
+                    header: "Je propose un jobyer",
                     body:"Qui correspond à l'opportunité"
                 };
                 this.pushOfferPage = OpportunityFillPage;
                 this.paramsOfferPage = {target: 'Employeur'};
+                this.paramsInvitePage = {target: 'Jobyer'};
                 break;
             case false :
                 this.pictureMessage = "Je prends en photo une opportunité";
@@ -56,18 +58,19 @@ export class ModalChoicePage {
                 };
                 this.offerMessage = {
                     header: "Je saisis la compétence",
-                    body:"Job et disponibilité"
+                    body:"Job et disponibilités"
                 };
                 this.inviteMessage = {
-                    header: "J'invite un employeur",
+                    header: "Je propose un employeur",
                     body:"Qui correspond à l'opportunité"
                 };
                 this.pushOfferPage = OpportunityFillPage;
                 this.paramsOfferPage = {target: 'Jobyer'};
+                this.paramsInvitePage = {target: 'Employeur'};
                 break;
         }
 
-        this.pushInvitePage = ContactsPage;
+        this.pushInvitePage = EntreprisePage;
         this.pushPersonPage = EntreprisePage;
         this.pushPicturePage = NewOpportunityPage;
 

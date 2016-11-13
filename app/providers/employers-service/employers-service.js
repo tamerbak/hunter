@@ -40,7 +40,7 @@ var EmployersService = (function () {
             _this.http.post(configs_1.Configs.calloutURL, JSON.stringify(payload), { headers: headers })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
-                debugger;
+               
                 // we've got back the raw data, now generate the core schedule data
                 // and save the data for later reference
                 _this.accounts = data;

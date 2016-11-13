@@ -23,7 +23,7 @@
                 {{offerMessage.header}}
                 <p>{{offerMessage.body}}</p>
             </ion-item>
-            <ion-item [navPush]="pushInvitePage">
+            <ion-item [navPush]="pushInvitePage" [navParams]="paramsInvitePage">
                 <ion-icon name="share" primary item-left></ion-icon>
                 {{inviteMessage.header}}
                 <p>{{inviteMessage.body}}</p>
