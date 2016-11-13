@@ -7,6 +7,7 @@ import {PropositionsPage} from "./pages/propositions/propositions";
 import {LoginsPage} from "./pages/logins/logins";
 import {AccountPage} from "./pages/account/account";
 import {GlobalConfigs} from "./configurations/globalConfigs";
+import {AboutPage} from "./pages/about/about";
 
 declare var cordova;
 @Component({
@@ -84,7 +85,8 @@ export class Hunter {
 
         this.loggedOutPages = [
             {title : "Publier une opportunité", component : HomePage, icon:"md-share", isBadged:false},
-            {title : "Se connecter / S'inscrire", component : LoginsPage, icon:"log-in", isBadged:false}
+            {title : "Se connecter / S'inscrire", component : LoginsPage, icon:"log-in", isBadged:false},
+            {title: "A propos", component: AboutPage, icon: "help-circle", isBadged: false}
         ];
 
         this.loggedInPages = [
@@ -92,7 +94,8 @@ export class Hunter {
             //{title : "Mon compte", component : AccountPage, icon:"person", isBadged:false},
             //{title : "Opportunités publiées", component : OpportunitiesListPage, icon:"ios-share-outline", isBadged:false},
             //{title : "Opportunités reçues", component : PropositionsPage, icon:"ios-download-outline", isBadged:false},
-            {title : "Se déconnecter", component : HomePage, icon:"log-out", isBadged:false}
+            {title : "Se déconnecter", component : HomePage, icon:"log-out", isBadged:false},
+            {title: "A propos", component: AboutPage, icon: "help-circle", isBadged: false}
         ];
 
 

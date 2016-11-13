@@ -65,7 +65,7 @@ class HunterConfigs implements AbstractConfigs {
     // Application opposite theme color
     inversedThemeColor: string = '#757575';
     // VitOnJob Jobyer image
-    imageURL: string = "img/logo_jobyer.png";
+    imageURL: string = "img/hunter_logo.png";
     // User employer image
     userImageURL = 'img/jobyer.png';
     bgMenuURL: string = 'img/bg_jobyer.png';

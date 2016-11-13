@@ -39,7 +39,8 @@
     "cordova-plugin-camera",
     "cordova-sms-plugin",
     "cordova-plugin-contacts",
-    "cordova-plugin-appavailability"
+    "cordova-plugin-appavailability",
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "ios",
