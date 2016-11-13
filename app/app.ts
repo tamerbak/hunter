@@ -43,7 +43,7 @@ export class Hunter {
                 StatusBar.styleDefault();
 
                 // Convenience to route with a given nav
-                Deeplinks.routeWithNavController(this.nav, {
+                /*Deeplinks.routeWithNavController(this.nav, {
                     //'/home': HomePage,
                     '/opportunities' : OpportunitiesListPage
                     //'/universal-links-test': AboutPage,
@@ -52,10 +52,10 @@ export class Hunter {
                     console.log('Successfully routed', match);
                 }, (nomatch) => {
                     console.warn('Unmatched Route', nomatch);
-                });
+                });*/
 
                 // instabug plugin
-                cordova.plugins.instabug.activate(
+                /*cordova.plugins.instabug.activate(
                     {
                         android: this.tokens.android,
                         ios: this.tokens.ios
@@ -78,7 +78,7 @@ export class Hunter {
                     function (error) {
                         console.log('Instabug could not be initialized - ' + error);
                     }
-                );
+                );*/
             }
         });
         this.storage = new Storage(SqlStorage);
