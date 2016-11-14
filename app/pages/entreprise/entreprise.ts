@@ -3,7 +3,7 @@ import {EmployersService} from "../../providers/employers-service/employers-serv
 import {Component} from "@angular/core";
 import {ModalNewEntreprisePage} from "../modal-new-entreprise/modal-new-entreprise";
 import {ModalManualContactPage} from "../modal-manual-contact/modal-manual-contact";
-import {AppAvailability} from "ionic-native";
+import {AppAvailability, InAppBrowser} from "ionic-native";
 import {AuthenticationService} from "../../providers/authentication.service";
 import {GlobalService} from "../../providers/global.service";
 import {GlobalConfigs} from "../../configurations/globalConfigs";
@@ -31,19 +31,21 @@ export class EntreprisePage {
     user:any;
     authService:any;
     globalService:any;
+    platform:any;
 
     constructor(public nav:NavController,
-                service:EmployersService, params:NavParams, platform:Platform,
+                service:EmployersService, params:NavParams, _platform:Platform,
                 _authService:AuthenticationService, _globalService:GlobalService) {
 
         let app;
         this.target = params.get('target');
         this.authService = _authService;
         this.globalService = _globalService;
+        this.platform = _platform;
 
-        if (platform.is('ios')) {
+        if (this.platform.is('ios')) {
             app = (this.target === 'Employeur') ? 'employeur://' : 'jobyer://';
-        } else if (platform.is('android')) {
+        } else if (this.platform.is('android')) {
             app = (this.target === 'Employeur') ? 'com.manaona.vitonjob.employeur' : 'com.manaona.vitonjob.jobyer';
         }
 
@@ -112,6 +114,16 @@ export class EntreprisePage {
             }
 
         });
+    }
+
+    openMarket() {
+        let downloadURL:string = "";
+        if (this.platform.is('ios')) {
+            downloadURL = (this.target === 'Employeur')? 'https://itunes.apple.com/fr/app/vitonjob-employeur/id1083552836?mt=8' : 'https://itunes.apple.com/fr/app/vitonjob-jobyer/id1125594700?mt=8';
+        } else if (this.platform.is('android')) {
+            downloadURL = (this.target === 'Employeur')? 'market://details?id=com.manaona.vitonjob.employeur' : 'market://details?id=com.manaona.vitonjob.jobyer';
+        }
+        let browser = InAppBrowser.open(downloadURL, '_system');
     }
 
     popScreen() {

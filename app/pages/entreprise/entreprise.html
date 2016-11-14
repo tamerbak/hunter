@@ -19,7 +19,7 @@
             <ion-item *ngIf="target==='Employeur'" text-wrap no-lines>
                 <span *ngIf="!isEmpInstalled">Télécharger </span><span style="color: #757575">Employeur</span><span *ngIf="isEmpInstalled"> déjà installée</span>
                 <button clear item-right *ngIf="isEmpInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
-                <button clear item-right *ngIf="!isEmpInstalled"><ion-icon name="download"></ion-icon></button>
+                <button clear item-right *ngIf="!isEmpInstalled" (click)="openMarket()"><ion-icon name="download"></ion-icon></button>
             </ion-item>
             <ion-item *ngIf="target==='Jobyer'" text-wrap no-lines>
                 <span *ngIf="!isJobInstalled">Télécharger </span><span style="color: #14baa6">Jobyer</span><span *ngIf="isJobInstalled"> déjà installée</span>

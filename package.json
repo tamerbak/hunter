@@ -40,7 +40,8 @@
     "cordova-sms-plugin",
     "cordova-plugin-contacts",
     "cordova-plugin-appavailability",
-    "cordova-plugin-app-version"
+    "cordova-plugin-app-version",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios",
