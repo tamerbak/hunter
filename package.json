@@ -41,7 +41,8 @@
     "cordova-plugin-contacts",
     "cordova-plugin-appavailability",
     "cordova-plugin-app-version",
-    "cordova-plugin-inappbrowser"
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-market"
   ],
   "cordovaPlatforms": [
     "ios",

@@ -32,8 +32,8 @@ class EmployerConfigs implements AbstractConfigs {
     userImageURL = 'img/employer.png';
     bgMenuURL: string = 'img/bg_employer.png';
     highlightSentence : string = 'Trouvez vos jobyers immédiatement disponibles!';
-    calloutURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
-    sqlURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sql';
+    calloutURL : string = Configs.calloutURL;
+    sqlURL : string = Configs.sqlURL;
     calendarTheme: number = 4;
 }
 
@@ -51,8 +51,8 @@ class JobyerConfigs implements AbstractConfigs {
     userImageURL = 'img/jobyer.png';
     bgMenuURL: string = 'img/bg_jobyer.png';
     highlightSentence : string = "Des milliers d'opportunités à proximité!";
-    calloutURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
-    sqlURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sql';
+    calloutURL : string = Configs.calloutURL;
+    sqlURL : string = Configs.sqlURL;
     calendarTheme: number = 5;
 }
 
@@ -70,48 +70,50 @@ class HunterConfigs implements AbstractConfigs {
     userImageURL = 'img/jobyer.png';
     bgMenuURL: string = 'img/bg_jobyer.png';
     highlightSentence : string = "Des milliers d'opportunités à proximité!";
-    calloutURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
-    sqlURL : string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sql';
+    calloutURL : string = Configs.calloutURL;
+    sqlURL : string = Configs.sqlURL;
     calendarTheme: number = 5;
 }
 
 
 export class Configs {
 
-    /*
+
     public static calloutURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
     public static sqlURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/sql';
     public static yousignURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/business';
     public static smsURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/envoisms';
     public static emailURL:string = 'http://vitonjobv1.datqvvgppi.us-west-2.elasticbeanstalk.com/api/envoimail';
-    */
+
     
+    /*
     public static calloutURL : string = 'https://app.vitonjob.com/api/business';
     public static sqlURL : string = 'https://app.vitonjob.com/api/sql';
     public static yousignURL : string = 'https://app.vitonjob.com/api/business';
     public static smsURL : string = 'https://app.vitonjob.com/api/envoisms';
     public static emailURL : string = 'https://app.vitonjob.com/api/envoimail';
+    */
 
-    public static env: string = 'PROD'; //DEV
+    public static env: string = 'DEV'; //PROD
 
     public static getHttpJsonHeaders() {
         let headers = new Headers();
         headers.append("Content-Type", 'application/json');
-        headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
+        //headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
         return headers;
     }
 
     public static getHttpTextHeaders() {
         let headers = new Headers();
         headers.append("Content-Type", 'text/plain');
-        headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
+        //headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
         return headers;
     }
 
     public static getHttpXmlHeaders() {
         let headers = new Headers();
         headers.append("Content-Type", 'text/xml');
-        headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
+        //headers.append("Authorization", 'Basic aGFkZXM6NWV0Y2Fy');
         return headers;
     }
     

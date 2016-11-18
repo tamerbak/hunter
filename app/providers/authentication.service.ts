@@ -9,6 +9,7 @@ import {GlobalConfigs} from '../configurations/globalConfigs';
 	* @description web service access point for user authentication and inscription
 	* @module Authentication
 */
+	declare function md5(arg:string);
 
 @Injectable()
 export class AuthenticationService {
@@ -36,6 +37,8 @@ export class AuthenticationService {
 	authenticate(email: string, phone: number, password, projectTarget: string){
 		//  Init project parameters
 		this.configuration = Configs.setConfigs(projectTarget);
+
+		let pwd = md5(password);
 		
 		//Prepare the request
 		var login =
@@ -43,14 +46,14 @@ export class AuthenticationService {
 			'class': 'com.vitonjob.callouts.auth.AuthToken',
 			'email': email,
 			'telephone': "+" + phone,
-			'password': password,
+			'password': pwd,
 			'role': (projectTarget == 'employer' ? 'employeur' : projectTarget) 
 		};
 		let loginString = JSON.stringify(login);
 		var encodedLogin = btoa(loginString);
 		var dataLog = {
 			'class': 'fr.protogen.masterdata.model.CCallout',
-			'id': 130,
+			'id': 10013,
 			'args': [{
 				'class': 'fr.protogen.masterdata.model.CCalloutArguments',
 				label: 'requete authentification',
@@ -61,7 +64,7 @@ export class AuthenticationService {
 		
 	    return new Promise(resolve => {
 			let headers = Configs.getHttpJsonHeaders();
-			this.http.post(this.configuration.calloutURL, body, {headers:headers})
+			this.http.post(Configs.calloutURL, body, {headers:headers})
 			.map(res => res.json())
 			.subscribe(data => {
 	            this.data = data;
@@ -82,7 +85,7 @@ export class AuthenticationService {
 		
 	    return new Promise(resolve => {
 			let headers = Configs.getHttpTextHeaders();
-			this.http.post(this.configuration.sqlURL, sql, {headers:headers})
+			this.http.post(Configs.sqlURL, sql, {headers:headers})
 			.map(res => res.json())
 			.subscribe(
 			data => console.log("device token bien inséré pour l'utilisateur " + accountId),
@@ -111,7 +114,7 @@ export class AuthenticationService {
 
 		return new Promise(resolve => {
 			let headers = Configs.getHttpTextHeaders();
-			this.http.post(this.configuration.sqlURL, sql, {headers:headers})
+			this.http.post(Configs.sqlURL, sql, {headers:headers})
 			.map(res => res.json())
 			.subscribe(data => {
 	            this.data = data;
@@ -136,7 +139,7 @@ export class AuthenticationService {
 		
 		return new Promise(resolve => {
 			let headers = Configs.getHttpTextHeaders();
-			this.http.post(this.configuration.sqlURL, sql, {headers:headers})
+			this.http.post(Configs.sqlURL, sql, {headers:headers})
 			.map(res => res.json())
 			.subscribe(data => {
 	            this.data = data;
@@ -191,7 +194,7 @@ export class AuthenticationService {
 		var stringData = JSON.stringify(data);
 		return new Promise(resolve => {
 			let headers = Configs.getHttpJsonHeaders();
-			this.http.post(this.configuration.calloutURL, stringData, {headers:headers})
+			this.http.post(Configs.calloutURL, stringData, {headers:headers})
 			.subscribe(data => {
 	            this.data = data;
 	            resolve(this.data);
@@ -246,7 +249,7 @@ export class AuthenticationService {
 		
 		return new Promise(resolve => {
 			let headers = Configs.getHttpJsonHeaders();
-			this.http.post(this.configuration.calloutURL, stringData, {headers:headers})
+			this.http.post(Configs.calloutURL, stringData, {headers:headers})
 			.subscribe(data => {
 	            this.data = data;
 	            resolve(this.data);
@@ -385,7 +388,7 @@ export class AuthenticationService {
 		//  send request
 		return new Promise(resolve => {
 			let headers = Configs.getHttpJsonHeaders();
-			this.http.post(this.configuration.calloutURL, stringData, {headers:headers})
+			this.http.post(Configs.calloutURL, stringData, {headers:headers})
 			.subscribe(data => {
 	            this.data = data;
 	            resolve(this.data);
@@ -407,21 +410,54 @@ export class AuthenticationService {
 		});
 	}
 
-	setNewPassword(phoneOrEmail, typeUser, idHunter) {
+	setNewAccess(phone, email, typeUser, idHunter) {
+
+		let internationalPhone = '+33' + phone.substr(1);
+debugger;
+		let args ={
+			"class": "com.vitonjob.hunter.model.HunterAccessQuery",
+			"email": (email)? email:"",
+			"idHunter": idHunter,
+			"telephone": internationalPhone,
+			"type": (typeUser === 'Employeur')? 'employeur':'jobyer'
+		};
+
+		let stringArg = JSON.stringify(args);
+		let encodedArg = btoa(stringArg);
+
+		let payload = {
+			'class': 'fr.protogen.masterdata.model.CCallout',
+			id: 10021,//10014,
+			args: [{
+				'class': 'fr.protogen.masterdata.model.CCalloutArguments',
+				label: 'Hunter access code',
+				value: encodedArg
+			}]
+		};
+		
+		return new Promise(resolve => {
+			let headers = Configs.getHttpJsonHeaders();
+			this.http.post(Configs.calloutURL, JSON.stringify(payload), {headers: headers})
+				.map(res => res.json())
+				.subscribe(data => {
+					this.status = data;
+					resolve(this.status);
+				});
+		});
+	}
+
+	setNewPassword(phoneOrEmail) {
 		let encodedArg = btoa(phoneOrEmail);
 
 		let payload = {
 			'class': 'fr.protogen.masterdata.model.CCallout',
-			id: 10014,
+			id: 152,
 			args: [{
-				"class": "com.vitonjob.hunter.model.HunterAccessQuery",
-				"email": "",
-				"idHunter": idHunter,
-				"telephone": phoneOrEmail,
-				"type": typeUser
+				'class': 'fr.protogen.masterdata.model.CCalloutArguments',
+				label: 'Contact to create',
+				value: encodedArg
 			}]
 		};
-		
 		return new Promise(resolve => {
 			let headers = Configs.getHttpJsonHeaders();
 			this.http.post(this.configuration.calloutURL, JSON.stringify(payload), {headers: headers})
@@ -433,12 +469,12 @@ export class AuthenticationService {
 		});
 	}
 
-	sendPasswordBySMS(tel, passwd) {
-		tel = tel.replace('+', '00');
+	sendCodeBySMS(tel, passwd) {
+		let internationalPhone = '0033' + tel.substr(1);
 		let url = Configs.smsURL;
 		let payload = "<fr.protogen.connector.model.SmsModel>"
-			+ "<telephone>" + tel + "</telephone>"
-			+ "<text>Votre mot de passe est: " + passwd + ".</text>"
+			+ "<telephone>" + internationalPhone + "</telephone>"
+			+ "<text>Votre code d'accès est: " + passwd + "</text>"
 			+ "</fr.protogen.connector.model.SmsModel>";
 
 		return new Promise(resolve => {
@@ -463,6 +499,57 @@ export class AuthenticationService {
 			+ "</content>"
 			+ "<status></status>"
 			+ "</fr.protogen.connector.model.MailModel>";
+
+		return new Promise(resolve => {
+			let headers = Configs.getHttpXmlHeaders();
+			this.http.post(url, payload, {headers: headers})
+				.subscribe(data => {
+					this.data = data;
+					console.log(this.data);
+					resolve(this.data);
+				});
+		})
+	}
+
+	updatePasswordByMail(email, password,reset) {
+		let sql = "update user_account set mot_de_passe = '" + password + "' , mot_de_passe_reinitialise = '" + reset + "' where email = '" + email + "';";
+
+		return new Promise(resolve => {
+			let headers = Configs.getHttpTextHeaders();
+			this.http.post(Configs.sqlURL, sql, {headers: headers})
+				.map(res => res.json())
+				.subscribe(data => {
+					this.data = data;
+					console.log(this.data);
+					resolve(this.data);
+				});
+		})
+	}
+
+
+	updatePasswordByPhone(tel, passwd,reset) {
+		let sql ="update user_account set mot_de_passe = '" + passwd + "' , mot_de_passe_reinitialise = '" + reset + "' " +
+			"where telephone = '" + tel + "' and role = 'hunter';";
+debugger;
+		return new Promise(resolve => {
+			let headers = Configs.getHttpTextHeaders();
+			this.http.post(Configs.sqlURL, sql, {headers: headers})
+				.map(res => res.json())
+				.subscribe(data => {
+					this.data = data;
+					console.log(this.data);
+					resolve(this.data);
+				});
+		})
+	}
+
+	sendPasswordBySMS(tel, passwd) {
+		tel = tel.replace('+', '00');
+		let url = Configs.smsURL;
+		let payload = "<fr.protogen.connector.model.SmsModel>"
+			+ "<telephone>" + tel + "</telephone>"
+			+ "<text>Votre mot de passe est: " + passwd + ".</text>"
+			+ "</fr.protogen.connector.model.SmsModel>";
 
 		return new Promise(resolve => {
 			let headers = Configs.getHttpXmlHeaders();

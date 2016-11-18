@@ -1,105 +1,72 @@
 <ion-header>
-    <ion-navbar  primary>
+    <ion-navbar primary>
         <ion-title>
             {{target}}
         </ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding class="entreprise">
-    <!--ion-card [hidden]="!noCompany">
-        <ion-card-content>
-            Aucune entreprise n'est associée à cette opportunité
-        </ion-card-content>
-    </ion-card-->
+<ion-content class="entreprise">
+    <ion-list>
+        <ion-card class="mainCard">
+            <ion-card>
+                <ion-card-header>Ajouter un {{target}}</ion-card-header>
+                <ion-item no-lines text-wrap>
+                    <p>1- Saisissez le téléphone <span *ngIf="target==='Employeur'">de l'</span><span
+                            *ngIf="target==='Jobyer'">du </span>{{target}} :</p>
+                </ion-item>
 
-    <ion-card class="mainCard">
-        <ion-card>
-            <ion-card-header>Ajoutez un {{target}}</ion-card-header>
-            <ion-item *ngIf="target==='Employeur'" text-wrap no-lines>
-                <span *ngIf="!isEmpInstalled">Télécharger </span><span style="color: #757575">Employeur</span><span *ngIf="isEmpInstalled"> déjà installée</span>
-                <button clear item-right *ngIf="isEmpInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
-                <button clear item-right *ngIf="!isEmpInstalled" (click)="openMarket()"><ion-icon name="download"></ion-icon></button>
-            </ion-item>
-            <ion-item *ngIf="target==='Jobyer'" text-wrap no-lines>
-                <span *ngIf="!isJobInstalled">Télécharger </span><span style="color: #14baa6">Jobyer</span><span *ngIf="isJobInstalled"> déjà installée</span>
-                <button clear item-right *ngIf="isJobInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
-                <button clear item-right *ngIf="!isJobInstalled"><ion-icon name="download"></ion-icon></button>
-            </ion-item>
+                <ion-item>
+                    <ion-input type="phone" [(ngModel)]="opportunity.tel" placeholder="0XXXXXXXXX"
+                               maxlength="10"></ion-input>
+                </ion-item>
 
-            <!--ion-item>
-                <ion-label floating>Email {{target}}</ion-label>
-                <ion-input type="email" [(ngModel)]="email"></ion-input>
-            </ion-item-->
-
-            <ion-item>
-                <ion-icon name="phone"></ion-icon>
-                <ion-label floating>Saisissez le tél {{target}}</ion-label>
-                <ion-input type="phone" [(ngModel)]="opportunity.tel" maxlength="10"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <button outline small (click)="sendPassword()" item-right>Envoyer le SMS</button>
-            </ion-item>
-
-            <ion-item text-wrap no-lines>
-                <p>
-                    Vous allez recevoir un SMS qui vous donne accès à l'application Vit-On-Job {{target}}.<br>
-                    Pour ajouter un {{target}}, il suffit d'ouvrir l'application et utiliser le code envoyé.
-                </p>
-            </ion-item>
-
-            <!--ion-row>
-                <ion-col width-80 style="padding-right: 0px;">
-                        <ion-input placeholder="Nom, numéro de téléphone, ..." [(ngModel)]="searchText"></ion-input>
-                </ion-col>
-                <ion-col width-20>
-                    <button clear primary (click)="search()">
-                        <ion-icon name="search"></ion-icon>
+                <ion-item no-lines text-wrap>
+                    <p>2- Cliquez sur
+                        <ion-icon name="chatbubbles"></ion-icon>
+                        pour recevoir le code d'accès via SMS
+                    </p>
+                    <button clear (click)="sendPassword()" item-right>
+                        <ion-icon name="chatbubbles"></ion-icon>
                     </button>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col text-center>
-                    <ion-spinner style="font-size: xx-large" [hidden]="!loadingSearch"></ion-spinner>
-                </ion-col>
-            </ion-row>
-            <ion-card [hidden]="accountFound">
-                <ion-card-content>
-                    {{noResultMessage}}
-                </ion-card-content>
+                </ion-item>
+                <ion-item *ngIf="target==='Employeur'" text-wrap no-lines>
+                    <p>3- <span *ngIf="!isEmpInstalled">Cliquez sur <ion-icon name="download"></ion-icon> pour télécharger </span><span
+                            *ngIf="isEmpInstalled">Ouvrez </span>l'application <span style="color: #14baa6">Vit-On-Job Employeur</span>
+                        sur votre smart
+                    </p>
+                    <button clear item-right *ngIf="isEmpInstalled">
+                        <ion-icon name="checkmark-circle"></ion-icon>
+                    </button>
+                    <button clear item-right *ngIf="!isEmpInstalled" (click)="openMarket()">
+                        <ion-icon name="download"></ion-icon>
+                    </button>
+                </ion-item>
+                <ion-item *ngIf="target==='Jobyer'" text-wrap no-lines>
+                    <p>3- <span *ngIf="!isJobInstalled">Cliquez sur <ion-icon name="download"></ion-icon> pour télécharger </span><span
+                            *ngIf="isJobInstalled">Ouvrez </span>l'application <span style="color: #14baa6">Vit-On-Job Jobyer</span>
+                        sur votre smart
+                    </p>
+                    <button clear item-right *ngIf="isJobInstalled">
+                        <ion-icon name="checkmark-circle"></ion-icon>
+                    </button>
+                    <button clear item-right *ngIf="!isJobInstalled">
+                        <ion-icon name="download"></ion-icon>
+                    </button>
+                </ion-item>
+
+                <ion-item class="labelInItem" text-wrap no-lines>
+                    <h3>
+                        <ion-icon name="ios-information-circle-outline"></ion-icon>
+                        Informations :
+                    </h3>
+                    <p>
+                        Vous allez recevoir un SMS suite à l'action 2, ci-dessus. Le login est le téléphone <span
+                            *ngIf="target==='Employeur'">de l'</span><span *ngIf="target==='Jobyer'">du </span>{{target}}
+                        et le mot de passe est le code que vous avez reçu par SMS.<br>
+                    </p>
+                </ion-item>
             </ion-card>
-            <ion-list [hidden]="!listShowed" text-wrap>
-                <button *ngFor="let e of accounts" ion-item (click)="selectAccount(e)">
-                    <ion-icon name="cube"></ion-icon>&nbsp;{{e.companyName}}
-                    {{e.fullName}}
-                    <p>{{e.tel}}</p>
-                    <p>{{e.email}}</p>
-                </button>
-                <button ion-item [hidden]="accounts.length==0" (click)="createCompany()" style="color: #eca713;">
-                    {{(target==='Employeur')? 'Ajouter une nouvelle entreprise ?' : 'Ajouter un nouveau jobyer ?'}}
-                </button>
-            </ion-list>
-            <ion-card [hidden]="noCompany || listShowed">
-                <ion-card-content>
-                    <h2>{{opportunity.account.companyName}}</h2>
-                    <h4>{{opportunity.account.fullName}}</h4>
-                        <p>{{opportunity.account.tel}}</p>
-                        <p>{{opportunity.account.email}}</p>
-                </ion-card-content>
-            </ion-card-->
         </ion-card>
-    </ion-card>
-
-    <!--ion-row>
-        <ion-col text-center>
-            <button list-item outline primary>
-                Enregistrer
-            </button>
-        </ion-col>
-    </ion-row-->
-
-    <button fab fab-bottom fab-center (click)="createCompany()" [hidden]="accountFound">
-        <ion-icon name="add"></ion-icon>
-    </button>
+    </ion-list>
 </ion-content>

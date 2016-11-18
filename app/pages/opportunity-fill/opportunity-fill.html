@@ -1,152 +1,72 @@
 <ion-header>
-  <ion-navbar primary>
-    <ion-title>Opportunité</ion-title>
-  </ion-navbar>
+    <ion-navbar primary>
+        <ion-title>Opportunité</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content class="opportunity-fill">
-  <ion-list>
-    <ion-card class="mainCard">
-      <!--ion-card>
-        <ion-list-header>
-          <ion-row>
-            <ion-col>Entreprise</ion-col>
-            <ion-col text-right>
-              <ion-icon favorite style="font-size: xx-large" [hidden]="enterpriseCard.enterprise.name || enterpriseCard.enterprise.address" name="create"></ion-icon>
-              <ion-spinner [hidden]="(!(enterpriseCard.enterprise.name) || (enterpriseCard.enterprise.address)) &&
-                             ((enterpriseCard.enterprise.name) || !(enterpriseCard.enterprise.address))"></ion-spinner>
-              <ion-icon favorite style="font-size: xx-large" [hidden]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address" name="checkmark-circle"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-list-header>
-        <ion-item>
-          <ion-label floating>Nom</ion-label>
-          <ion-input [(ngModel)]="enterpriseCard.enterprise.name"></ion-input>
-        </ion-item>
-        <google-places [(bindModelData)]="enterpriseCard.enterprise.address" (onPlaceChanged)='showResults($event)'></google-places>
+    <ion-list>
+        <ion-card class="mainCard">
+            <ion-card>
+                <ion-card-header text-wrap>Capturer une offre {{target}}</ion-card-header>
+                <ion-item no-lines text-wrap>
+                    <p>1- Saisissez le téléphone <span *ngIf="target==='Employeur'">de l'</span><span
+                            *ngIf="target==='Jobyer'">du </span>{{target}} :</p>
+                </ion-item>
 
-      </ion-card-->
+                <ion-item>
+                    <ion-input type="phone" [(ngModel)]="opportunity.tel" maxlength="10"
+                               placeholder="0XXXXXXXXX"></ion-input>
+                </ion-item>
 
-      <ion-card >
-        <!--ion-list-header>
-          <ion-row>
-            <ion-col>Offre</ion-col>
-            <ion-col text-right>
-              <!--ion-icon favorite style="font-size: xx-large" [hidden]="(enterpriseCard.offer.sector || enterpriseCard.offer.job) ||
-                            (!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address)" name="create"></ion-icon>
-              <ion-spinner [hidden]="(!enterpriseCard.offer.sector || enterpriseCard.offer.job) &&
-                            (enterpriseCard.offer.sector || !enterpriseCard.offer.job)"></ion-spinner>
-              <ion-icon favorite style="font-size: xx-large" [hidden]="!enterpriseCard.offer.sector || !enterpriseCard.offer.job" name="checkmark-circle"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-list-header>
-        <!--ion-item>
-          <ion-label floating>Séléctionnez un secteur</ion-label>
-          <ion-input [(ngModel)]="enterpriseCard.offer.sector"
-                     [disabled]="!enterpriseCard.enterprise.name && !enterpriseCard.enterprise.address"></ion-input>
-          <button small item-right (click)="setSectorsPicker()">
-                  <!--[disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address">
-            <ion-icon name="list"></ion-icon>
-          </button>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Sélectionnez un job</ion-label>
-          <ion-input [(ngModel)]="enterpriseCard.offer.job"
-            [disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address"></ion-input>
-          <button small item-right (click)="setJobsPicker()">
-                  <!--[disabled]="!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address">
-            <ion-icon name="list"></ion-icon>
-          </button>
-        </ion-item-->
+                <ion-item no-lines text-wrap>
+                    <p>2- Cliquez sur
+                        <ion-icon name="chatbubbles"></ion-icon>
+                        pour recevoir le code d'accès via SMS
+                    </p>
+                    <button clear (click)="sendPassword()" item-right>
+                        <ion-icon name="chatbubbles"></ion-icon>
+                    </button>
+                </ion-item>
 
-        <ion-card-header text-wrap>Ajoutez une offre {{target}}</ion-card-header>
-        <ion-item *ngIf="target==='Employeur'" text-wrap no-lines>
-          <span *ngIf="!isEmpInstalled">Télécharger </span><span style="color: #757575">Employeur</span><span *ngIf="isEmpInstalled"> déjà installée</span>
-          <button clear item-right *ngIf="isEmpInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
-          <button clear item-right *ngIf="!isEmpInstalled"><ion-icon name="download"></ion-icon></button>
-        </ion-item>
-        <ion-item *ngIf="target==='Jobyer'" text-wrap no-lines>
-          <span *ngIf="!isJobInstalled">Télécharger </span><span style="color: #14baa6">Jobyer</span><span *ngIf="isJobInstalled"> déjà installée</span>
-          <button clear item-right *ngIf="isJobInstalled"><ion-icon name="checkmark-circle"></ion-icon></button>
-          <button clear item-right *ngIf="!isJobInstalled"><ion-icon name="download"></ion-icon></button>
-        </ion-item>
+                <ion-item *ngIf="target==='Employeur'" text-wrap no-lines>
+                    <p>3- <span *ngIf="!isEmpInstalled">Cliquez sur <ion-icon name="download"></ion-icon> pour télécharger </span><span
+                            *ngIf="isEmpInstalled">Ouvrez </span>l'application <span style="color: #14baa6">Vit-On-Job Employeur</span>
+                        sur votre smart
+                    </p>
+                    <button clear item-right *ngIf="isEmpInstalled">
+                        <ion-icon name="checkmark-circle"></ion-icon>
+                    </button>
+                    <button clear item-right *ngIf="!isEmpInstalled" (click)="openMarket()">
+                        <ion-icon name="download"></ion-icon>
+                    </button>
+                </ion-item>
+                <ion-item *ngIf="target==='Jobyer'" text-wrap no-lines>
+                    <p>3- <span *ngIf="!isJobInstalled">Cliquez sur <ion-icon name="download"></ion-icon> pour télécharger </span><span
+                            *ngIf="isJobInstalled">Ouvrez </span>l'application <span style="color: #14baa6">Vit-On-Job Jobyer</span>
+                        sur votre smart
+                    </p>
+                    <button clear item-right *ngIf="isJobInstalled">
+                        <ion-icon name="checkmark-circle"></ion-icon>
+                    </button>
+                    <button clear item-right *ngIf="!isJobInstalled">
+                        <ion-icon name="download"></ion-icon>
+                    </button>
+                </ion-item>
 
-        <ion-item>
-          <ion-icon name="phone"></ion-icon>
-          <ion-label floating>Saisissez le tél {{target}}</ion-label>
-          <ion-input type="phone" [(ngModel)]="opportunity.tel" maxlength="10"></ion-input>
-        </ion-item>
-
-        <ion-item no-lines>
-          <button outline small item-right>Envoyer le SMS</button>
-        </ion-item>
-
-        <ion-item text-wrap no-lines>
-          <p>
-            Vous allez recevoir un SMS qui vous donne accès à l'application Vit-On-Job {{target}}.<br>
-            Pour ajouter une offre {{target}}, il suffit d'ouvrir l'application et utiliser le code envoyé.
-          </p>
-        </ion-item>
-      </ion-card>
-
-      <!--ion-card>
-        <ion-list-header>
-          <ion-row>
-            <ion-col>Employeur</ion-col>
-            <ion-col text-right>
-              <ion-icon favorite style="font-size: xx-large" [hidden]="(enterpriseCard.employer.firstName || enterpriseCard.employer.lastName ||
-                            enterpriseCard.employer.phone || enterpriseCard.employer.mail ) ||
-                            (!enterpriseCard.offer.sector || !enterpriseCard.offer.job)" name="create"></ion-icon>
-              <ion-spinner [hidden]="(!enterpriseCard.employer.firstName && !enterpriseCard.employer.lastName &&
-                            !enterpriseCard.employer.phone && !enterpriseCard.employer.mail) || (enterpriseCard.employer.firstName &&
-                            enterpriseCard.employer.lastName && enterpriseCard.employer.phone && enterpriseCard.employer.mail)"></ion-spinner>
-              <ion-icon favorite style="font-size: xx-large" [hidden]="(!enterpriseCard.employer.firstName || !enterpriseCard.employer.lastName ||
-                            !enterpriseCard.employer.phone || !enterpriseCard.employer.mail)" name="checkmark-circle"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-list-header>
-        <ion-item>
-          <ion-label floating>Nom</ion-label>
-          <ion-input [(ngModel)]="enterpriseCard.employer.firstName"
-                     [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Prénom</ion-label>
-          <ion-input [(ngModel)]="enterpriseCard.employer.lastName"
-                     [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Téléphone</ion-label>
-          <ion-input type="number" [(ngModel)]="enterpriseCard.employer.phone" (keyup)="watchPhone($event)" maxlength="9">
-            [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>e-Mail</ion-label>
-          <ion-input type="email" [(ngModel)]="enterpriseCard.employer.mail"
-                     [disabled]="!enterpriseCard.offer.job && !enterpriseCard.enterprise.sector"></ion-input>
-        </ion-item>
-        <div class="error-box" [hidden]="!showEmailError()">&#8598; Saisissez un email valide</div>
-      </ion-card-->
-
-      <!--ion-row>
-        <ion-col text-center>
-          <button outline (click)="sendCard()" style="border-color: #f4f4f4;color: #f4f4f4"
-                  [disabled]="(!enterpriseCard.employer.mail || !enterpriseCard.employer.firstName || !enterpriseCard.employer.lastName) ||
-                            (!enterpriseCard.enterprise.name || !enterpriseCard.enterprise.address || !enterpriseCard.offer.job || !enterpriseCard.offer.sector)">
-            Envoyer la fiche
-          </button>
-        </ion-col>
-      </ion-row-->
-    </ion-card>
-
-    <!--ion-row>
-      <ion-col text-center>
-        <button list-item outline primary>
-          Enregistrer
-        </button>
-      </ion-col>
-    </ion-row-->
-
-  </ion-list>
+                <ion-item class="labelInItem" text-wrap no-lines>
+                    <h3>
+                        <ion-icon name="ios-information-circle-outline"></ion-icon>
+                        Informations :
+                    </h3>
+                    <p>
+                        Vous allez recevoir un SMS suite à l'action 2, ci-dessus. Le login est le téléphone <span
+                            *ngIf="target==='Employeur'">de l'</span><span *ngIf="target==='Jobyer'">du </span>{{target}}
+                        et le mot de passe est le code que vous avez reçu par SMS.<br>
+                    </p>
+                </ion-item>
+            </ion-card>
+        </ion-card>
+    </ion-list>
 </ion-content>
 

@@ -9,6 +9,7 @@ import {GlobalService} from "../../providers/global.service";
 import {GlobalConfigs} from "../../configurations/globalConfigs";
 
 declare function md5();
+declare var Market;
 
 @Component({
     templateUrl: 'build/pages/entreprise/entreprise.html',
@@ -88,22 +89,6 @@ export class EntreprisePage {
             if (obj) {
                 console.log(obj);
                 this.opportunity = obj;
-                /*this.opportunity.account = {
-                 fullName: '',
-                 tel: '',
-                 email: ''
-                 };*/
-                /*this.service.loadEmployer(obj).then(o => {
-                 this.opportunity.account = o;
-                 if(!this.opportunity.account || this.opportunity.account.idAccount == 0){
-                 this.opportunity.account = {
-                 fullName : '',
-                 tel:'',
-                 email:''
-                 };
-                 this.noCompany = true;
-                 }
-                 });*/
             } else {
                 this.opportunity.account = {
                     fullName: '',
@@ -119,11 +104,27 @@ export class EntreprisePage {
     openMarket() {
         let downloadURL:string = "";
         if (this.platform.is('ios')) {
-            downloadURL = (this.target === 'Employeur')? 'https://itunes.apple.com/fr/app/vitonjob-employeur/id1083552836?mt=8' : 'https://itunes.apple.com/fr/app/vitonjob-jobyer/id1125594700?mt=8';
+            console.log('ios 2');
+            downloadURL = (this.target === 'Employeur')? "itms-app://itunes.apple.com/fr/app/vitonjob-employeur/id1083552836?mt=8" : "itms-app://itunes.apple.com/fr/app/vitonjob-jobyer/id1125594700?mt=8";
+
+            Market.open("id1083552836", {
+                success: function() {
+                    // Your stuff here
+                    console.log('success');
+                },
+                failure: function() {
+                    // Your stuff here
+                    console.log('failure');
+                }
+            });
+
+            //let browser = InAppBrowser.open(downloadURL, '_system');
         } else if (this.platform.is('android')) {
+            console.log('android');
             downloadURL = (this.target === 'Employeur')? 'market://details?id=com.manaona.vitonjob.employeur' : 'market://details?id=com.manaona.vitonjob.jobyer';
+            let browser = InAppBrowser.open(downloadURL, '_system');
         }
-        let browser = InAppBrowser.open(downloadURL, '_system');
+
     }
 
     popScreen() {
@@ -198,7 +199,9 @@ export class EntreprisePage {
         });
         this.nav.present(loading);
         let tel = this.opportunity.tel;
-        this.authService.setNewPassword(tel, this.target, this.user.id).then((data) => {
+        let mail= this.opportunity.mail;
+        this.authService.setNewAccess(tel, mail, this.target, this.user.hunter.id).then((data) => {
+            debugger;
             if (!data) {
                 loading.dismiss();
                 this.globalService.showAlertValidation("Vit-On-Job", "Serveur non disponible ou problème de connexion.");
@@ -206,7 +209,7 @@ export class EntreprisePage {
             }
             if (data && data.password.length != 0) {
                 let newPassword = data.password;
-                this.authService.sendPasswordBySMS(tel, newPassword).then((data) => {
+                this.authService.sendCodeBySMS(tel, newPassword).then((data) => {
                     if (!data || data.status != 200) {
                         loading.dismiss();
                         this.globalService.showAlertValidation("Vit-On-Job", "Serveur non disponible ou problème de connexion.");
