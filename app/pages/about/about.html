@@ -9,7 +9,7 @@
 <ion-content class="about">
 
     <div class="about-header">
-        <button id="menu-btn" style="background-color: transparent;box-shadow: none;" [navPush]="push"
+        <button id="menu-btn" style="background-color: transparent;box-shadow: none;" (click)="goBack()"
                 [style.color]="themeColor">
             <ion-icon name="arrow-back"></ion-icon>
         </button>
@@ -41,7 +41,8 @@
         </ion-list>
 
         <p class="text">
-            Vit-On-Job Hunter <span style="font-size: 1.2rem;color: #14baa6;"></span> est une application qui permet à tout un chacun de gagner de
+            Vit-On-Job Hunter <span style="font-size: 1.2rem;color: #14baa6;"></span> est une application qui permet à
+            tout un chacun de gagner de
             l’argent en recherchant du travail ou en faisant grandir la communauté Vit-On-Job :
             il suffit de repérer des offres d’emplois ou des personnes à la recherche d’emploi et de saisir les
             informations utiles dans notre application. Vit-On-Job Hunter est une chasse à l’emploi qui se pratique de

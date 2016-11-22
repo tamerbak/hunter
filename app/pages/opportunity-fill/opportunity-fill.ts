@@ -133,7 +133,7 @@ export class OpportunityFillPage {
       isEmployerCard: false
     };
 
-    this.service.loadSectors().then(listSectors => {
+    /*this.service.loadSectors().then(listSectors => {
       if (listSectors) {
         this.listSectors = listSectors;
         this.db.set('listSectors', JSON.stringify(listSectors));
@@ -145,7 +145,7 @@ export class OpportunityFillPage {
         this.listJobs = listJobs;
         this.db.set('listJobs', JSON.stringify(listJobs));
       }
-    });
+    });*/
   }
 
   /**

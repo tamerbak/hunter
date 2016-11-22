@@ -3,7 +3,7 @@ import {AppVersion} from "ionic-native/dist/index";
 import {GlobalConfigs} from "../../configurations/globalConfigs";
 import {Configs} from "../../configurations/configs";
 import {HomePage} from "../home/home";
-import {Platform} from "ionic-angular/index";
+import {Platform, NavController} from "ionic-angular/index";
 
 
 @Component({
@@ -22,8 +22,11 @@ export class AboutPage {
     isEmployer: boolean;
     themeColor: string;
     push:any;
+    nav:NavController;
 
-    constructor(gc: GlobalConfigs, platform: Platform) {
+    constructor(gc: GlobalConfigs, platform: Platform, _nav:NavController) {
+
+        this.nav = _nav;
         let monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
             "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
         ];
@@ -49,5 +52,9 @@ export class AboutPage {
             }
         });
 
+    }
+
+    goBack() {
+        this.nav.setRoot(this.push);
     }
 }
